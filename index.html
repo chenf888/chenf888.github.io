@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chen-Feng</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js">
+    </script>
+    <style>
+        :root {
+            --font-preset: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        :root[data-theme="dark"] {
+            --bg-color: #000102;
+            --text-primary: #e0f2fe;
+            --text-muted: #6d8eae;
+            --accent-color: #0ea5e9;
+            --border-color: rgba(14, 165, 233, 0.15);
+            --header-bg: rgba(0, 0, 0, 0.2);
+            --card-hover-bg: rgba(14, 165, 233, 0.025);
+            --particle-color: rgba(255, 255, 255, 0.22);
+            --line-color-light: rgba(255, 255, 255, 0.055);
+            --line-color-mouse: rgba(14, 165, 233, 0.07);
+            --glow-color: rgba(14, 165, 233, 0.07);
+            --shadow-light: rgba(14, 165, 233, 0.06);
+            --icon-filter: none;
+        }
+
+        :root[data-theme="light"] {
+            --bg-color: #f2f5f9;
+            --text-primary: #1e293b;
+            --text-muted: #556477;
+            --accent-color: #0369a1;
+            --border-color: rgba(3, 105, 161, 0.18);
+            --header-bg: rgba(242, 245, 249, 0.75);
+            --card-hover-bg: rgba(3, 105, 161, 0.05);
+            --particle-color: rgba(30, 41, 59, 0.13);
+            --line-color-light: rgba(30, 41, 59, 0.05);
+            --line-color-mouse: rgba(3, 105, 161, 0.08);
+            --glow-color: rgba(3, 105, 161, 0.06);
+            --shadow-light: rgba(3, 105, 161, 0.08);
+            --icon-filter: none;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-family: var(--font-preset);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            transition: background-color 0.4s ease;
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.55;
+            transition: opacity 0.4s ease;
+        }
+
+        :root[data-theme="light"] #bg-canvas {
+            opacity: 0.7;
+        }
+
+        .mouse-glow {
+            position: fixed;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--glow-color) 0%, transparent 65%);
+            pointer-events: none;
+            z-index: 1;
+            transform: translate(-50%, -50%);
+            will-change: left, top;
+            transition: left 0.25s ease-out, top 0.25s ease-out, background 0.4s ease;
+        }
+
+        @media (hover: none) {
+            .mouse-glow {
+                display: none;
+            }
+        }
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            background: var(--header-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: box-shadow 0.4s ease, background 0.4s ease;
+        }
+
+        header.scrolled {
+            box-shadow: 0 1px 28px rgba(0, 0, 0, 0.15);
+        }
+
+        :root[data-theme="light"] header.scrolled {
+            box-shadow: 0 1px 28px rgba(0, 0, 0, 0.08);
+        }
+
+        .nav-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .logo:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.8rem;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 1px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--accent-color);
+            transform-origin: bottom right;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            padding: 0.3rem;
+            margin: 0;
+            transition: color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            line-height: 1;
+        }
+
+        .theme-toggle:hover {
+            color: var(--accent-color);
+            transform: rotate(15deg);
+        }
+
+        @media (max-width: 640px) {
+            .nav-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .nav-links {
+                gap: 1.2rem;
+            }
+
+            .nav-links a {
+                font-size: 0.85rem;
+            }
+        }
+        .wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 10;
+        }
+        .hero {
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .profile-name {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .profile-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--accent-color);
+            letter-spacing: 0.05em;
+            margin-bottom: 2rem;
+            min-height: 1.6em;
+            display: flex;
+            align-items: center;
+            opacity: 1;
+            transition: color 0.4s ease;
+        }
+
+        .cursor-blink {
+            display: inline-block;
+            width: 3px;
+            height: 0.85em;
+            background-color: var(--accent-color);
+            margin-left: 2px;
+            vertical-align: text-bottom;
+            animation: cursorFlash 1s step-end infinite;
+            border-radius: 1px;
+            transition: background-color 0.4s ease;
+        }
+
+        @keyframes cursorFlash {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .profile-bio {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            max-width: 580px;
+            opacity: 0;
+            animation: fadeSlideUp 0.7s 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transition: color 0.4s ease;
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+            transition: color 0.4s ease, border-color 0.4s ease;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--accent-color);
+            border-radius: 1px;
+            transform: translateX(-100%);
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
+        }
+
+        .section-title.revealed::after {
+            transform: translateX(0);
+        }
+
+        .project-list {
+            margin-bottom: 12rem;
+        }
+
+        .project-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 2.5rem 1.2rem;
+            margin: 0 -1.2rem;
+            border-bottom: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: transform 0.18s ease-out, box-shadow 0.18s ease-out, background-color 0.35s ease, border-color 0.4s ease, opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), margin 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+            position: relative;
+            opacity: 0;
+            transform: translateY(28px);
+        }
+
+        .project-row.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-row:hover {
+            background-color: var(--card-hover-bg);
+        }
+
+        @media (max-width: 640px) {
+            .project-row {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 2rem 0.8rem;
+                margin: 0 -0.8rem;
+            }
+
+            .profile-name {
+                font-size: 2.5rem;
+            }
+
+            .project-row:hover {
+                transform: none !important;
+                box-shadow: none !important;
+            }
+        }
+
+        @media (hover: hover) {
+            .project-row:hover {
+                box-shadow: 0 4px 24px var(--shadow-light);
+            }
+        }
+
+        .project-left {
+            max-width: 500px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .project-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .project-row:hover .project-name {
+            color: var(--accent-color);
+        }
+
+        .project-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            transition: color 0.4s ease;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1.5rem;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .project-link {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            position: relative;
+            padding: 0.2rem 0;
+            transition: color 0.3s ease;
+        }
+
+        .project-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent-color);
+            transform-origin: bottom right;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .project-link:hover {
+            color: var(--accent-color);
+        }
+
+        .project-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        footer {
+            padding: 6rem 0 3rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            transition: color 0.4s ease, border-color 0.4s ease;
+        }
+
+        .footer-socials a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .footer-socials a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 1px;
+            bottom: -3px;
+            left: 0;
+            background-color: var(--accent-color);
+            transform-origin: bottom right;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .footer-socials a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-socials a:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        @media (max-width: 640px) {
+            footer {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+
+            .footer-socials a {
+                margin: 0 0.75rem;
+            }
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+
+        .theme-icon {
+            width: 1.3rem;
+            height: 1.3rem;
+            display: block;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            padding: 0.3rem;
+            margin: 0;
+            transition: color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.2rem;
+            height: 2.2rem;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .theme-toggle:hover {
+            color: var(--accent-color);
+            transform: rotate(15deg);
+        }
+
+        .theme-ripple {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            display: none;
+            transform: scale(0);
+            will-change: transform;
+            transition: none;
+            background-color: var(--bg-color);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app" v-cloak>
+        <div class="theme-ripple" ref="themeRipple" :style="rippleStyle" @transitionend="onRippleTransitionEnd">
+        </div>
+        <div class="mouse-glow" ref="mouseGlow"></div>
+        <canvas id="bg-canvas"></canvas>
+        <header ref="siteHeader">
+            <div class="nav-container">
+                <a href="#" class="logo">CF's page</a>
+                <nav class="nav-links">
+                    <a href="#projects">Works</a>
+                    <a href="https://github.com/chen-feng888" target="_blank">GitHub</a>
+                    <button class="theme-toggle" @click="toggleTheme" ref="themeBtn"
+                        :aria-label="theme === 'dark' ? '切换到亮色模式' : '切换到暗色模式'">
+                        <svg v-if="theme === 'light'" class="theme-icon" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5" />
+                            <line x1="12" y1="1" x2="12" y2="3" />
+                            <line x1="12" y1="21" x2="12" y2="23" />
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                            <line x1="1" y1="12" x2="3" y2="12" />
+                            <line x1="21" y1="12" x2="23" y2="12" />
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                        </svg>
+                        <svg v-else class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                        </svg>
+                    </button>
+                </nav>
+
+            </div>
+        </header>
+
+        <main class="wrapper">
+
+            <section class="hero">
+                <h1 class="profile-name">Hi, I'm Chen Feng</h1>
+                <div class="profile-title">
+                    <span>{{ typewriterText }}</span><span class="cursor-blink"></span>
+                </div>
+                <p class="profile-bio">
+                    WELCOME TO MY PERSONAL SPACE! I'm a student. This is my personal portfolio where I share my projects
+                    and experiments. Feel free to explore and connect with me on GitHub or Bilibili!
+                </p>
+            </section>
+
+            <section id="projects">
+                <h2 class="section-title" ref="sectionTitle">Selected Repositories</h2>
+                <div class="project-list" ref="projectList">
+
+                    <div v-for="(repo, index) in repositories" :key="index" class="project-row" :data-index="index">
+                        <div class="project-left">
+                            <h3 class="project-name">{{ repo.name }}</h3>
+                            <p class="project-desc">{{ repo.description }}</p>
+                        </div>
+                        <div class="project-links">
+                            <a :href="repo.demoUrl" target="_blank" class="project-link">Demo ↗</a>
+                            <a :href="repo.sourceUrl" target="_blank" class="project-link">Source ↗</a>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </main>
+        <div class="wrapper">
+            <footer>
+                <div>&copy; 2026 Chen-Feng.</div>
+                <div class="footer-socials">
+                    <a href="https://b23.tv/PqMBeqb" target="_blank">Bilibili</a>
+                    <a href="https://qm.qq.com/q/vGlvGiHR4G" target="_blank">QQ Group</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        const { createApp, ref, onMounted, nextTick } = Vue;
+
+        createApp({
+            setup() {
+                const themeBtn = ref(null);
+                const themeRipple = ref(null);
+                const rippleStyle = ref({
+                    display: 'none',
+                    transformOrigin: 'center center',
+                    transform: 'scale(0)',
+                    backgroundColor: '',
+                    transition: 'none',
+                });
+
+                let ripplePhase = 'idle';
+
+                function getCurrentBgColor() {
+                    return getComputedStyle(document.documentElement).getPropertyValue('--bg-color').trim();
+                }
+
+                function startRippleAnimation(nextTheme) {
+                    if (ripplePhase !== 'idle' || !themeBtn.value || !themeRipple.value) return;
+
+                    const btnRect = themeBtn.value.getBoundingClientRect();
+                    const cx = btnRect.left + btnRect.width / 2;
+                    const cy = btnRect.top + btnRect.height / 2;
+                    const currentBg = getCurrentBgColor();
+                    rippleStyle.value = {
+                        display: 'block',
+                        transformOrigin: `${cx}px ${cy}px`,
+                        transform: 'scale(0)',
+                        backgroundColor: currentBg,
+                        transition: 'none',
+                    };
+                    ripplePhase = 'expanding';
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            rippleStyle.value = {
+                                ...rippleStyle.value,
+                                transform: 'scale(1)',
+                                transition: 'transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)',
+                            };
+                        });
+                    });
+                }
+
+                function onRippleTransitionEnd(event) {
+                    if (event.propertyName !== 'transform') return;
+
+                    if (ripplePhase === 'expanding') {
+                        const next = theme.value === 'dark' ? 'light' : 'dark';
+                        applyTheme(next);
+                        const newBg = getComputedStyle(document.documentElement).getPropertyValue('--bg-color').trim();
+                        rippleStyle.value = {
+                            ...rippleStyle.value,
+                            backgroundColor: newBg,
+                            transform: 'scale(0)',
+                            transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                        };
+                        ripplePhase = 'shrinking';
+                    } else if (ripplePhase === 'shrinking') {
+                        rippleStyle.value = {
+                            display: 'none',
+                            transformOrigin: 'center center',
+                            transform: 'scale(0)',
+                            backgroundColor: '',
+                            transition: 'none',
+                        };
+                        ripplePhase = 'idle';
+                    }
+                }
+
+                function toggleTheme() {
+                    if (ripplePhase !== 'idle') return;
+                    const nextTheme = theme.value === 'dark' ? 'light' : 'dark';
+                    startRippleAnimation(nextTheme);
+                }
+                const repositories = ref([{
+                    name: 'Timer Increment',
+                    description: 'This is a simple timer increment project that allows users to set a timer and increment it by a specified amount of time. It is built using HTML, CSS, and JavaScript.',
+                    demoUrl: 'https://chen-feng888.github.io/CF-timer-Increment/',
+                    sourceUrl: 'https://github.com/chen-feng888/CF-timer-Increment'
+                }, {
+                    name: 'Roman Frame Player',
+                    description: 'A Roman numeral frame player.',
+                    demoUrl: 'https://chen-feng888.github.io/roman-frame-player/',
+                    sourceUrl: 'https://github.com/chen-feng888/roman-frame-player'
+                }]);
+
+                const theme = ref('dark');
+
+                function applyTheme(newTheme) {
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('site-theme', newTheme);
+                    theme.value = newTheme;
+                }
+
+                function toggleTheme() {
+                    const next = theme.value === 'dark' ? 'light' : 'dark';
+                    applyTheme(next);
+                }
+
+                const savedTheme = localStorage.getItem('site-theme');
+                if (savedTheme === 'light' || savedTheme === 'dark') {
+                    applyTheme(savedTheme);
+                } else {
+                    applyTheme('dark');
+                }
+
+                const typewriterText = ref('');
+                const identityList = [
+                    'A Student',
+                    'From China',
+                    'Ciallo～(∠・ω< )⌒★',
+                    '沃铥类劳目',
+                    '狗修金LLL',
+                    'zako zako',
+                ];
+                let currentIdentityIndex = 0;
+                let charIndex = 0;
+                let typewriterPhase = 'typing';
+                let typewriterTimer = null;
+
+                const typingSpeed = 80;
+                const deletingSpeed = 45;
+                const pauseDuration = 2000;
+                const waitDuration = 600;
+
+                function clearTypewriterTimer() {
+                    if (typewriterTimer) {
+                        clearTimeout(typewriterTimer);
+                        typewriterTimer = null;
+                    }
+                }
+
+                function runTypewriter() {
+                    clearTypewriterTimer();
+                    const currentIdentity = identityList[currentIdentityIndex];
+
+                    if (typewriterPhase === 'typing') {
+                        if (charIndex < currentIdentity.length) {
+                            charIndex++;
+                            typewriterText.value = currentIdentity.substring(0, charIndex);
+                            const jitter = (Math.random() - 0.5) * 40;
+                            typewriterTimer = setTimeout(runTypewriter, typingSpeed + jitter);
+                        } else {
+                            typewriterPhase = 'pausing';
+                            typewriterTimer = setTimeout(runTypewriter, pauseDuration);
+                        }
+                    } else if (typewriterPhase === 'pausing') {
+                        typewriterPhase = 'deleting';
+                        typewriterTimer = setTimeout(runTypewriter, 50);
+                    } else if (typewriterPhase === 'deleting') {
+                        if (charIndex > 0) {
+                            charIndex--;
+                            typewriterText.value = currentIdentity.substring(0, charIndex);
+                            const jitter = (Math.random() - 0.5) * 25;
+                            typewriterTimer = setTimeout(runTypewriter, deletingSpeed + jitter);
+                        } else {
+                            typewriterPhase = 'waiting';
+                            typewriterTimer = setTimeout(runTypewriter, waitDuration);
+                        }
+                    } else if (typewriterPhase === 'waiting') {
+                        currentIdentityIndex = (currentIdentityIndex + 1) % identityList.length;
+                        charIndex = 0;
+                        typewriterText.value = '';
+                        typewriterPhase = 'typing';
+                        typewriterTimer = setTimeout(runTypewriter, 200);
+                    }
+                }
+
+                const mouseGlow = ref(null);
+                const siteHeader = ref(null);
+                const sectionTitle = ref(null);
+                const projectList = ref(null);
+
+                onMounted(() => {
+                    typewriterPhase = 'typing';
+                    charIndex = 0;
+                    typewriterText.value = '';
+                    runTypewriter();
+
+                    const canvas = document.getElementById('bg-canvas');
+                    const ctx = canvas.getContext('2d');
+                    let particles = [];
+                    const particleCount = 22;
+                    const maxDistance = 200;
+                    const mouseInfluenceRadius = 140;
+                    const mouseRepelStrength = 0.025;
+
+                    const mouse = { x: -2000, y: -2000, active: false };
+
+                    function resizeCanvas() {
+                        canvas.width = window.innerWidth;
+                        canvas.height = window.innerHeight;
+                    }
+                    window.addEventListener('resize', resizeCanvas);
+                    resizeCanvas();
+
+                    canvas.addEventListener('mousemove', (e) => {
+                        mouse.x = e.clientX;
+                        mouse.y = e.clientY;
+                        mouse.active = true;
+                    });
+                    canvas.addEventListener('mouseleave', () => {
+                        mouse.active = false;
+                        mouse.x = -2000;
+                        mouse.y = -2000;
+                    });
+                    canvas.addEventListener('touchmove', (e) => {
+                        if (e.touches.length > 0) {
+                            mouse.x = e.touches[0].clientX;
+                            mouse.y = e.touches[0].clientY;
+                            mouse.active = true;
+                        }
+                    }, { passive: true });
+                    canvas.addEventListener('touchend', () => {
+                        mouse.active = false;
+                        mouse.x = -2000;
+                        mouse.y = -2000;
+                    });
+                    function getTheme() {
+                        return document.documentElement.getAttribute('data-theme') || 'dark';
+                    }
+
+                    function getParticleColor() {
+                        return getTheme() === 'light' ?
+                            'rgba(30, 41, 59, 0.18)' :
+                            'rgba(255, 255, 255, 0.22)';
+                    }
+
+                    function getLineColor() {
+                        return getTheme() === 'light' ?
+                            'rgba(30, 41, 59, 0.06)' :
+                            'rgba(255, 255, 255, 0.055)';
+                    }
+
+                    function getMouseLineColor() {
+                        return getTheme() === 'light' ?
+                            'rgba(2, 132, 199, 0.12)' :
+                            'rgba(14, 165, 233, 0.07)';
+                    }
+
+                    function getMouseGlowColor() {
+                        return getTheme() === 'light' ?
+                            'rgba(2, 132, 199, 0.1)' :
+                            'rgba(14, 165, 233, 0.1)';
+                    }
+
+                    class Particle {
+                        constructor() {
+                            this.x = Math.random() * canvas.width;
+                            this.y = Math.random() * canvas.height;
+                            this.radius = Math.random() * 1.3 + 0.4;
+                            const angle = Math.random() * Math.PI * 2;
+                            const speed = Math.random() * 0.12 + 0.04;
+                            this.vx = Math.cos(angle) * speed;
+                            this.vy = Math.sin(angle) * speed;
+                            this.baseSpeed = speed;
+                        }
+
+                        update() {
+                            if (mouse.active) {
+                                const dx = this.x - mouse.x;
+                                const dy = this.y - mouse.y;
+                                const dist = Math.sqrt(dx * dx + dy * dy);
+                                if (dist < mouseInfluenceRadius && dist > 0.01) {
+                                    const force = (mouseInfluenceRadius - dist) / mouseInfluenceRadius *
+                                        mouseRepelStrength;
+                                    const nx = dx / dist;
+                                    const ny = dy / dist;
+                                    this.vx += nx * force;
+                                    this.vy += ny * force;
+                                    const currentSpeed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                                    const maxSpeed = this.baseSpeed * 4;
+                                    if (currentSpeed > maxSpeed) {
+                                        const scale = maxSpeed / currentSpeed;
+                                        this.vx *= scale;
+                                        this.vy *= scale;
+                                    }
+                                }
+                            }
+
+                            const currentSpeed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                            if (currentSpeed > this.baseSpeed * 1.05) {
+                                const dampFactor = 0.995;
+                                this.vx *= dampFactor;
+                                this.vy *= dampFactor;
+                            }
+
+                            this.x += this.vx;
+                            this.y += this.vy;
+
+                            if (this.x <= 0 || this.x >= canvas.width) this.vx *= -1;
+                            if (this.y <= 0 || this.y >= canvas.height) this.vy *= -1;
+
+                            this.x = Math.max(0, Math.min(canvas.width, this.x));
+                            this.y = Math.max(0, Math.min(canvas.height, this.y));
+                        }
+
+                        draw() {
+                            ctx.beginPath();
+                            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                            ctx.fillStyle = getParticleColor();
+                            ctx.fill();
+                        }
+                    }
+
+                    for (let i = 0; i < particleCount; i++) {
+                        particles.push(new Particle());
+                    }
+
+                    function particleLoop() {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                        for (let i = 0; i < particles.length; i++) {
+                            particles[i].update();
+                            particles[i].draw();
+
+                            for (let j = i + 1; j < particles.length; j++) {
+                                const dx = particles[i].x - particles[j].x;
+                                const dy = particles[i].y - particles[j].y;
+                                const dist = Math.sqrt(dx * dx + dy * dy);
+                                if (dist < maxDistance) {
+                                    const alpha = (1 - dist / maxDistance) * 0.055;
+                                    ctx.beginPath();
+                                    ctx.moveTo(particles[i].x, particles[i].y);
+                                    ctx.lineTo(particles[j].x, particles[j].y);
+                                    ctx.strokeStyle = getLineColor();
+                                    ctx.lineWidth = 0.5;
+                                    ctx.stroke();
+                                }
+                            }
+
+                            if (mouse.active) {
+                                const dx = particles[i].x - mouse.x;
+                                const dy = particles[i].y - mouse.y;
+                                const dist = Math.sqrt(dx * dx + dy * dy);
+                                if (dist < mouseInfluenceRadius * 1.3) {
+                                    const alpha = (1 - dist / (mouseInfluenceRadius * 1.3)) * 0.07;
+                                    ctx.beginPath();
+                                    ctx.moveTo(particles[i].x, particles[i].y);
+                                    ctx.lineTo(mouse.x, mouse.y);
+                                    ctx.strokeStyle = getMouseLineColor();
+                                    ctx.lineWidth = 0.4;
+                                    ctx.stroke();
+                                }
+                            }
+                        }
+
+                        if (mouse.active) {
+                            const glowGrad = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 50);
+                            glowGrad.addColorStop(0, getMouseGlowColor());
+                            glowGrad.addColorStop(1, 'rgba(0,0,0,0)');
+                            ctx.beginPath();
+                            ctx.arc(mouse.x, mouse.y, 50, 0, Math.PI * 2);
+                            ctx.fillStyle = glowGrad;
+                            ctx.fill();
+                        }
+
+                        requestAnimationFrame(particleLoop);
+                    }
+                    particleLoop();
+
+                    const glowEl = mouseGlow.value;
+                    if (glowEl && window.matchMedia('(hover: hover)').matches) {
+                        let glowX = -500;
+                        let glowY = -500;
+                        let targetX = -500;
+                        let targetY = -500;
+
+                        document.addEventListener('mousemove', (e) => {
+                            targetX = e.clientX;
+                            targetY = e.clientY;
+                        });
+
+                        function updateGlow() {
+                            glowX += (targetX - glowX) * 0.12;
+                            glowY += (targetY - glowY) * 0.12;
+                            glowEl.style.left = glowX + 'px';
+                            glowEl.style.top = glowY + 'px';
+                            requestAnimationFrame(updateGlow);
+                        }
+                        updateGlow();
+                    }
+
+                    const projectRows = document.querySelectorAll('.project-row');
+                    const supportsHover = window.matchMedia('(hover: hover)').matches;
+
+                    function getTiltShadowColor() {
+                        return getTheme() === 'light' ?
+                            'rgba(2, 132, 199, 0.1)' :
+                            'rgba(14, 165, 233, 0.07)';
+                    }
+
+                    if (supportsHover) {
+                        const maxTilt = 5;
+
+                        projectRows.forEach((row) => {
+                            row.addEventListener('mousemove', (e) => {
+                                const rect = row.getBoundingClientRect();
+                                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                                const rotateY = x * maxTilt * 2;
+                                const rotateX = -y * maxTilt * 2;
+                                const shadowX = -x * 14;
+                                const shadowY = y * 10 + 3;
+
+                                row.style.transform =
+                                    `perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(2px)`;
+                                row.style.boxShadow =
+                                    `${shadowX}px ${shadowY}px 28px ${getTiltShadowColor()}`;
+                                row.style.transition =
+                                    'transform 0.12s ease-out, box-shadow 0.12s ease-out, background-color 0.35s ease';
+                            });
+
+                            row.addEventListener('mouseleave', () => {
+                                row.style.transform = '';
+                                row.style.boxShadow = '';
+                                row.style.transition =
+                                    'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.35s ease, opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1)';
+                            });
+                        });
+                    }
+
+                    const observerOptions = {
+                        root: null,
+                        rootMargin: '0px 0px -40px 0px',
+                        threshold: 0.12,
+                    };
+
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach((entry) => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('visible');
+                                const index = parseInt(entry.target.dataset.index || '0');
+                                entry.target.style.transitionDelay = `${index * 0.1}s`;
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    }, observerOptions);
+
+                    projectRows.forEach((row) => {
+                        observer.observe(row);
+                    });
+                    const stEl = sectionTitle.value;
+                    if (stEl) {
+                        const titleObserver = new IntersectionObserver((entries) => {
+                            entries.forEach((entry) => {
+                                if (entry.isIntersecting) {
+                                    entry.target.classList.add('revealed');
+                                    titleObserver.unobserve(entry.target);
+                                }
+                            });
+                        }, { threshold: 0.6 });
+                        titleObserver.observe(stEl);
+                    }
+
+                    const headerEl = siteHeader.value;
+                    if (headerEl) {
+                        let scrollTicking = false;
+                        window.addEventListener('scroll', () => {
+                            if (!scrollTicking) {
+                                requestAnimationFrame(() => {
+                                    if (window.scrollY > 8) {
+                                        headerEl.classList.add('scrolled');
+                                    } else {
+                                        headerEl.classList.remove('scrolled');
+                                    }
+                                    scrollTicking = false;
+                                });
+                                scrollTicking = true;
+                            }
+                        }, { passive: true });
+
+                        if (window.scrollY > 8) {
+                            headerEl.classList.add('scrolled');
+                        }
+                    }
+                });
+
+                return {
+                    repositories,
+                    typewriterText,
+                    theme,
+                    toggleTheme,
+                    themeBtn,
+                    themeRipple,
+                    rippleStyle,
+                    onRippleTransitionEnd,
+                    mouseGlow,
+                    siteHeader,
+                    sectionTitle,
+                    projectList,
+                };
+            },
+        }).mount('#app');
+    </script>
+</body>
+
+</html>
