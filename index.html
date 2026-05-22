@@ -82,8 +82,8 @@
 
         .mouse-glow {
             position: fixed;
-            width: 200px;
-            height: 200px;
+            width: 420px;
+            height: 420px;
             border-radius: 50%;
             background: radial-gradient(circle, var(--glow-color) 0%, transparent 65%);
             pointer-events: none;
@@ -98,6 +98,19 @@
                 display: none;
             }
         }
+
+        .theme-ripple {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            display: none;
+            transform: scale(0);
+            will-change: transform;
+            transition: none;
+            background-color: var(--bg-color);
+        }
+
         header {
             position: fixed;
             top: 0;
@@ -177,11 +190,11 @@
             transform: scaleX(1);
             transform-origin: bottom left;
         }
+
         .theme-toggle {
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 1.2rem;
             color: var(--text-muted);
             padding: 0.3rem;
             margin: 0;
@@ -189,15 +202,22 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 2rem;
-            height: 2rem;
+            width: 2.2rem;
+            height: 2.2rem;
             border-radius: 50%;
-            line-height: 1;
+            position: relative;
         }
 
         .theme-toggle:hover {
             color: var(--accent-color);
             transform: rotate(15deg);
+        }
+
+        .theme-icon {
+            width: 1.3rem;
+            height: 1.3rem;
+            display: block;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
         @media (max-width: 640px) {
@@ -213,6 +233,7 @@
                 font-size: 0.85rem;
             }
         }
+
         .wrapper {
             max-width: 800px;
             margin: 0 auto;
@@ -220,6 +241,7 @@
             position: relative;
             z-index: 10;
         }
+
         .hero {
             height: 90vh;
             display: flex;
@@ -502,55 +524,13 @@
         [v-cloak] {
             display: none;
         }
-
-        .theme-icon {
-            width: 1.3rem;
-            height: 1.3rem;
-            display: block;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .theme-toggle {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-muted);
-            padding: 0.3rem;
-            margin: 0;
-            transition: color 0.3s ease, transform 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 2.2rem;
-            height: 2.2rem;
-            border-radius: 50%;
-            position: relative;
-        }
-
-        .theme-toggle:hover {
-            color: var(--accent-color);
-            transform: rotate(15deg);
-        }
-
-        .theme-ripple {
-            position: fixed;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            display: none;
-            transform: scale(0);
-            will-change: transform;
-            transition: none;
-            background-color: var(--bg-color);
-        }
     </style>
 </head>
 
 <body>
 
     <div id="app" v-cloak>
-        <div class="theme-ripple" ref="themeRipple" :style="rippleStyle" @transitionend="onRippleTransitionEnd">
-        </div>
+        <div class="theme-ripple" ref="themeRipple" :style="rippleStyle" @transitionend="onRippleTransitionEnd"></div>
         <div class="mouse-glow" ref="mouseGlow"></div>
         <canvas id="bg-canvas"></canvas>
         <header ref="siteHeader">
@@ -558,7 +538,7 @@
                 <a href="#" class="logo">CF's page</a>
                 <nav class="nav-links">
                     <a href="#projects">Works</a>
-                    <a href="https://github.com/chen-feng888" target="_blank">GitHub</a>
+                    <a href="https://github.com/chenf888" target="_blank">GitHub</a>
                     <button class="theme-toggle" @click="toggleTheme" ref="themeBtn"
                         :aria-label="theme === 'dark' ? '切换到亮色模式' : '切换到暗色模式'">
                         <svg v-if="theme === 'light'" class="theme-icon" viewBox="0 0 24 24" fill="none"
@@ -579,14 +559,12 @@
                         </svg>
                     </button>
                 </nav>
-
             </div>
         </header>
 
         <main class="wrapper">
-
             <section class="hero">
-                <h1 class="profile-name">Hi, I'm Feng Chen</h1>
+                <h1 class="profile-name">Hi, I'm Chen Feng</h1>
                 <div class="profile-title">
                     <span>{{ typewriterText }}</span><span class="cursor-blink"></span>
                 </div>
@@ -595,7 +573,6 @@
                     and experiments. Feel free to explore and connect with me on GitHub or Bilibili!
                 </p>
             </section>
-
             <section id="projects">
                 <h2 class="section-title" ref="sectionTitle">Selected Repositories</h2>
                 <div class="project-list" ref="projectList">
@@ -617,7 +594,7 @@
         </main>
         <div class="wrapper">
             <footer>
-                <div>&copy; 2026 Chen-Feng.</div>
+                <div>&copy; 2026 chenf888.</div>
                 <div class="footer-socials">
                     <a href="https://b23.tv/PqMBeqb" target="_blank">Bilibili</a>
                     <a href="https://qm.qq.com/q/vGlvGiHR4G" target="_blank">QQ Group</a>
@@ -627,10 +604,45 @@
     </div>
 
     <script>
-        const { createApp, ref, onMounted, nextTick } = Vue;
+        const { createApp, ref, onMounted } = Vue;
 
         createApp({
             setup() {
+                const repositories = ref([
+                    {
+                        name: 'The Click Tree',
+                        description: '一个基于 The Modding Tree 的点击增量游戏。',
+                        demoUrl: 'https://chenf888.github.io/The-click-Tree/',
+                        sourceUrl: 'https://github.com/chenf888/The-click-Tree'
+                    },
+                    {
+                        name: 'Timer Increment',
+                        description: '这是一个简单的计时器增量项目。',
+                        demoUrl: 'https://chenf888.github.io/CF-timer-Increment/',
+                        sourceUrl: 'https://github.com/chenf888/CF-timer-Increment'
+                    },
+                    {
+                        name: 'Roman Frame Player',
+                        description: '一款罗马数字帧播放器。',
+                        demoUrl: 'https://chenf888.github.io/roman-frame-player/',
+                        sourceUrl: 'https://github.com/chenf888/roman-frame-player'
+                    }
+                ]);
+
+                const theme = ref('dark');
+
+                function applyTheme(newTheme) {
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('site-theme', newTheme);
+                    theme.value = newTheme;
+                }
+                const savedTheme = localStorage.getItem('site-theme');
+                if (savedTheme === 'light' || savedTheme === 'dark') {
+                    applyTheme(savedTheme);
+                } else {
+                    applyTheme('dark');
+                }
+
                 const themeBtn = ref(null);
                 const themeRipple = ref(null);
                 const rippleStyle = ref({
@@ -640,7 +652,6 @@
                     backgroundColor: '',
                     transition: 'none',
                 });
-
                 let ripplePhase = 'idle';
 
                 function getCurrentBgColor() {
@@ -654,6 +665,7 @@
                     const cx = btnRect.left + btnRect.width / 2;
                     const cy = btnRect.top + btnRect.height / 2;
                     const currentBg = getCurrentBgColor();
+
                     rippleStyle.value = {
                         display: 'block',
                         transformOrigin: `${cx}px ${cy}px`,
@@ -662,6 +674,7 @@
                         transition: 'none',
                     };
                     ripplePhase = 'expanding';
+
                     requestAnimationFrame(() => {
                         requestAnimationFrame(() => {
                             rippleStyle.value = {
@@ -704,52 +717,18 @@
                     const nextTheme = theme.value === 'dark' ? 'light' : 'dark';
                     startRippleAnimation(nextTheme);
                 }
-                const repositories = ref([{
-                    name: 'Timer Increment',
-                    description: 'This is a simple timer increment project that allows users to set a timer and increment it by a specified amount of time. It is built using HTML, CSS, and JavaScript.',
-                    demoUrl: 'https://chen-feng888.github.io/CF-timer-Increment/',
-                    sourceUrl: 'https://github.com/chen-feng888/CF-timer-Increment'
-                }, {
-                    name: 'Roman Frame Player',
-                    description: 'A Roman numeral frame player.',
-                    demoUrl: 'https://chen-feng888.github.io/roman-frame-player/',
-                    sourceUrl: 'https://github.com/chen-feng888/roman-frame-player'
-                }]);
-
-                const theme = ref('dark');
-
-                function applyTheme(newTheme) {
-                    document.documentElement.setAttribute('data-theme', newTheme);
-                    localStorage.setItem('site-theme', newTheme);
-                    theme.value = newTheme;
-                }
-
-                function toggleTheme() {
-                    const next = theme.value === 'dark' ? 'light' : 'dark';
-                    applyTheme(next);
-                }
-
-                const savedTheme = localStorage.getItem('site-theme');
-                if (savedTheme === 'light' || savedTheme === 'dark') {
-                    applyTheme(savedTheme);
-                } else {
-                    applyTheme('dark');
-                }
-
                 const typewriterText = ref('');
                 const identityList = [
                     'A Student',
-                    'From China',
-                    'Ciallo～(∠・ω< )⌒★',
-                    '沃铥类劳目',
-                    '狗修金LLL',
-                    'zako zako',
+                    'Frontend Enthusiast',
+                    'Open Source Contributor',
+                    'Lifelong Learner',
+                    'Creative Coder'
                 ];
                 let currentIdentityIndex = 0;
                 let charIndex = 0;
                 let typewriterPhase = 'typing';
                 let typewriterTimer = null;
-
                 const typingSpeed = 80;
                 const deletingSpeed = 45;
                 const pauseDuration = 2000;
@@ -761,7 +740,6 @@
                         typewriterTimer = null;
                     }
                 }
-
                 function runTypewriter() {
                     clearTypewriterTimer();
                     const currentIdentity = identityList[currentIdentityIndex];
@@ -808,7 +786,6 @@
                     charIndex = 0;
                     typewriterText.value = '';
                     runTypewriter();
-
                     const canvas = document.getElementById('bg-canvas');
                     const ctx = canvas.getContext('2d');
                     let particles = [];
@@ -816,16 +793,13 @@
                     const maxDistance = 200;
                     const mouseInfluenceRadius = 140;
                     const mouseRepelStrength = 0.025;
-
                     const mouse = { x: -2000, y: -2000, active: false };
-
                     function resizeCanvas() {
                         canvas.width = window.innerWidth;
                         canvas.height = window.innerHeight;
                     }
                     window.addEventListener('resize', resizeCanvas);
                     resizeCanvas();
-
                     canvas.addEventListener('mousemove', (e) => {
                         mouse.x = e.clientX;
                         mouse.y = e.clientY;
@@ -848,10 +822,10 @@
                         mouse.x = -2000;
                         mouse.y = -2000;
                     });
+
                     function getTheme() {
                         return document.documentElement.getAttribute('data-theme') || 'dark';
                     }
-
                     function getParticleColor() {
                         return getTheme() === 'light' ?
                             'rgba(30, 41, 59, 0.18)' :
@@ -990,7 +964,6 @@
                         requestAnimationFrame(particleLoop);
                     }
                     particleLoop();
-
                     const glowEl = mouseGlow.value;
                     if (glowEl && window.matchMedia('(hover: hover)').matches) {
                         let glowX = -500;
@@ -1012,7 +985,6 @@
                         }
                         updateGlow();
                     }
-
                     const projectRows = document.querySelectorAll('.project-row');
                     const supportsHover = window.matchMedia('(hover: hover)').matches;
 
@@ -1021,10 +993,8 @@
                             'rgba(2, 132, 199, 0.1)' :
                             'rgba(14, 165, 233, 0.07)';
                     }
-
                     if (supportsHover) {
                         const maxTilt = 5;
-
                         projectRows.forEach((row) => {
                             row.addEventListener('mousemove', (e) => {
                                 const rect = row.getBoundingClientRect();
@@ -1051,7 +1021,6 @@
                             });
                         });
                     }
-
                     const observerOptions = {
                         root: null,
                         rootMargin: '0px 0px -40px 0px',
@@ -1072,6 +1041,7 @@
                     projectRows.forEach((row) => {
                         observer.observe(row);
                     });
+
                     const stEl = sectionTitle.value;
                     if (stEl) {
                         const titleObserver = new IntersectionObserver((entries) => {
@@ -1084,7 +1054,6 @@
                         }, { threshold: 0.6 });
                         titleObserver.observe(stEl);
                     }
-
                     const headerEl = siteHeader.value;
                     if (headerEl) {
                         let scrollTicking = false;
