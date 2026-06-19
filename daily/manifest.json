@@ -1,0 +1,20 @@
+[
+  {
+    "date": "2026-06-08",
+    "title": "The Modding Tree 学习笔记",
+    "content": "今天深入研究了 The Modding Tree 引擎的图层系统，了解了如何通过 layers 配置创建自定义资源。核心概念包括 baseAmount、baseResource 以及 upgrades 系统的联动。TMT 的 buyables 机制很适合用来实现类似\"科技树\"的功能，计划在下一个项目中尝试。",
+    "file": "2026-06-08.txt"
+  },
+  {
+    "date": "2026-06-07",
+    "title": "个人主页重构完成",
+    "content": "今天终于把个人主页从 Vue 版本迁移到了纯 HTML/CSS/JS 的原生实现。移除了对 Vue 和 Phosphor Icons 的外部依赖，改用 Geist 字体系统。深色主题增加了磨砂噪点纹理，浅色主题使用温暖的奶油色调。项目区现在从 GitHub 固定仓库动态获取内容。",
+    "file": "2026-06-07.txt"
+  },
+  {
+    "date": "2026-06-05",
+    "title": "开始用 AI 辅助编程",
+    "content": "最近开始尝试用 AI 辅助编程。从最初的 HTML/CSS 到现在的 JavaScript，AI 帮我快速搭建原型，理解复杂的 API，以及重构代码。不过也发现 AI 生成的代码有时需要仔细审查——尤其是安全性和性能方面。今天的体会：AI 是很好的加速器，但基本功还是最重要的。",
+    "file": "2026-06-05.txt"
+  }
+]

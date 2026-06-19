@@ -1,1105 +1,1000 @@
-<!DOCTYPE html>
-<html lang="zh-CN" data-theme="dark">
-
+﻿<!doctype html>
+<html lang="zh-CN" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chen-Feng</title>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js">
-    </script>
-    <style>
-        :root {
-            --font-preset: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-
-        :root[data-theme="dark"] {
-            --bg-color: #000102;
-            --text-primary: #e0f2fe;
-            --text-muted: #6d8eae;
-            --accent-color: #0ea5e9;
-            --border-color: rgba(14, 165, 233, 0.15);
-            --header-bg: rgba(0, 0, 0, 0.2);
-            --card-hover-bg: rgba(14, 165, 233, 0.025);
-            --particle-color: rgba(255, 255, 255, 0.22);
-            --line-color-light: rgba(255, 255, 255, 0.055);
-            --line-color-mouse: rgba(14, 165, 233, 0.07);
-            --glow-color: rgba(14, 165, 233, 0.07);
-            --shadow-light: rgba(14, 165, 233, 0.06);
-            --icon-filter: none;
-        }
-
-        :root[data-theme="light"] {
-            --bg-color: #f2f5f9;
-            --text-primary: #1e293b;
-            --text-muted: #556477;
-            --accent-color: #0369a1;
-            --border-color: rgba(3, 105, 161, 0.18);
-            --header-bg: rgba(242, 245, 249, 0.75);
-            --card-hover-bg: rgba(3, 105, 161, 0.05);
-            --particle-color: rgba(30, 41, 59, 0.13);
-            --line-color-light: rgba(30, 41, 59, 0.05);
-            --line-color-mouse: rgba(3, 105, 161, 0.08);
-            --glow-color: rgba(3, 105, 161, 0.06);
-            --shadow-light: rgba(3, 105, 161, 0.08);
-            --icon-filter: none;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            font-family: var(--font-preset);
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            -webkit-font-smoothing: antialiased;
-            transition: background-color 0.4s ease, color 0.4s ease;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            transition: background-color 0.4s ease;
-        }
-
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-            opacity: 0.55;
-            transition: opacity 0.4s ease;
-        }
-
-        :root[data-theme="light"] #bg-canvas {
-            opacity: 0.7;
-        }
-
-        .mouse-glow {
-            position: fixed;
-            width: 260px;
-            height: 260px;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--glow-color) 0%, transparent 65%);
-            pointer-events: none;
-            z-index: 1;
-            transform: translate(-50%, -50%);
-            will-change: left, top;
-            transition: left 0.25s ease-out, top 0.25s ease-out, background 0.4s ease;
-        }
-
-        @media (hover: none) {
-            .mouse-glow {
-                display: none;
-            }
-        }
-
-        .theme-ripple {
-            position: fixed;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            display: none;
-            transform: scale(0);
-            will-change: transform;
-            transition: none;
-            background-color: var(--bg-color);
-        }
-
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 100;
-            background: var(--header-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            transition: box-shadow 0.4s ease, background 0.4s ease;
-        }
-
-        header.scrolled {
-            box-shadow: 0 1px 28px rgba(0, 0, 0, 0.15);
-        }
-
-        :root[data-theme="light"] header.scrolled {
-            box-shadow: 0 1px 28px rgba(0, 0, 0, 0.08);
-        }
-
-        .nav-container {
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 2rem;
-            gap: 1rem;
-        }
-
-        .logo {
-            font-size: 0.95rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-decoration: none;
-            color: var(--text-primary);
-            transition: color 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .logo:hover {
-            color: var(--accent-color);
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 1.8rem;
-        }
-
-        .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s ease;
-            position: relative;
-            white-space: nowrap;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            transform: scaleX(0);
-            height: 1px;
-            bottom: -4px;
-            left: 0;
-            background-color: var(--accent-color);
-            transform-origin: bottom right;
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .nav-links a:hover {
-            color: var(--text-primary);
-        }
-
-        .nav-links a:hover::after {
-            transform: scaleX(1);
-            transform-origin: bottom left;
-        }
-
-        .theme-toggle {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-muted);
-            padding: 0.3rem;
-            margin: 0;
-            transition: color 0.3s ease, transform 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 2.2rem;
-            height: 2.2rem;
-            border-radius: 50%;
-            position: relative;
-        }
-
-        .theme-toggle:hover {
-            color: var(--accent-color);
-            transform: rotate(15deg);
-        }
-
-        .theme-icon {
-            width: 1.3rem;
-            height: 1.3rem;
-            display: block;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        @media (max-width: 640px) {
-            .nav-container {
-                padding: 1.5rem 1rem;
-            }
-
-            .nav-links {
-                gap: 1.2rem;
-            }
-
-            .nav-links a {
-                font-size: 0.85rem;
-            }
-        }
-
-        .wrapper {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            position: relative;
-            z-index: 10;
-        }
-
-        .hero {
-            height: 90vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-        }
-
-        .profile-name {
-            font-size: 3.5rem;
-            font-weight: 700;
-            letter-spacing: -0.04em;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-
-        .profile-title {
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: var(--accent-color);
-            letter-spacing: 0.05em;
-            margin-bottom: 2rem;
-            min-height: 1.6em;
-            display: flex;
-            align-items: center;
-            opacity: 1;
-            transition: color 0.4s ease;
-        }
-
-        .cursor-blink {
-            display: inline-block;
-            width: 3px;
-            height: 0.85em;
-            background-color: var(--accent-color);
-            margin-left: 2px;
-            vertical-align: text-bottom;
-            animation: cursorFlash 1s step-end infinite;
-            border-radius: 1px;
-            transition: background-color 0.4s ease;
-        }
-
-        @keyframes cursorFlash {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0;
-            }
-        }
-
-        .profile-bio {
-            font-size: 1.05rem;
-            color: var(--text-muted);
-            line-height: 1.8;
-            max-width: 580px;
-            opacity: 0;
-            animation: fadeSlideUp 0.7s 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            transition: color 0.4s ease;
-        }
-
-        @keyframes fadeSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(16px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .section-title {
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 1rem;
-            position: relative;
-            overflow: hidden;
-            transition: color 0.4s ease, border-color 0.4s ease;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            width: 60px;
-            height: 2px;
-            background: var(--accent-color);
-            border-radius: 1px;
-            transform: translateX(-100%);
-            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
-        }
-
-        .section-title.revealed::after {
-            transform: translateX(0);
-        }
-
-        .project-list {
-            margin-bottom: 12rem;
-        }
-
-        .project-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding: 2.5rem 1.2rem;
-            margin: 0 -1.2rem;
-            border-bottom: 1px solid var(--border-color);
-            border-radius: 8px;
-            transition: transform 0.18s ease-out, box-shadow 0.18s ease-out, background-color 0.35s ease, border-color 0.4s ease, opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), margin 0.65s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: transform;
-            position: relative;
-            opacity: 0;
-            transform: translateY(28px);
-        }
-
-        .project-row.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .project-row:hover {
-            background-color: var(--card-hover-bg);
-        }
-
-        @media (max-width: 640px) {
-            .project-row {
-                flex-direction: column;
-                gap: 1.5rem;
-                padding: 2rem 0.8rem;
-                margin: 0 -0.8rem;
-            }
-
-            .profile-name {
-                font-size: 2.5rem;
-            }
-
-            .project-row:hover {
-                transform: none !important;
-                box-shadow: none !important;
-            }
-        }
-
-        @media (hover: hover) {
-            .project-row:hover {
-                box-shadow: 0 4px 24px var(--shadow-light);
-            }
-        }
-
-        .project-left {
-            max-width: 500px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .project-name {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            transition: color 0.3s ease;
-            color: var(--text-primary);
-        }
-
-        .project-row:hover .project-name {
-            color: var(--accent-color);
-        }
-
-        .project-desc {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-            transition: color 0.4s ease;
-        }
-
-        .project-links {
-            display: flex;
-            gap: 1.5rem;
-            flex-shrink: 0;
-            position: relative;
-            z-index: 2;
-        }
-
-        .project-link {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-primary);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            position: relative;
-            padding: 0.2rem 0;
-            transition: color 0.3s ease;
-        }
-
-        .project-link::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            transform: scaleX(0);
-            height: 1px;
-            bottom: 0;
-            left: 0;
-            background-color: var(--accent-color);
-            transform-origin: bottom right;
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .project-link:hover {
-            color: var(--accent-color);
-        }
-
-        .project-link:hover::after {
-            transform: scaleX(1);
-            transform-origin: bottom left;
-        }
-
-        footer {
-            padding: 6rem 0 3rem 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            border-top: 1px solid var(--border-color);
-            transition: color 0.4s ease, border-color 0.4s ease;
-        }
-
-        .footer-socials a {
-            color: var(--text-muted);
-            text-decoration: none;
-            margin-left: 1.5rem;
-            transition: color 0.3s ease;
-            position: relative;
-        }
-
-        .footer-socials a::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            transform: scaleX(0);
-            height: 1px;
-            bottom: -3px;
-            left: 0;
-            background-color: var(--accent-color);
-            transform-origin: bottom right;
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .footer-socials a:hover {
-            color: var(--text-primary);
-        }
-
-        .footer-socials a:hover::after {
-            transform: scaleX(1);
-            transform-origin: bottom left;
-        }
-
-        @media (max-width: 640px) {
-            footer {
-                flex-direction: column;
-                gap: 1.5rem;
-                text-align: center;
-            }
-
-            .footer-socials a {
-                margin: 0 0.75rem;
-            }
-        }
-
-        [v-cloak] {
-            display: none;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#F4F4F0" />
+  <meta name="author" content="陈风" />
+  <meta name="description" content="陈风 · 学生 · 增量游戏开发者" />
+  <title>Chen Feng</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --font-sans:  'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+      --font-mono:  'Geist Mono', 'JetBrains Mono', monospace;
+    }
+
+    [data-theme="light"] {
+      --bg:           #F4F4F0;
+      --bg-alt:       #ECEAE6;
+      --surface:      #FFFFFF;
+      --text:         #111111;
+      --text-dim:     #666460;
+      --text-faint:   #B0ADA8;
+      --border:       #D5D3CE;
+      --border-hi:    #C0BEB8;
+      --accent:       #CC3300;
+      --accent-dim:   rgba(204,51,0,0.06);
+      --accent-bg:    rgba(204,51,0,0.08);
+      --accent-text:  #CC3300;
+      --blue-bg:      #E1F3FE;  --blue-text:    #1F6C9F;
+      --green-bg:     #EDF3EC;  --green-text:   #346538;
+      --red-bg:       #FDEBEC;  --red-text:     #9F2F2D;
+      --yellow-bg:    #FBF3DB;  --yellow-text:  #956400;
+      --noise-opacity: 0.018;   --scanline-opacity: 0;
+      --grid-opacity: 0.04;     --blob-opacity: 0.03;
+      --btn-bg:       #111111;  --btn-text:     #FFFFFF;
+      --nav-bg:       rgba(244,244,240,0.82);
+    }
+
+    [data-theme="dark"] {
+      --bg:           #0f0f0f;
+      --bg-alt:       #0F0F0F;
+      --surface:      #111111;
+      --text:         #D8D8D8;
+      --text-dim:     #808080;
+      --text-faint:   #4A4A4A;
+      --border:       #1C1C1C;
+      --border-hi:    #2A2A2A;
+      --accent:       #E87830;
+      --accent-dim:   rgba(232,120,48,0.08);
+      --accent-bg:    rgba(232,120,48,0.1);
+      --accent-text:  #E87830;
+      --blue-bg:      rgba(31,108,159,0.12);  --blue-text:    #6ab0d6;
+      --green-bg:     rgba(52,101,56,0.12);   --green-text:   #6fb074;
+      --red-bg:       rgba(159,47,45,0.12);   --red-text:     #e07070;
+      --yellow-bg:    rgba(149,100,0,0.12);   --yellow-text:  #d4a840;
+      --noise-opacity: 0.04;   --scanline-opacity: 0;
+      --grid-opacity: 0.05;    --blob-opacity: 0.04;
+      --btn-bg:       #E8E8E6; --btn-text:     #1A1A1A;
+      --nav-bg:       rgba(10,10,10,0.82);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-family: var(--font-sans);
+      background: var(--bg); color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background-color 0.5s ease, color 0.5s ease;
+    }
+    body { background: var(--bg); transition: background-color 0.5s ease; }
+
+    /* LAYERED EFFECTS */
+    .bg-grid {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      opacity: var(--grid-opacity);
+      background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 64px 64px; transition: opacity 0.5s ease;
+    }
+    .ambient-blob {
+      position: fixed; pointer-events: none; z-index: 0;
+      border-radius: 50%; opacity: var(--blob-opacity); transition: opacity 0.5s ease;
+    }
+    .ambient-blob.a { width:600px; height:600px; background: radial-gradient(circle, var(--accent) 0%, transparent 70%); top:-15%; left:-10%; animation: driftA 28s ease-in-out infinite; }
+    .ambient-blob.b { width:500px; height:500px; background: radial-gradient(circle, var(--blue-text) 0%, transparent 70%); bottom:-20%; right:-12%; animation: driftB 22s ease-in-out infinite reverse; }
+    @keyframes driftA { 0%,100%{transform:translate(0,0) scale(1)} 25%{transform:translate(50px,-40px) scale(1.1)} 50%{transform:translate(-30px,30px) scale(0.92)} 75%{transform:translate(-45px,-20px) scale(1.05)} }
+    @keyframes driftB { 0%,100%{transform:translate(0,0) scale(1)} 30%{transform:translate(-40px,30px) scale(1.08)} 60%{transform:translate(25px,-25px) scale(0.94)} 85%{transform:translate(35px,15px) scale(1.03)} }
+
+    .scanlines {
+      position: fixed; inset: 0; z-index: 98; pointer-events: none;
+      opacity: var(--scanline-opacity); transition: opacity 0.5s ease;
+      background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.5) 3px, rgba(0,0,0,0.5) 4px);
+    }
+    body::after {
+      content: ''; position: fixed; inset: 0; z-index: 99; pointer-events: none;
+      opacity: var(--noise-opacity); transition: opacity 0.5s ease;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+    }
+
+    .theme-ripple { position: fixed; z-index: 10000; pointer-events: none; border-radius: 50%; display: none; transform: scale(0); }
+
+    /* HEADER - Floating Pill */
+    .nav-pill {
+      position: fixed; top: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 200;
+      background: var(--nav-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+      border: 1px solid var(--border); border-radius: 9999px;
+      padding: 0.5rem 0.5rem 0.5rem 1.2rem;
+      display: flex; align-items: center; gap: 0.25rem;
+      transition: border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+    }
+    .nav-pill.scrolled { box-shadow: 0 8px 40px rgba(0,0,0,0.3); }
+    [data-theme="light"] .nav-pill.scrolled { box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+    .nav-pill .pill-links { display: flex; align-items: center; gap: 0.15rem; }
+    .nav-pill .pill-links a {
+      font-size: 0.78rem; font-weight: 500; color: var(--text-dim);
+      text-decoration: none; padding: 0.4rem 1rem; border-radius: 9999px;
+      transition: color 0.3s ease, background 0.3s ease;
+      font-family: var(--font-mono); letter-spacing: 0.04em;
+    }
+    .nav-pill .pill-links a:hover,
+    .nav-pill .pill-links a.active { color: var(--text); background: var(--accent-dim); }
+    .pill-theme-btn {
+      width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border);
+      background: var(--surface); color: var(--text-dim); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s ease;
+    }
+    .pill-theme-btn:hover { border-color: var(--border-hi); color: var(--accent-text); }
+    .pill-theme-btn svg { width: 15px; height: 15px; }
+    .pill-lang-btn {
+      width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border);
+      background: var(--surface); color: var(--text-dim); cursor: pointer;
+      font-family: var(--font-mono); font-size: 0.62rem; font-weight: 600;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s ease; letter-spacing: 0.05em;
+    }
+    .pill-lang-btn:hover { border-color: var(--border-hi); color: var(--accent-text); }
+    @media (max-width: 600px) {
+      .nav-pill { padding: 0.4rem 0.4rem 0.4rem 0.8rem; gap: 0.1rem; }
+      .nav-pill .pill-links a { font-size: 0.68rem; padding: 0.3rem 0.6rem; }
+    }
+
+    /* MAIN */
+    .wrapper { max-width: 960px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; overflow-x: hidden; }
+
+    /* HERO */
+    .hero { padding: 13rem 0 10rem 0; display: grid; grid-template-columns: 1fr auto; gap: 4rem; align-items: center; min-height: 100dvh; }
+    @media (max-width: 700px) { .hero { grid-template-columns: 1fr; padding: 7rem 0 5rem 0; min-height: 95dvh; } .hero-avatar { order: -1; margin-bottom: 1rem; } }
+    .hero-text { max-width: 540px; }
+    .hero-eyebrow { display: inline-block; font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent-text); background: var(--accent-bg); padding: 0.25rem 0.75rem; border-radius: 9999px; margin-bottom: 1.5rem; }
+    .hero h1 { font-family: var(--font-serif); font-size: clamp(2.6rem, 5.5vw, 4.5rem); font-weight: 500; line-height: 1.08; letter-spacing: -0.025em; margin-bottom: 1.25rem; color: var(--text); }
+    .typewriter-line { font-family: var(--font-mono); font-size: 0.9rem; color: var(--text-dim); margin-bottom: 1.75rem; height: 1.5em; letter-spacing: 0.02em; pointer-events: none; }
+    .cursor-blink { display: inline-block; width: 9px; height: 1.15em; background: var(--accent); vertical-align: text-bottom; margin-left: 2px; animation: blink 0.9s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    .hero-reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+    .hero-reveal.visible { opacity: 1; transform: translateY(0); }
+    .hero p { font-size: 1rem; line-height: 1.7; color: var(--text-dim); max-width: 460px; text-wrap: pretty; }
+    .hero-avatar { width: clamp(130px, 18vw, 180px); height: clamp(130px, 18vw, 180px); border-radius: 50%; overflow: hidden; border: 2px solid var(--border-hi); background: var(--surface); flex-shrink: 0; box-shadow: 0 0 0 10px var(--bg), 0 0 0 11px var(--border); position: relative; transition: box-shadow 0.5s ease; }
+    .hero-avatar img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+    .hero-avatar:hover img { transform: scale(1.05); }
+
+    /* SECTION HEAD */
+    .section-head { display: flex; align-items: center; gap: 1rem; margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+    .section-head h2 { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 500; letter-spacing: -0.01em; white-space: nowrap; color: var(--text); }
+    .section-head .head-line { flex: 1; height: 1px; background: var(--border); }
+    .section-head .head-count { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-faint); letter-spacing: 0.05em; }
+
+    /* ABOUT */
+    .section-about, .section-projects, .section-contact { margin-bottom: 10rem; }
+    .section-about[data-reveal], .section-projects[data-reveal], .section-contact[data-reveal] {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+    }
+    .section-about[data-reveal].visible, .section-projects[data-reveal].visible, .section-contact[data-reveal].visible {
+      opacity: 1; transform: translateY(0);
+    }
+    .section-about { padding-top: 4rem; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    @media (max-width: 700px) { .about-grid { grid-template-columns: 1fr; gap: 2rem; } }
+    .about-text p { font-size: 0.95rem; line-height: 1.85; color: var(--text-dim); margin-bottom: 1.5rem; }
+    .about-stack { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .stack-chip {
+      font-family: var(--font-mono); font-size: 0.65rem; font-weight: 500;
+      letter-spacing: 0.06em; padding: 0.35rem 0.75rem;
+      border: 1px solid var(--border); color: var(--text-dim);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .stack-chip:hover { border-color: var(--accent); color: var(--accent-text); }
+
+    /* MARQUEE */
+    .section-marquee { margin-bottom: 10rem; overflow: hidden; padding: 3rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); position: relative; width: 100%; contain: layout paint; }
+    .marquee-track { display: flex; gap: 3rem; width: max-content; will-change: transform; animation: marquee 40s linear infinite; }
+    .marquee-track:hover { animation-play-state: paused; }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .marquee-item {
+      font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 3.5rem);
+      font-style: italic; white-space: nowrap; color: var(--text-faint);
+      opacity: 0.5; transition: color 0.3s, opacity 0.3s; flex-shrink: 0;
+    }
+    .marquee-item:hover { color: var(--accent-text); opacity: 1; }
+
+    /* PROJECTS larger */
+    .bento-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1rem; }
+    .bento-card { padding: 2.25rem; transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1); opacity: 0; transform: translateY(32px); }
+    .bento-card.visible { opacity: 1; transform: translateY(0); }
+    .bento-card:hover { border-color: var(--border-hi); transform: translateY(-4px); }
+    .card-icon { width: 40px; height: 40px; border-radius: 8px; margin-bottom: 1rem; font-size: 1.25rem; }
+    .bento-card h3 { font-size: 1.25rem; margin-bottom: 0.4rem; }
+    .card-desc { font-size: 0.88rem; margin-bottom: 1.35rem; }
+
+    /* CONTACT larger */
+    .section-contact { margin-bottom: 10rem; }
+    .contact-item { padding: 1.25rem 0; }
+
+    @media (max-width: 768px) { .bento-grid { grid-template-columns: 1fr; } .bento-card.col-8, .bento-card.col-4, .bento-card.col-6, .bento-card.col-12, .quote-card { grid-column: span 1 !important; } }
+    .bento-card { background: var(--surface); border: 1px solid var(--border); }
+    .bento-card.col-8 { grid-column: span 8; } .bento-card.col-4 { grid-column: span 4; } .bento-card.col-6 { grid-column: span 6; } .bento-card.col-12 { grid-column: span 12; }
+    .card-icon { display: flex; align-items: center; justify-content: center; }
+    .card-icon.blue { background: var(--blue-bg); color: var(--blue-text); } .card-icon.green { background: var(--green-bg); color: var(--green-text); }
+    .card-icon.red { background: var(--red-bg); color: var(--red-text); } .card-icon.yellow { background: var(--yellow-bg); color: var(--yellow-text); }
+    .bento-card h3 { font-family: var(--font-sans); font-weight: 600; letter-spacing: -0.01em; color: var(--text); }
+    .card-desc { color: var(--text-dim); line-height: 1.6; }
+    .card-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.65rem; }
+    .card-tag { font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.18rem 0.55rem; border-radius: 9999px; }
+    .card-tag.blue { background: var(--blue-bg); color: var(--blue-text); } .card-tag.green { background: var(--green-bg); color: var(--green-text); }
+    .card-tag.red { background: var(--red-bg); color: var(--red-text); } .card-tag.yellow { background: var(--yellow-bg); color: var(--yellow-text); }
+    .card-links { display: flex; gap: 1.25rem; }
+    .card-links a { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); text-decoration: none; transition: color 0.3s ease; display: inline-flex; align-items: center; gap: 0.3rem; }
+    .card-links a:hover { color: var(--accent-text); }
+    .card-links a .arrow { display: inline-block; transition: transform 0.25s ease; }
+    .card-links a:hover .arrow { transform: translate(2px, -2px); }
+    .quote-card { grid-column: span 6; background: none; border: none; padding: 1.5rem 0; display: flex; flex-direction: column; justify-content: center; opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .quote-card.visible { opacity: 1; transform: translateY(0); }
+    .quote-card blockquote { font-family: var(--font-serif); font-size: 1.4rem; font-style: italic; line-height: 1.4; color: var(--text); letter-spacing: -0.01em; }
+    .quote-card cite { font-family: var(--font-mono); font-size: 0.7rem; font-style: normal; color: var(--text-faint); margin-top: 0.6rem; display: block; letter-spacing: 0.05em; }
+
+    /* CONTACT */
+    .contact-list { margin-top: 1.5rem; }
+    .contact-item { display: flex; align-items: center; gap: 1rem; border-top: 1px solid var(--border); transition: padding-left 0.25s ease; }
+    .contact-item:last-child { border-bottom: 1px solid var(--border); }
+    .contact-item:hover { padding-left: 0.5rem; }
+    .contact-item a { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.04em; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 0.75rem; width: 100%; }
+    .contact-item a::before { content: ">"; color: var(--accent-text); font-weight: 600; transition: transform 0.2s ease; }
+    .contact-item:hover a::before { transform: translateX(3px); }
+    .contact-item .cl-label { margin-left: auto; font-size: 0.65rem; color: var(--text-faint); letter-spacing: 0.04em; }
+    /* Email copy */
+    .contact-item.email-item { cursor: pointer; }
+    .contact-item.email-item .copy-hint { font-size: 0.6rem; color: var(--text-faint); opacity: 0; transition: opacity 0.3s; margin-right: 0.5rem; }
+    .contact-item.email-item:hover .copy-hint { opacity: 1; }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(20px); z-index: 10001;
+      background: var(--btn-bg); color: var(--btn-text);
+      padding: 0.7rem 1.5rem; font-family: var(--font-mono); font-size: 0.72rem;
+      letter-spacing: 0.05em; opacity: 0; transition: opacity 0.3s, transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ---- Tab Pages ---- */
+    .tab-page { display: none; }
+    .tab-page.active { display: block; }
+    .tab-page.anim-in { animation: tabFadeIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards; }
+    @keyframes tabFadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .daily-placeholder, .links-placeholder {
+      min-height: 60dvh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      padding: 8rem 2rem;
+    }
+    .daily-placeholder h2, .links-placeholder h2 {
+      font-family: var(--font-serif); font-size: clamp(1.5rem, 3vw, 2.5rem);
+      font-weight: 500; margin-bottom: 1rem; color: var(--text);
+    }
+    .daily-placeholder p, .links-placeholder p {
+      color: var(--text-dim); font-size: 0.9rem; max-width: 400px; line-height: 1.7;
+    }
+    .links-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem; width: 100%; max-width: 600px; margin-top: 2rem;
+    }
+    .link-friend-card {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 1.5rem; text-align: left; transition: border-color 0.2s, transform 0.2s;
+      cursor: pointer; text-decoration: none; color: inherit; display: block;
+    }
+    .link-friend-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .link-friend-card h4 { font-family: var(--font-sans); font-size: 1rem; font-weight: 600; margin-bottom: 0.3rem; }
+    .link-friend-card span { font-size: 0.75rem; color: var(--text-faint); font-family: var(--font-mono); }
+
+    /* DAILY */
+    .section-daily { padding-top: 7rem; min-height: 60dvh; }
+    .daily-search-wrap {
+      position: relative; margin-bottom: 2rem; max-width: 480px;
+    }
+    .daily-search {
+      width: 100%; padding: 0.8rem 2.5rem 0.8rem 1rem;
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--text); font-family: var(--font-mono); font-size: 0.78rem;
+      letter-spacing: 0.03em; outline: none;
+      transition: border-color 0.3s ease;
+    }
+    .daily-search:focus { border-color: var(--accent); }
+    .daily-search::placeholder { color: var(--text-faint); }
+    .daily-search-icon {
+      position: absolute; right: 0.85rem; top: 50%; transform: translateY(-50%);
+      color: var(--text-faint); font-size: 0.9rem; pointer-events: none;
+    }
+    .daily-list { margin-bottom: 2rem; }
+    .daily-entry {
+      border-bottom: 1px solid var(--border); cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .daily-entry:hover { background: var(--accent-dim); }
+    .daily-entry-header {
+      display: flex; align-items: baseline; gap: 1rem; padding: 1rem 0.5rem;
+    }
+    .daily-entry-date {
+      font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-faint);
+      letter-spacing: 0.05em; white-space: nowrap; min-width: 5.5rem;
+    }
+    .daily-entry-title {
+      font-family: var(--font-sans); font-size: 0.95rem; font-weight: 500;
+      color: var(--text); flex: 1;
+    }
+    .daily-entry-preview {
+      font-size: 0.8rem; color: var(--text-dim); display: none;
+      padding: 0 0.5rem 1rem 0.5rem; line-height: 1.7;
+    }
+    .daily-entry-preview.show { display: block; }
+    .daily-entry.expanded .daily-entry-header {
+      padding-bottom: 0.25rem;
+    }
+    .daily-entry-arrow {
+      color: var(--text-faint); font-size: 0.7rem; transition: transform 0.25s ease;
+      flex-shrink: 0;
+    }
+    .daily-entry.expanded .daily-entry-arrow { transform: rotate(180deg); }
+    .daily-pagination {
+      display: flex; align-items: center; justify-content: center; gap: 1rem;
+      padding: 1.5rem 0 3rem 0;
+    }
+    .daily-pagination button {
+      font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.05em;
+      padding: 0.45rem 1.2rem; border: 1px solid var(--border);
+      background: var(--surface); color: var(--text-dim); cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .daily-pagination button:hover { border-color: var(--accent); color: var(--accent-text); }
+    .daily-pagination button:disabled { opacity: 0.3; cursor: not-allowed; }
+    .daily-pagination .daily-page-info {
+      font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-faint);
+      letter-spacing: 0.05em;
+    }
+    .daily-empty {
+      text-align: center; padding: 4rem 2rem; color: var(--text-dim);
+      font-size: 0.9rem;
+    }
+    .daily-skeleton {
+      height: 48px; margin-bottom: 1px; background: var(--bg-alt);
+      animation: dailyPulse 1.5s ease-in-out infinite;
+    }
+    @keyframes dailyPulse { 0%,100%{opacity:0.5} 50%{opacity:0.8} }
+
+    @media (max-width: 600px) {
+      .section-daily { padding-top: 5rem; }
+      .daily-entry-header { flex-wrap: wrap; gap: 0.35rem; }
+      .daily-entry-date { min-width: auto; }
+    }
+
+    /* FOOTER */
+    footer { padding: 3rem 0 2.5rem 0; border-top: 1px solid var(--border); text-align: center; font-size: 0.78rem; color: var(--text-faint); font-family: var(--font-mono); letter-spacing: 0.04em; }
+    footer a { color: var(--text-dim); text-decoration: none; margin-left: 1.5rem; transition: color 0.3s ease; font-weight: 500; }
+    footer a:hover { color: var(--text); }
+    @media (max-width: 600px) { footer { padding: 2rem 0 1.5rem 0; } }
+  </style>
 </head>
-
 <body>
 
-    <div id="app" v-cloak>
-        <div class="theme-ripple" ref="themeRipple" :style="rippleStyle" @transitionend="onRippleTransitionEnd"></div>
-        <div class="mouse-glow" ref="mouseGlow"></div>
-        <canvas id="bg-canvas"></canvas>
-        <header ref="siteHeader">
-            <div class="nav-container">
-                <a href="#" class="logo">CF's page</a>
-                <nav class="nav-links">
-                    <a href="#projects">Works</a>
-                    <a href="https://github.com/chenf888" target="_blank">GitHub</a>
-                    <button class="theme-toggle" @click="toggleTheme" ref="themeBtn"
-                        :aria-label="theme === 'dark' ? '切换到亮色模式' : '切换到暗色模式'">
-                        <svg v-if="theme === 'light'" class="theme-icon" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="5" />
-                            <line x1="12" y1="1" x2="12" y2="3" />
-                            <line x1="12" y1="21" x2="12" y2="23" />
-                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                            <line x1="1" y1="12" x2="3" y2="12" />
-                            <line x1="21" y1="12" x2="23" y2="12" />
-                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-                        </svg>
-                        <svg v-else class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                        </svg>
-                    </button>
-                </nav>
-            </div>
-        </header>
+  <div class="bg-grid"></div>
+  <div class="ambient-blob a"></div>
+  <div class="ambient-blob b"></div>
+  <div class="scanlines"></div>
+  <div class="theme-ripple" id="themeRipple"></div>
 
-        <main class="wrapper">
-            <section class="hero">
-                <h1 class="profile-name">Hi, I'm Feng Chen</h1>
-                <div class="profile-title">
-                    <span>{{ typewriterText }}</span><span class="cursor-blink"></span>
-                </div>
-                <p class="profile-bio">
-                    WELCOME TO MY PERSONAL SPACE! I'm a student. This is my personal portfolio where I share my projects
-                    and experiments. Feel free to explore and connect with me on GitHub or Bilibili!
-                </p>
-            </section>
-            <section id="projects">
-                <h2 class="section-title" ref="sectionTitle">Selected Repositories</h2>
-                <div class="project-list" ref="projectList">
+  <div class="nav-pill" id="siteHeader">
+    <div class="pill-links">
+      <a data-tab="home" data-lang-zh="主页" data-lang-en="Home" class="active">Home</a>
+      <a data-tab="daily" data-lang-zh="日常" data-lang-en="Daily">Daily</a>
+      <a data-tab="links" data-lang-zh="友链" data-lang-en="Links">Links</a>
+    </div>
+    <button class="pill-lang-btn" id="langToggle" aria-label="切换语言">EN</button>
+    <button class="pill-theme-btn" id="themeToggle" aria-label="切换主题">
+      <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+      <svg id="moonIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+  </div>
 
-                    <div v-for="(repo, index) in repositories" :key="index" class="project-row" :data-index="index">
-                        <div class="project-left">
-                            <h3 class="project-name">{{ repo.name }}</h3>
-                            <p class="project-desc">{{ repo.description }}</p>
-                        </div>
-                        <div class="project-links">
-                            <a :href="repo.demoUrl" target="_blank" class="project-link">Demo ↗</a>
-                            <a :href="repo.sourceUrl" target="_blank" class="project-link">Source ↗</a>
-                        </div>
-                    </div>
+  <main class="wrapper">
 
-                </div>
-            </section>
+    <div id="tab-home" class="tab-page active">
 
-        </main>
-        <div class="wrapper">
-            <footer>
-                <div>&copy; 2026 chenf888.</div>
-                <div class="footer-socials">
-                    <a href="https://b23.tv/PqMBeqb" target="_blank">Bilibili</a>
-                    <a href="https://qm.qq.com/q/vGlvGiHR4G" target="_blank">QQ Group</a>
-                </div>
-            </footer>
+    <section class="hero" id="home">
+      <div class="hero-text">
+        <div class="hero-eyebrow hero-reveal" data-lang-zh="学生 &amp; 开发者" data-lang-en="Student &amp; Maker">Student &amp; Maker</div>
+        <h1 data-lang-zh="你好，我是陈风" data-lang-en="Hi, I&rsquo;m Feng Chen">Hi, I&rsquo;m Feng Chen</h1>
+        <div class="typewriter-line">
+          <span id="typewriterText"></span><span class="cursor-blink"></span>
         </div>
+        <p class="hero-reveal" data-lang-zh="欢迎来到我的个人空间。我开发有趣的实验项目和增量游戏。你可以在 GitHub 或 Bilibili 上找到我。" data-lang-en="Welcome to my personal space. I build playful experiments and incremental games. Feel free to explore my projects and reach out on GitHub or Bilibili.">Welcome to my personal space. I build playful experiments and incremental games. Feel free to explore my projects and reach out on GitHub or Bilibili.</p>
+      </div>
+      <div class="hero-avatar hero-reveal">
+        <img src="image/chenfeng4096big.png" alt="陈风头像" />
+      </div>
+    </section>
+
+    <section class="section-about" id="about" data-reveal>
+      <div class="section-head">
+        <h2 data-lang-zh="关于我" data-lang-en="About Me">About Me</h2>
+        <span class="head-line"></span>
+        <span class="head-count">01</span>
+      </div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p data-lang-zh="我是陈风，一名来自中国的高中生，从高中开始自学用AI编程。我基于 The Modding Tree 引擎构建增量游戏，创造美好的体验。" data-lang-en="I&rsquo;m Feng Chen, a high school student from China who started coding with AI in high school. I build incremental games based on The Modding Tree engine, creating wonderful experiences.">
+            I&rsquo;m Feng Chen, a high school student from China who started coding with AI in high school.
+            I build incremental games based on The Modding Tree engine, creating wonderful experiences.
+          </p>
+          <p data-lang-zh="除了游戏开发，我还探索 互联网 黑暗的边界，AI JavaScript 动画、浏览器 API 和创意 UI 设计。我的目标是用AI做出人们真正喜欢使用的东西。" data-lang-en="Beyond game dev, I explore the dark edges of the internet, AI JavaScript animations, browser APIs, and creative UI design. My goal is to use AI to make things that people genuinely enjoy using.">
+            Beyond game dev, I explore the dark edges of the internet, AI JavaScript animations,
+            browser APIs, and creative UI design. My goal is to use AI to make things that people genuinely enjoy using.
+          </p>
+        </div>
+        <div>
+          <p class="section-desc" style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-faint);margin-bottom:0.75rem;" data-lang-zh="技术栈" data-lang-en="Tech I Use">Tech I Use</p>
+          <div class="about-stack">
+            <span class="stack-chip">JavaScript</span>
+            <span class="stack-chip">HTML/CSS</span>
+            <span class="stack-chip">The Modding Tree</span>
+            <span class="stack-chip">Git/GitHub</span>
+            <span class="stack-chip">Vue.js</span>
+            <span class="stack-chip">Vite</span>
+            <span class="stack-chip">Node.js</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-contact" id="contact" data-reveal>
+      <div class="marquee-track">
+        <span class="marquee-item">Incremental Games</span>
+        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">Open Source</span>
+        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">Click Tree</span>
+        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">Offline Tree</span>
+        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">Timer Increment</span>
+        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">Roman Frame Player</span>
+        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">Infinity Tree</span>
+        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">Luck Tree</span>
+        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">The Modding Tree</span>
+        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">Incremental Games</span>
+        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">Open Source</span>
+        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">Click Tree</span>
+        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">Offline Tree</span>
+        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">Timer Increment</span>
+        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">Roman Frame Player</span>
+        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">Infinity Tree</span>
+        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">Luck Tree</span>
+        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">The Modding Tree</span>
+      </div>
+    </section>
+
+    <section class="section-projects" id="projects">
+      <div class="section-head">
+        <h2 data-lang-zh="精选作品" data-lang-en="Selected Work">Selected Work</h2>
+        <span class="head-line"></span>
+        <span class="head-count" id="projectCount">02</span>
+      </div>
+      <div class="bento-grid" id="bentoGrid">
+        <div class="bento-card col-8" data-reveal>
+          <div class="card-icon blue">&#9670;</div>
+          <h3>The Click Tree</h3>
+          <p class="card-desc" data-lang-zh="一款基于 The Modding Tree 引擎的点击类增量游戏。点击、升级、解锁多层内容。" data-lang-en="A click-based incremental game built on The Modding Tree engine. Click, upgrade, and unlock layers of content.">A click-based incremental game built on The Modding Tree engine. Click, upgrade, and unlock layers of content.</p>
+          <div class="card-links">
+            <a href="https://chenf888.github.io/The-click-Tree/" target="_blank"><span data-lang-zh="在线演示" data-lang-en="Live Demo">Live Demo</span> <span class="arrow">&#8599;</span></a>
+            <a href="https://github.com/chenf888/The-click-Tree" target="_blank"><span data-lang-zh="源代码" data-lang-en="Source">Source</span> <span class="arrow">&#8599;</span></a>
+          </div>
+        </div>
+        <div class="bento-card col-4" data-reveal>
+          <div class="card-icon green">&#9654;</div>
+          <h3>Offline Tree</h3>
+          <p class="card-desc" data-lang-zh="一款离线主题的增量游戏，具有挂机进度和资源管理机制。" data-lang-en="An offline-themed incremental game with idle progression and resource management.">An offline-themed incremental game with idle progression and resource management.</p>
+          <div class="card-links">
+            <a href="https://chenf888.github.io/The-offline-Tree/" target="_blank"><span data-lang-zh="在线演示" data-lang-en="Live">Live</span> <span class="arrow">&#8599;</span></a>
+            <a href="https://github.com/chenf888/The-offline-Tree" target="_blank"><span data-lang-zh="源代码" data-lang-en="Source">Source</span> <span class="arrow">&#8599;</span></a>
+          </div>
+        </div>
+        <div class="bento-card col-4" data-reveal>
+          <div class="card-icon red">&#9863;</div>
+          <h3>Timer Increment</h3>
+          <p class="card-desc" data-lang-zh="一款基于计时器的增量项目，拥有简洁的倒计时界面。" data-lang-en="A timer-based incremental project with clean countdown interface.">A timer-based incremental project with clean countdown interface.</p>
+          <div class="card-links">
+            <a href="https://chenf888.github.io/CF-timer-Increment/" target="_blank"><span data-lang-zh="在线演示" data-lang-en="Live">Live</span> <span class="arrow">&#8599;</span></a>
+            <a href="https://github.com/chenf888/CF-timer-Increment" target="_blank"><span data-lang-zh="源代码" data-lang-en="Source">Source</span> <span class="arrow">&#8599;</span></a>
+          </div>
+        </div>
+        <div class="bento-card col-8" data-reveal>
+          <div class="card-icon yellow">&#9632;</div>
+          <h3>Roman Frame Player</h3>
+          <p class="card-desc" data-lang-zh="一款罗马数字帧播放器，用于创意视觉播放和实验。" data-lang-en="A Roman numeral frame player for creative visual playback and experimentation.">A Roman numeral frame player for creative visual playback and experimentation.</p>
+          <div class="card-links">
+            <a href="https://chenf888.github.io/roman-frame-player/" target="_blank"><span data-lang-zh="在线演示" data-lang-en="Live Demo">Live Demo</span> <span class="arrow">&#8599;</span></a>
+            <a href="https://github.com/chenf888/roman-frame-player" target="_blank"><span data-lang-zh="源代码" data-lang-en="Source">Source</span> <span class="arrow">&#8599;</span></a>
+          </div>
+        </div>
+        <div class="bento-card col-6" data-reveal>
+          <div class="card-icon blue">&#8734;</div>
+          <h3>The Infinity Tree</h3>
+          <p class="card-desc" data-lang-zh="一款以无限为主题的增量游戏，探索无止境的成长机制。" data-lang-en="An infinity-themed incremental game exploring endless progression mechanics.">An infinity-themed incremental game exploring endless progression mechanics.</p>
+          <div class="card-links">
+            <a href="https://chenf888.github.io/The-infinity-Tree/" target="_blank"><span data-lang-zh="在线演示" data-lang-en="Live Demo">Live Demo</span> <span class="arrow">&#8599;</span></a>
+            <a href="https://github.com/chenf888/The-infinity-Tree" target="_blank"><span data-lang-zh="源代码" data-lang-en="Source">Source</span> <span class="arrow">&#8599;</span></a>
+          </div>
+        </div>
+        <div class="bento-card col-6" data-reveal>
+          <div class="card-icon green">&#9733;</div>
+          <h3>The Luck Tree</h3>
+          <p class="card-desc" data-lang-zh="一款基于运气的增量游戏，包含随机事件和概率机制。" data-lang-en="A luck-based incremental game with random events and chance mechanics.">A luck-based incremental game with random events and chance mechanics.</p>
+          <div class="card-links">
+            <a href="https://chenf888.github.io/The-luck-Tree/" target="_blank"><span data-lang-zh="在线演示" data-lang-en="Live Demo">Live Demo</span> <span class="arrow">&#8599;</span></a>
+            <a href="https://github.com/chenf888/The-luck-Tree" target="_blank"><span data-lang-zh="源代码" data-lang-en="Source">Source</span> <span class="arrow">&#8599;</span></a>
+          </div>
+        </div>
+        <div class="quote-card" data-reveal>
+          <blockquote data-lang-zh="&ldquo;做出人们喜欢的东西 &mdash; 一次点击，无限可能。&rdquo;" data-lang-en="&ldquo;Building things that people enjoy &mdash; one click at a time.&rdquo;">&ldquo;Building things that people enjoy &mdash; one click at a time.&rdquo;</blockquote>
+          <cite>&mdash; Feng Chen, 2026</cite>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-contact" id="contact">
+      <div class="section-head">
+        <h2 data-lang-zh="联系我" data-lang-en="Get in Touch">Get in Touch</h2>
+        <span class="head-line"></span>
+        <span class="head-count">03</span>
+      </div>
+      <div class="contact-list">
+        <div class="contact-item"><a href="https://github.com/chenf888" target="_blank">GitHub <span class="cl-label">github.com/chenf888</span></a></div>
+        <div class="contact-item"><a href="https://space.bilibili.com/3493112840194413" target="_blank">Bilibili <span class="cl-label">space.bilibili.com/3493112840194413</span></a></div>
+        <div class="contact-item"><a href="https://qm.qq.com/q/vGlvGiHR4G" target="_blank">QQ Group <span class="cl-label">qm.qq.com/q/vGlvGiHR4G</span></a></div>
+        <div class="contact-item email-item" id="emailItem">
+          <span style="display:flex;align-items:center;gap:0.75rem;width:100%;font-family:var(--font-mono);font-size:0.75rem;letter-spacing:0.04em;color:var(--text);">
+            <span style="color:var(--accent-text);font-weight:600;">&gt;</span>
+            Email
+            <span class="copy-hint">Click to copy</span>
+            <span class="cl-label" style="margin-left:auto;">chenfeng200108@outlook.com</span>
+          </span>
+        </div>
+      </div>
+    </section>
+
     </div>
 
-    <script>
-        const { createApp, ref, onMounted } = Vue;
+    <div id="tab-daily" class="tab-page">
+      <section class="section-daily">
+        <div class="section-head">
+          <h2 data-lang-zh="日常" data-lang-en="Daily">Daily</h2>
+          <span class="head-line"></span>
+          <span class="head-count" id="dailyCount">00</span>
+        </div>
+        <div class="daily-search-wrap">
+          <input type="text" class="daily-search" id="dailySearch" data-lang-placeholder-zh="搜索日常内容…" data-lang-placeholder-en="Search daily entries…" placeholder="Search daily entries…" autocomplete="off" />
+          <span class="daily-search-icon">&#8981;</span>
+        </div>
+        <div class="daily-list" id="dailyList"></div>
+        <div class="daily-pagination" id="dailyPagination"></div>
+      </section>
+    </div>
 
-        createApp({
-            setup() {
-                const repositories = ref([
-                    {
-                        name: 'The Click Tree',
-                        description: '一个基于 The Modding Tree 的点击增量游戏。',
-                        demoUrl: 'https://chenf888.github.io/The-click-Tree/',
-                        sourceUrl: 'https://github.com/chenf888/The-click-Tree'
-                    },
-                    {
-                        name: 'The Offline Tree',
-                        description: '一款以离线为主题的增量游戏。',
-                        demoUrl: 'https://chenf888.github.io/The-offline-Tree/',
-                        sourceUrl: 'https://github.com/chenf888/The-offline-Tree'
-                    },
-                    {
-                        name: 'Timer Increment',
-                        description: '这是一个简单的计时器增量项目。',
-                        demoUrl: 'https://chenf888.github.io/CF-timer-Increment/',
-                        sourceUrl: 'https://github.com/chenf888/CF-timer-Increment'
-                    },
-                    {
-                        name: 'Roman Frame Player',
-                        description: '一款罗马数字帧播放器。',
-                        demoUrl: 'https://chenf888.github.io/roman-frame-player/',
-                        sourceUrl: 'https://github.com/chenf888/roman-frame-player'
-                    }
-                ]);
+    <div id="tab-links" class="tab-page">
+      <div class="links-placeholder">
+        <h2 data-lang-zh="友情链接" data-lang-en="Friends &amp; Links">Friends &amp; Links</h2>
+        <p data-lang-zh="这里展示我朋友们和推荐的项目链接。" data-lang-en="Links to friends and recommended projects." style="margin-bottom:0.5rem;">Links to friends and recommended projects.</p>
+        <div class="links-grid">
+          <a href="https://github.com/chenf888" target="_blank" class="link-friend-card">
+            <h4>陈风个人</h4>
+            <span>github.com/chenf888</span>
+          </a>
+          <a href="https://gityx.com" target="_blank" class="link-friend-card">
+            <h4>Gityx游戏社区</h4>
+            <span>gityx.com</span>
+          </a>
+          <a href="https://qm.qq.com/q/BIT6AwjmBa" target="_blank" class="link-friend-card">
+            <h4>我的世界CBASP服务器</h4>
+            <span>mc.cbasp.fun · QQ群 856500630</span>
+          </a>
+        </div>
+      </div>
+    </div>
 
-                const theme = ref('dark');
+    <footer>
+      <div>&copy; 2026 Chen Feng</div>
+    </footer>
+  </main>
 
-                function applyTheme(newTheme) {
-                    document.documentElement.setAttribute('data-theme', newTheme);
-                    localStorage.setItem('site-theme', newTheme);
-                    theme.value = newTheme;
-                }
-                const savedTheme = localStorage.getItem('site-theme');
-                if (savedTheme === 'light' || savedTheme === 'dark') {
-                    applyTheme(savedTheme);
-                } else {
-                    applyTheme('dark');
-                }
+  <div class="toast" id="toast">Email copied to clipboard</div>
 
-                const themeBtn = ref(null);
-                const themeRipple = ref(null);
-                const rippleStyle = ref({
-                    display: 'none',
-                    transformOrigin: 'center center',
-                    transform: 'scale(0)',
-                    backgroundColor: '',
-                    transition: 'none',
-                });
-                let ripplePhase = 'idle';
+  <script>
+  (function() {
+    var html = document.documentElement;
+    var toggle = document.getElementById('themeToggle');
+    var sunIcon = document.getElementById('sunIcon');
+    var moonIcon = document.getElementById('moonIcon');
 
-                function getCurrentBgColor() {
-                    return getComputedStyle(document.documentElement).getPropertyValue('--bg-color').trim();
-                }
+    /* Theme toggle with ripple */
+    var ripple = document.getElementById('themeRipple');
+    var ripplePhase = 'idle';
+    function getBg() { return getComputedStyle(html).getPropertyValue('--bg').trim(); }
 
-                function startRippleAnimation(nextTheme) {
-                    if (ripplePhase !== 'idle' || !themeBtn.value || !themeRipple.value) return;
+    function setTheme(t, instant) {
+      html.setAttribute('data-theme', t);
+      sunIcon.style.display  = t === 'light' ? 'block' : 'none';
+      moonIcon.style.display = t === 'light' ? 'none'   : 'block';
+      localStorage.setItem('site-theme-chenfeng', t);
+      if (!instant) setTimeout(function() { ripple.style.backgroundColor = getBg(); }, 50);
+    }
 
-                    const btnRect = themeBtn.value.getBoundingClientRect();
-                    const cx = btnRect.left + btnRect.width / 2;
-                    const cy = btnRect.top + btnRect.height / 2;
-                    const currentBg = getCurrentBgColor();
+    var saved = localStorage.getItem('site-theme-chenfeng') || 'light';
+    setTheme(saved, true);
 
-                    rippleStyle.value = {
-                        display: 'block',
-                        transformOrigin: `${cx}px ${cy}px`,
-                        transform: 'scale(0)',
-                        backgroundColor: currentBg,
-                        transition: 'none',
-                    };
-                    ripplePhase = 'expanding';
+    function startRipple(nextTheme) {
+      if (ripplePhase !== 'idle') return;
+      var r = ripple.parentElement.getBoundingClientRect();
+      ripple.style.display = 'block';
+      ripple.style.transformOrigin = (r.width/2) + 'px ' + (r.height/2) + 'px';
+      ripple.style.transform = 'scale(0)';
+      ripple.style.backgroundColor = getBg();
+      ripple.style.transition = 'none';
+      ripplePhase = 'expanding';
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          ripple.style.transform = 'scale(1)';
+          ripple.style.transition = 'transform 0.45s cubic-bezier(0.4,0,0.2,1)';
+        });
+      });
+    }
 
-                    requestAnimationFrame(() => {
-                        requestAnimationFrame(() => {
-                            rippleStyle.value = {
-                                ...rippleStyle.value,
-                                transform: 'scale(1)',
-                                transition: 'transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)',
-                            };
-                        });
-                    });
-                }
+    function onRippleEnd(e) {
+      if (e.propertyName !== 'transform') return;
+      if (ripplePhase === 'expanding') {
+        setTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark', false);
+        ripple.style.backgroundColor = getBg();
+        ripple.style.transform = 'scale(0)';
+        ripple.style.transition = 'transform 0.4s cubic-bezier(0.4,0,0.2,1)';
+        ripplePhase = 'shrinking';
+      } else if (ripplePhase === 'shrinking') {
+        ripple.style.display = 'none';
+        ripplePhase = 'idle';
+      }
+    }
+    ripple.addEventListener('transitionend', onRippleEnd);
 
-                function onRippleTransitionEnd(event) {
-                    if (event.propertyName !== 'transform') return;
+    toggle.addEventListener('click', function() {
+      if (ripplePhase !== 'idle') return;
+      startRipple(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
 
-                    if (ripplePhase === 'expanding') {
-                        const next = theme.value === 'dark' ? 'light' : 'dark';
-                        applyTheme(next);
-                        const newBg = getComputedStyle(document.documentElement).getPropertyValue('--bg-color').trim();
-                        rippleStyle.value = {
-                            ...rippleStyle.value,
-                            backgroundColor: newBg,
-                            transform: 'scale(0)',
-                            transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                        };
-                        ripplePhase = 'shrinking';
-                    } else if (ripplePhase === 'shrinking') {
-                        rippleStyle.value = {
-                            display: 'none',
-                            transformOrigin: 'center center',
-                            transform: 'scale(0)',
-                            backgroundColor: '',
-                            transition: 'none',
-                        };
-                        ripplePhase = 'idle';
-                    }
-                }
+    /* Typewriter (bilingual) */
+    var twEl = document.getElementById('typewriterText');
+    var enIdentities = ['A Student', 'From China', 'Incremental Game Dev', 'Open Source Builder', 'Ciallo\uff5e(\u2220\u30fb\u03c9< )\u2312\u2605'];
+    var zhIdentities = ['一名学生', '来自中国', '增量游戏开发者', '开源贡献者', 'Ciallo\uff5e(\u2220\u30fb\u03c9< )\u2312\u2605'];
+    var idIdx = 0, chIdx = 0, phase = 'typing', twTimer = null;
+    var TSPEED = 70, DSPEED = 40, PAUSE = 2200, WAIT = 500;
 
-                function toggleTheme() {
-                    if (ripplePhase !== 'idle') return;
-                    const nextTheme = theme.value === 'dark' ? 'light' : 'dark';
-                    startRippleAnimation(nextTheme);
-                }
-                const typewriterText = ref('');
-                const identityList = [
-                    'A Student',
-                    'From China',                 
-                    '沃铥类劳目',
-                    'Ciallo～(∠・ω< )⌒★',
-                    'zako zako艾斯贼',
-                ];
-                let currentIdentityIndex = 0;
-                let charIndex = 0;
-                let typewriterPhase = 'typing';
-                let typewriterTimer = null;
-                const typingSpeed = 80;
-                const deletingSpeed = 45;
-                const pauseDuration = 2000;
-                const waitDuration = 600;
+    function clearTW() { if (twTimer) { clearTimeout(twTimer); twTimer = null; } }
+    function getTWList() { return html.getAttribute('data-lang') === 'zh' ? zhIdentities : enIdentities; }
+    function runTW() {
+      clearTW();
+      var list = getTWList();
+      var cur = list[idIdx % list.length];
+      if (phase === 'typing') {
+        if (chIdx < cur.length) { chIdx++; twEl.textContent = cur.substring(0, chIdx); twTimer = setTimeout(runTW, TSPEED + (Math.random()-0.5)*30); }
+        else { phase = 'pausing'; twTimer = setTimeout(runTW, PAUSE); }
+      } else if (phase === 'pausing') { phase = 'deleting'; twTimer = setTimeout(runTW, 50); }
+      else if (phase === 'deleting') {
+        if (chIdx > 0) { chIdx--; twEl.textContent = cur.substring(0, chIdx); twTimer = setTimeout(runTW, DSPEED + (Math.random()-0.5)*20); }
+        else { phase = 'waiting'; twTimer = setTimeout(runTW, WAIT); }
+      } else if (phase === 'waiting') { idIdx = (idIdx+1) % list.length; chIdx = 0; twEl.textContent = ''; phase = 'typing'; twTimer = setTimeout(runTW, 200); }
+    }
+    runTW();
 
-                function clearTypewriterTimer() {
-                    if (typewriterTimer) {
-                        clearTimeout(typewriterTimer);
-                        typewriterTimer = null;
-                    }
-                }
-                function runTypewriter() {
-                    clearTypewriterTimer();
-                    const currentIdentity = identityList[currentIdentityIndex];
+    /* Header scroll - pill shadow */
+    var header = document.getElementById('siteHeader');
+    var ticking = false;
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        requestAnimationFrame(function() {
+          header.classList.toggle('scrolled', window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+    if (window.scrollY > 20) header.classList.add('scrolled');
 
-                    if (typewriterPhase === 'typing') {
-                        if (charIndex < currentIdentity.length) {
-                            charIndex++;
-                            typewriterText.value = currentIdentity.substring(0, charIndex);
-                            const jitter = (Math.random() - 0.5) * 40;
-                            typewriterTimer = setTimeout(runTypewriter, typingSpeed + jitter);
-                        } else {
-                            typewriterPhase = 'pausing';
-                            typewriterTimer = setTimeout(runTypewriter, pauseDuration);
-                        }
-                    } else if (typewriterPhase === 'pausing') {
-                        typewriterPhase = 'deleting';
-                        typewriterTimer = setTimeout(runTypewriter, 50);
-                    } else if (typewriterPhase === 'deleting') {
-                        if (charIndex > 0) {
-                            charIndex--;
-                            typewriterText.value = currentIdentity.substring(0, charIndex);
-                            const jitter = (Math.random() - 0.5) * 25;
-                            typewriterTimer = setTimeout(runTypewriter, deletingSpeed + jitter);
-                        } else {
-                            typewriterPhase = 'waiting';
-                            typewriterTimer = setTimeout(runTypewriter, waitDuration);
-                        }
-                    } else if (typewriterPhase === 'waiting') {
-                        currentIdentityIndex = (currentIdentityIndex + 1) % identityList.length;
-                        charIndex = 0;
-                        typewriterText.value = '';
-                        typewriterPhase = 'typing';
-                        typewriterTimer = setTimeout(runTypewriter, 200);
-                    }
-                }
+    /* Scroll reveal - bento + hero stagger */
+    var revealEls = document.querySelectorAll('[data-reveal], .hero-reveal');
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -40px 0px', threshold: 0.12 });
+    revealEls.forEach(function(el) { observer.observe(el); });
 
-                const mouseGlow = ref(null);
-                const siteHeader = ref(null);
-                const sectionTitle = ref(null);
-                const projectList = ref(null);
+    /* ====== TAB SWITCHING ====== */
+    var tabLinks = document.querySelectorAll('.nav-pill .pill-links a');
+    var allTabs = document.querySelectorAll('.tab-page');
 
-                onMounted(() => {
-                    typewriterPhase = 'typing';
-                    charIndex = 0;
-                    typewriterText.value = '';
-                    runTypewriter();
-                    const canvas = document.getElementById('bg-canvas');
-                    const ctx = canvas.getContext('2d');
-                    let particles = [];
-                    const particleCount = 22;
-                    const maxDistance = 200;
-                    const mouseInfluenceRadius = 140;
-                    const mouseRepelStrength = 0.025;
-                    const mouse = { x: -2000, y: -2000, active: false };
-                    function resizeCanvas() {
-                        canvas.width = window.innerWidth;
-                        canvas.height = window.innerHeight;
-                    }
-                    window.addEventListener('resize', resizeCanvas);
-                    resizeCanvas();
-                    canvas.addEventListener('mousemove', (e) => {
-                        mouse.x = e.clientX;
-                        mouse.y = e.clientY;
-                        mouse.active = true;
-                    });
-                    canvas.addEventListener('mouseleave', () => {
-                        mouse.active = false;
-                        mouse.x = -2000;
-                        mouse.y = -2000;
-                    });
-                    canvas.addEventListener('touchmove', (e) => {
-                        if (e.touches.length > 0) {
-                            mouse.x = e.touches[0].clientX;
-                            mouse.y = e.touches[0].clientY;
-                            mouse.active = true;
-                        }
-                    }, { passive: true });
-                    canvas.addEventListener('touchend', () => {
-                        mouse.active = false;
-                        mouse.x = -2000;
-                        mouse.y = -2000;
-                    });
+    function switchTab(tabName, scrollTarget) {
+      // Update nav active
+      tabLinks.forEach(function(a) { a.classList.remove('active'); });
+      // Remove anim-in from all tabs
+      allTabs.forEach(function(tp) { tp.classList.remove('anim-in'); });
+      // Show/hide tab pages
+      allTabs.forEach(function(tp) {
+        tp.classList.toggle('active', tp.id === 'tab-' + tabName);
+      });
+      // Add fade-in animation to the new tab
+      var newTab = document.getElementById('tab-' + tabName);
+      if (newTab) { newTab.offsetHeight; newTab.classList.add('anim-in'); }
+      // Highlight all nav links pointing to this tab
+      tabLinks.forEach(function(a) {
+        if (a.getAttribute('data-tab') === tabName) a.classList.add('active');
+      });
+      // Scroll to section if requested
+      if (scrollTarget) {
+        var target = document.getElementById(scrollTarget);
+        if (target) {
+          setTimeout(function() { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+        }
+      }
+      // Re-observe reveal elements in newly visible tab
+      var newReveals = document.querySelectorAll('.tab-page.active [data-reveal], .tab-page.active .hero-reveal');
+      newReveals.forEach(function(el) { observer.observe(el); });
+    }
 
-                    function getTheme() {
-                        return document.documentElement.getAttribute('data-theme') || 'dark';
-                    }
-                    function getParticleColor() {
-                        return getTheme() === 'light' ?
-                            'rgba(30, 41, 59, 0.18)' :
-                            'rgba(255, 255, 255, 0.22)';
-                    }
+    tabLinks.forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        var tab = this.getAttribute('data-tab');
+        var scrollTo = this.getAttribute('data-scroll');
+        switchTab(tab, scrollTo);
+      });
+    });
 
-                    function getLineColor() {
-                        return getTheme() === 'light' ?
-                            'rgba(30, 41, 59, 0.06)' :
-                            'rgba(255, 255, 255, 0.055)';
-                    }
+    // Home is default tab
+    switchTab('home');
 
-                    function getMouseLineColor() {
-                        return getTheme() === 'light' ?
-                            'rgba(2, 132, 199, 0.12)' :
-                            'rgba(14, 165, 233, 0.07)';
-                    }
+    /* ====== EMAIL COPY ====== */
+    var emailItem = document.getElementById('emailItem');
+    var toast = document.getElementById('toast');
+    var toastTimer;
+    emailItem.addEventListener('click', function() {
+      navigator.clipboard.writeText('chenfeng200108@outlook.com').then(function() {
+        var isZh = html.getAttribute('data-lang') === 'zh';
+        toast.textContent = isZh ? '邮箱已复制到剪贴板' : 'Email copied to clipboard';
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 2000);
+      });
+    });
 
-                    function getMouseGlowColor() {
-                        return getTheme() === 'light' ?
-                            'rgba(2, 132, 199, 0.1)' :
-                            'rgba(14, 165, 233, 0.1)';
-                    }
+    /* ====== LANGUAGE TOGGLE ====== */
+    var langToggle = document.getElementById('langToggle');
+    var currentLang = localStorage.getItem('site-lang-chenfeng') || 'en';
 
-                    class Particle {
-                        constructor() {
-                            this.x = Math.random() * canvas.width;
-                            this.y = Math.random() * canvas.height;
-                            this.radius = Math.random() * 1.3 + 0.4;
-                            const angle = Math.random() * Math.PI * 2;
-                            const speed = Math.random() * 0.12 + 0.04;
-                            this.vx = Math.cos(angle) * speed;
-                            this.vy = Math.sin(angle) * speed;
-                            this.baseSpeed = speed;
-                        }
+    function applyLang(lang) {
+      html.setAttribute('data-lang', lang);
+      langToggle.textContent = lang === 'zh' ? 'EN' : '中';
+      localStorage.setItem('site-lang-chenfeng', lang);
 
-                        update() {
-                            if (mouse.active) {
-                                const dx = this.x - mouse.x;
-                                const dy = this.y - mouse.y;
-                                const dist = Math.sqrt(dx * dx + dy * dy);
-                                if (dist < mouseInfluenceRadius && dist > 0.01) {
-                                    const force = (mouseInfluenceRadius - dist) / mouseInfluenceRadius *
-                                        mouseRepelStrength;
-                                    const nx = dx / dist;
-                                    const ny = dy / dist;
-                                    this.vx += nx * force;
-                                    this.vy += ny * force;
-                                    const currentSpeed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-                                    const maxSpeed = this.baseSpeed * 4;
-                                    if (currentSpeed > maxSpeed) {
-                                        const scale = maxSpeed / currentSpeed;
-                                        this.vx *= scale;
-                                        this.vy *= scale;
-                                    }
-                                }
-                            }
+      var els = document.querySelectorAll('[data-lang-zh]');
+      els.forEach(function(el) {
+        var text = lang === 'zh' ? el.getAttribute('data-lang-zh') : el.getAttribute('data-lang-en');
+        if (text != null && text !== '') el.textContent = text;
+      });
 
-                            const currentSpeed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-                            if (currentSpeed > this.baseSpeed * 1.05) {
-                                const dampFactor = 0.995;
-                                this.vx *= dampFactor;
-                                this.vy *= dampFactor;
-                            }
+      // Restart typewriter
+      idIdx = 0; chIdx = 0; phase = 'typing'; twEl.textContent = '';
+      clearTW();
+      runTW();
+    }
 
-                            this.x += this.vx;
-                            this.y += this.vy;
+    applyLang(currentLang);
 
-                            if (this.x <= 0 || this.x >= canvas.width) this.vx *= -1;
-                            if (this.y <= 0 || this.y >= canvas.height) this.vy *= -1;
+    langToggle.addEventListener('click', function() {
+      applyLang(html.getAttribute('data-lang') === 'zh' ? 'en' : 'zh');
+    });
 
-                            this.x = Math.max(0, Math.min(canvas.width, this.x));
-                            this.y = Math.max(0, Math.min(canvas.height, this.y));
-                        }
+    /* ====== DAILY ====== */
+    var dailyData = [];
+    var dailyFiltered = [];
+    var dailyPage = 1;
+    var dailyPerPage = 10;
+    var dailyLoaded = false;
 
-                        draw() {
-                            ctx.beginPath();
-                            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                            ctx.fillStyle = getParticleColor();
-                            ctx.fill();
-                        }
-                    }
+    var dailyList = document.getElementById('dailyList');
+    var dailyPagination = document.getElementById('dailyPagination');
+    var dailySearch = document.getElementById('dailySearch');
+    var dailyCount = document.getElementById('dailyCount');
 
-                    for (let i = 0; i < particleCount; i++) {
-                        particles.push(new Particle());
-                    }
+    function loadDaily(callback) {
+      if (dailyLoaded) { if (callback) callback(); return; }
+      dailyList.innerHTML = '<div class="daily-skeleton"></div><div class="daily-skeleton"></div><div class="daily-skeleton"></div>';
+      dailyPagination.innerHTML = '';
 
-                    function particleLoop() {
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'daily/manifest.json', true);
+      xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          try {
+            var data = JSON.parse(xhr.responseText);
+            dailyData = data;
+            dailyFiltered = data;
+            dailyLoaded = true;
+            dailyPage = 1;
+            if (callback) callback();
+            renderDaily();
+          } catch(e) {
+            showDailyError();
+          }
+        } else {
+          showDailyError();
+        }
+      };
+      xhr.onerror = showDailyError;
+      xhr.send();
+    }
 
-                        for (let i = 0; i < particles.length; i++) {
-                            particles[i].update();
-                            particles[i].draw();
+    function showDailyError() {
+      dailyList.innerHTML = '<div class="daily-empty" data-lang-zh="加载日常失败，请稍后再试。" data-lang-en="Failed to load daily entries. Please try again later.">Failed to load daily entries. Please try again later.</div>';
+      dailyPagination.innerHTML = '';
+      dailyCount.textContent = '00';
+    }
 
-                            for (let j = i + 1; j < particles.length; j++) {
-                                const dx = particles[i].x - particles[j].x;
-                                const dy = particles[i].y - particles[j].y;
-                                const dist = Math.sqrt(dx * dx + dy * dy);
-                                if (dist < maxDistance) {
-                                    const alpha = (1 - dist / maxDistance) * 0.055;
-                                    ctx.beginPath();
-                                    ctx.moveTo(particles[i].x, particles[i].y);
-                                    ctx.lineTo(particles[j].x, particles[j].y);
-                                    ctx.strokeStyle = getLineColor();
-                                    ctx.lineWidth = 0.5;
-                                    ctx.stroke();
-                                }
-                            }
+    function renderDaily() {
+      var total = dailyFiltered.length;
+      dailyCount.textContent = String(total).padStart(2, '0');
 
-                            if (mouse.active) {
-                                const dx = particles[i].x - mouse.x;
-                                const dy = particles[i].y - mouse.y;
-                                const dist = Math.sqrt(dx * dx + dy * dy);
-                                if (dist < mouseInfluenceRadius * 1.3) {
-                                    const alpha = (1 - dist / (mouseInfluenceRadius * 1.3)) * 0.07;
-                                    ctx.beginPath();
-                                    ctx.moveTo(particles[i].x, particles[i].y);
-                                    ctx.lineTo(mouse.x, mouse.y);
-                                    ctx.strokeStyle = getMouseLineColor();
-                                    ctx.lineWidth = 0.4;
-                                    ctx.stroke();
-                                }
-                            }
-                        }
+      if (total === 0) {
+        dailyList.innerHTML = '<div class="daily-empty" data-lang-zh="没有找到匹配的日常条目。" data-lang-en="No matching daily entries found.">No matching daily entries found.</div>';
+        dailyPagination.innerHTML = '';
+        return;
+      }
 
-                        if (mouse.active) {
-                            const glowGrad = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 50);
-                            glowGrad.addColorStop(0, getMouseGlowColor());
-                            glowGrad.addColorStop(1, 'rgba(0,0,0,0)');
-                            ctx.beginPath();
-                            ctx.arc(mouse.x, mouse.y, 50, 0, Math.PI * 2);
-                            ctx.fillStyle = glowGrad;
-                            ctx.fill();
-                        }
+      var totalPages = Math.ceil(total / dailyPerPage);
+      if (dailyPage > totalPages) dailyPage = totalPages;
+      if (dailyPage < 1) dailyPage = 1;
 
-                        requestAnimationFrame(particleLoop);
-                    }
-                    particleLoop();
-                    const glowEl = mouseGlow.value;
-                    if (glowEl && window.matchMedia('(hover: hover)').matches) {
-                        let glowX = -500;
-                        let glowY = -500;
-                        let targetX = -500;
-                        let targetY = -500;
+      var start = (dailyPage - 1) * dailyPerPage;
+      var pageItems = dailyFiltered.slice(start, start + dailyPerPage);
 
-                        document.addEventListener('mousemove', (e) => {
-                            targetX = e.clientX;
-                            targetY = e.clientY;
-                        });
+      var html = '';
+      pageItems.forEach(function(entry, i) {
+        var idx = start + i;
+        var preview = entry.content.length > 80 ? entry.content.substring(0, 80) + '…' : entry.content;
+        html += '<div class="daily-entry" data-index="' + idx + '">';
+        html += '<div class="daily-entry-header">';
+        html += '<span class="daily-entry-date">' + entry.date + '</span>';
+        html += '<span class="daily-entry-title">' + entry.title + '</span>';
+        html += '<span class="daily-entry-arrow">&#9660;</span>';
+        html += '</div>';
+        html += '<div class="daily-entry-preview">' + preview + '</div>';
+        html += '</div>';
+      });
 
-                        function updateGlow() {
-                            glowX += (targetX - glowX) * 0.12;
-                            glowY += (targetY - glowY) * 0.12;
-                            glowEl.style.left = glowX + 'px';
-                            glowEl.style.top = glowY + 'px';
-                            requestAnimationFrame(updateGlow);
-                        }
-                        updateGlow();
-                    }
-                    const projectRows = document.querySelectorAll('.project-row');
-                    const supportsHover = window.matchMedia('(hover: hover)').matches;
+      dailyList.innerHTML = html;
 
-                    function getTiltShadowColor() {
-                        return getTheme() === 'light' ?
-                            'rgba(2, 132, 199, 0.1)' :
-                            'rgba(14, 165, 233, 0.07)';
-                    }
-                    if (supportsHover) {
-                        const maxTilt = 5;
-                        projectRows.forEach((row) => {
-                            row.addEventListener('mousemove', (e) => {
-                                const rect = row.getBoundingClientRect();
-                                const x = (e.clientX - rect.left) / rect.width - 0.5;
-                                const y = (e.clientY - rect.top) / rect.height - 0.5;
-                                const rotateY = x * maxTilt * 2;
-                                const rotateX = -y * maxTilt * 2;
-                                const shadowX = -x * 14;
-                                const shadowY = y * 10 + 3;
+      dailyList.querySelectorAll('.daily-entry').forEach(function(el) {
+        el.addEventListener('click', function() {
+          var wasExpanded = this.classList.contains('expanded');
+          dailyList.querySelectorAll('.daily-entry.expanded').forEach(function(e) {
+            e.classList.remove('expanded');
+            e.querySelector('.daily-entry-preview').classList.remove('show');
+          });
+          if (!wasExpanded) {
+            this.classList.add('expanded');
+            var entry = dailyFiltered[parseInt(this.getAttribute('data-index'))];
+            var previewEl = this.querySelector('.daily-entry-preview');
+            previewEl.textContent = entry.content;
+            previewEl.classList.add('show');
+          }
+        });
+      });
 
-                                row.style.transform =
-                                    `perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(2px)`;
-                                row.style.boxShadow =
-                                    `${shadowX}px ${shadowY}px 28px ${getTiltShadowColor()}`;
-                                row.style.transition =
-                                    'transform 0.12s ease-out, box-shadow 0.12s ease-out, background-color 0.35s ease';
-                            });
+      renderPagination(totalPages);
+    }
 
-                            row.addEventListener('mouseleave', () => {
-                                row.style.transform = '';
-                                row.style.boxShadow = '';
-                                row.style.transition =
-                                    'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.35s ease, opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1)';
-                            });
-                        });
-                    }
-                    const observerOptions = {
-                        root: null,
-                        rootMargin: '0px 0px -40px 0px',
-                        threshold: 0.12,
-                    };
+    function renderPagination(totalPages) {
+      var isZh = html.getAttribute('data-lang') === 'zh';
+      var h = '';
+      h += '<button id="dailyPrev" ' + (dailyPage <= 1 ? 'disabled' : '') + '>' + (isZh ? '← 上一页' : '← Prev') + '</button>';
+      h += '<span class="daily-page-info">' + dailyPage + ' / ' + totalPages + '</span>';
+      h += '<button id="dailyNext" ' + (dailyPage >= totalPages ? 'disabled' : '') + '>' + (isZh ? '下一页 →' : 'Next →') + '</button>';
+      dailyPagination.innerHTML = h;
 
-                    const observer = new IntersectionObserver((entries) => {
-                        entries.forEach((entry) => {
-                            if (entry.isIntersecting) {
-                                entry.target.classList.add('visible');
-                                const index = parseInt(entry.target.dataset.index || '0');
-                                entry.target.style.transitionDelay = `${index * 0.1}s`;
-                                observer.unobserve(entry.target);
-                            }
-                        });
-                    }, observerOptions);
+      var prevBtn = document.getElementById('dailyPrev');
+      var nextBtn = document.getElementById('dailyNext');
+      if (prevBtn) prevBtn.addEventListener('click', function() {
+        if (dailyPage > 1) { dailyPage--; renderDaily(); scrollDaily(); }
+      });
+      if (nextBtn) nextBtn.addEventListener('click', function() {
+        if (dailyPage < totalPages) { dailyPage++; renderDaily(); scrollDaily(); }
+      });
+    }
 
-                    projectRows.forEach((row) => {
-                        observer.observe(row);
-                    });
+    function scrollDaily() {
+      dailyList.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 
-                    const stEl = sectionTitle.value;
-                    if (stEl) {
-                        const titleObserver = new IntersectionObserver((entries) => {
-                            entries.forEach((entry) => {
-                                if (entry.isIntersecting) {
-                                    entry.target.classList.add('revealed');
-                                    titleObserver.unobserve(entry.target);
-                                }
-                            });
-                        }, { threshold: 0.6 });
-                        titleObserver.observe(stEl);
-                    }
-                    const headerEl = siteHeader.value;
-                    if (headerEl) {
-                        let scrollTicking = false;
-                        window.addEventListener('scroll', () => {
-                            if (!scrollTicking) {
-                                requestAnimationFrame(() => {
-                                    if (window.scrollY > 8) {
-                                        headerEl.classList.add('scrolled');
-                                    } else {
-                                        headerEl.classList.remove('scrolled');
-                                    }
-                                    scrollTicking = false;
-                                });
-                                scrollTicking = true;
-                            }
-                        }, { passive: true });
+    dailySearch.addEventListener('input', function() {
+      if (!dailyLoaded) return;
+      var q = this.value.toLowerCase().trim();
+      if (q === '') {
+        dailyFiltered = dailyData;
+      } else {
+        dailyFiltered = dailyData.filter(function(e) {
+          return e.title.toLowerCase().indexOf(q) !== -1 || e.content.toLowerCase().indexOf(q) !== -1;
+        });
+      }
+      dailyPage = 1;
+      renderDaily();
+    });
 
-                        if (window.scrollY > 8) {
-                            headerEl.classList.add('scrolled');
-                        }
-                    }
-                });
+    // Hook switchTab to auto-load daily
+    var _origSwitchTab = switchTab;
+    switchTab = function(tabName, scrollTarget) {
+      _origSwitchTab(tabName, scrollTarget);
+      if (tabName === 'daily') loadDaily();
+    };
 
-                return {
-                    repositories,
-                    typewriterText,
-                    theme,
-                    toggleTheme,
-                    themeBtn,
-                    themeRipple,
-                    rippleStyle,
-                    onRippleTransitionEnd,
-                    mouseGlow,
-                    siteHeader,
-                    sectionTitle,
-                    projectList,
-                };
-            },
-        }).mount('#app');
-    </script>
+    // Patch applyLang to also update search placeholder
+    var _origApplyLang = applyLang;
+    applyLang = function(lang) {
+      _origApplyLang(lang);
+      if (dailySearch) {
+        dailySearch.placeholder = lang === 'zh'
+          ? (dailySearch.getAttribute('data-lang-placeholder-zh') || '搜索日常内容…')
+          : (dailySearch.getAttribute('data-lang-placeholder-en') || 'Search daily entries…');
+      }
+      // Re-render pagination text if daily is loaded
+      if (dailyLoaded && dailyFiltered.length > 0) {
+        var totalPages = Math.ceil(dailyFiltered.length / dailyPerPage);
+        renderPagination(totalPages);
+      }
+      // Update empty state messages
+      dailyList.querySelectorAll('[data-lang-zh]').forEach(function(el) {
+        var text = lang === 'zh' ? el.getAttribute('data-lang-zh') : el.getAttribute('data-lang-en');
+        if (text != null && text !== '') el.textContent = text;
+      });
+    };
+
+  })();
+  </script>
 </body>
-
 </html>
