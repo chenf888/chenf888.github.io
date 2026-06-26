@@ -69,6 +69,7 @@
 
     html {
       scroll-behavior: smooth;
+      scrollbar-gutter: stable;
       font-family: var(--font-sans);
       background: var(--bg); color: var(--text);
       -webkit-font-smoothing: antialiased;
@@ -77,7 +78,6 @@
     }
     body { background: var(--bg); transition: background-color 0.5s ease; }
 
-    /* LAYERED EFFECTS */
     .bg-grid {
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
       opacity: var(--grid-opacity);
@@ -107,7 +107,6 @@
 
     .theme-ripple { position: fixed; z-index: 10000; pointer-events: none; border-radius: 50%; display: none; transform: scale(0); }
 
-    /* HEADER - Floating Pill */
     .nav-pill {
       position: fixed; top: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 200;
       background: var(--nav-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
@@ -148,10 +147,8 @@
       .nav-pill .pill-links a { font-size: 0.68rem; padding: 0.3rem 0.6rem; }
     }
 
-    /* MAIN */
     .wrapper { max-width: 960px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 1; overflow-x: hidden; }
 
-    /* HERO */
     .hero { padding: 13rem 0 10rem 0; display: grid; grid-template-columns: 1fr auto; gap: 4rem; align-items: center; min-height: 100dvh; }
     @media (max-width: 700px) { .hero { grid-template-columns: 1fr; padding: 7rem 0 5rem 0; min-height: 95dvh; } .hero-avatar { order: -1; margin-bottom: 1rem; } }
     .hero-text { max-width: 540px; }
@@ -167,13 +164,11 @@
     .hero-avatar img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
     .hero-avatar:hover img { transform: scale(1.05); }
 
-    /* SECTION HEAD */
     .section-head { display: flex; align-items: center; gap: 1rem; margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
     .section-head h2 { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 500; letter-spacing: -0.01em; white-space: nowrap; color: var(--text); }
     .section-head .head-line { flex: 1; height: 1px; background: var(--border); }
     .section-head .head-count { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-faint); letter-spacing: 0.05em; }
 
-    /* ABOUT */
     .section-about, .section-projects, .section-contact { margin-bottom: 10rem; }
     .section-about[data-reveal], .section-projects[data-reveal], .section-contact[data-reveal] {
       opacity: 0; transform: translateY(24px);
@@ -195,7 +190,6 @@
     }
     .stack-chip:hover { border-color: var(--accent); color: var(--accent-text); }
 
-    /* MARQUEE */
     .section-marquee { margin-bottom: 10rem; overflow: hidden; padding: 3rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); position: relative; width: 100%; contain: layout paint; }
     .marquee-track { display: flex; gap: 3rem; width: max-content; will-change: transform; animation: marquee 40s linear infinite; }
     .marquee-track:hover { animation-play-state: paused; }
@@ -207,7 +201,6 @@
     }
     .marquee-item:hover { color: var(--accent-text); opacity: 1; }
 
-    /* PROJECTS larger */
     .bento-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1rem; }
     .bento-card { padding: 2.25rem; transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1); opacity: 0; transform: translateY(32px); }
     .bento-card.visible { opacity: 1; transform: translateY(0); }
@@ -216,7 +209,6 @@
     .bento-card h3 { font-size: 1.25rem; margin-bottom: 0.4rem; }
     .card-desc { font-size: 0.88rem; margin-bottom: 1.35rem; }
 
-    /* CONTACT larger */
     .section-contact { margin-bottom: 10rem; }
     .contact-item { padding: 1.25rem 0; }
 
@@ -242,7 +234,6 @@
     .quote-card blockquote { font-family: var(--font-serif); font-size: 1.4rem; font-style: italic; line-height: 1.4; color: var(--text); letter-spacing: -0.01em; }
     .quote-card cite { font-family: var(--font-mono); font-size: 0.7rem; font-style: normal; color: var(--text-faint); margin-top: 0.6rem; display: block; letter-spacing: 0.05em; }
 
-    /* CONTACT */
     .contact-list { margin-top: 1.5rem; }
     .contact-item { display: flex; align-items: center; gap: 1rem; border-top: 1px solid var(--border); transition: padding-left 0.25s ease; }
     .contact-item:last-child { border-bottom: 1px solid var(--border); }
@@ -251,12 +242,11 @@
     .contact-item a::before { content: ">"; color: var(--accent-text); font-weight: 600; transition: transform 0.2s ease; }
     .contact-item:hover a::before { transform: translateX(3px); }
     .contact-item .cl-label { margin-left: auto; font-size: 0.65rem; color: var(--text-faint); letter-spacing: 0.04em; }
-    /* Email copy */
+    
     .contact-item.email-item { cursor: pointer; }
     .contact-item.email-item .copy-hint { font-size: 0.6rem; color: var(--text-faint); opacity: 0; transition: opacity 0.3s; margin-right: 0.5rem; }
     .contact-item.email-item:hover .copy-hint { opacity: 1; }
 
-    /* Toast */
     .toast {
       position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(20px); z-index: 10001;
       background: var(--btn-bg); color: var(--btn-text);
@@ -266,7 +256,6 @@
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    /* ---- Tab Pages ---- */
     .tab-page { display: none; }
     .tab-page.active { display: block; }
     .tab-page.anim-in { animation: tabFadeIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards; }
@@ -299,13 +288,13 @@
     .link-friend-card h4 { font-family: var(--font-sans); font-size: 1rem; font-weight: 600; margin-bottom: 0.3rem; }
     .link-friend-card span { font-size: 0.75rem; color: var(--text-faint); font-family: var(--font-mono); }
 
-    /* DAILY */
     .section-daily { padding-top: 7rem; min-height: 60dvh; }
     .daily-search-wrap {
-      position: relative; margin-bottom: 2rem; max-width: 480px;
+      position: relative; margin-bottom: 2rem;
+      display: flex; gap: 0.5rem; align-items: center;
     }
     .daily-search {
-      width: 100%; padding: 0.8rem 2.5rem 0.8rem 1rem;
+      flex: 1; padding: 0.8rem 1rem;
       background: var(--surface); border: 1px solid var(--border);
       color: var(--text); font-family: var(--font-mono); font-size: 0.78rem;
       letter-spacing: 0.03em; outline: none;
@@ -313,10 +302,39 @@
     }
     .daily-search:focus { border-color: var(--accent); }
     .daily-search::placeholder { color: var(--text-faint); }
-    .daily-search-icon {
-      position: absolute; right: 0.85rem; top: 50%; transform: translateY(-50%);
-      color: var(--text-faint); font-size: 0.9rem; pointer-events: none;
+    .daily-cal-btn {
+      width: 42px; height: 42px; flex-shrink: 0;
+      border: 1px solid var(--border); background: var(--surface);
+      color: var(--text-dim); cursor: pointer; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.2s, color 0.2s;
     }
+    .daily-cal-btn:hover { border-color: var(--accent); color: var(--accent-text); }
+    .daily-calendar {
+      display: none; position: absolute; right: 0; top: 100%;
+      margin-top: 0.4rem; z-index: 100;
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 0.9rem; width: 272px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.18);
+    }
+    [data-theme="dark"] .daily-calendar { box-shadow: 0 16px 48px rgba(0,0,0,0.5); }
+    .daily-calendar.open { display: block; }
+    .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+    .cal-month { font-family: var(--font-sans); font-size: 0.82rem; font-weight: 600; color: var(--text); }
+    .cal-nav { width: 24px; height: 24px; border: none; background: none; color: var(--text-dim); cursor: pointer; font-size: 0.6rem; display: flex; align-items: center; justify-content: center; }
+    .cal-nav:hover { color: var(--accent-text); }
+    .cal-weekdays { display: grid; grid-template-columns: repeat(7,1fr); text-align: center; font-family: var(--font-mono); font-size: 0.58rem; color: var(--text-faint); margin-bottom: 0.25rem; padding: 0 0.2rem; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; }
+    .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-faint); cursor: default; border-radius: 4px; transition: background 0.15s, color 0.15s; }
+    .cal-day.has-entry { color: var(--text); cursor: pointer; font-weight: 600; }
+    .cal-day.has-entry:hover { background: var(--accent-dim); color: var(--accent-text); }
+    .cal-day.active { background: var(--accent-bg); color: var(--accent-text); font-weight: 600; }
+    .cal-day.today { outline: 1px solid var(--accent); }
+    .cal-day.other-month { opacity: 0.25; }
+    .daily-filter-chip { display: none; align-items: center; gap: 0.4rem; font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-text); background: var(--accent-bg); padding: 0.25rem 0.6rem; border-radius: 9999px; white-space: nowrap; margin-top: -1rem; margin-bottom: 1.5rem; width: fit-content; }
+    .daily-filter-chip.show { display: inline-flex; }
+    .daily-filter-chip button { background: none; border: none; color: var(--accent-text); cursor: pointer; font-size: 0.8rem; padding: 0; line-height: 1; opacity: 0.7; transition: opacity 0.15s; }
+    .daily-filter-chip button:hover { opacity: 1; }
     .daily-list { margin-bottom: 2rem; }
     .daily-entry {
       border-bottom: 1px solid var(--border); cursor: pointer;
@@ -334,13 +352,23 @@
       font-family: var(--font-sans); font-size: 0.95rem; font-weight: 500;
       color: var(--text); flex: 1;
     }
+    .daily-entry-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
     .daily-entry-preview {
-      font-size: 0.8rem; color: var(--text-dim); display: none;
+      font-size: 0.9rem; color: var(--text-dim);
       padding: 0 0.5rem 1rem 0.5rem; line-height: 1.7;
     }
-    .daily-entry-preview.show { display: block; }
-    .daily-entry.expanded .daily-entry-header {
-      padding-bottom: 0.25rem;
+    .daily-images {
+      display: none; flex-wrap: wrap; gap: 0.75rem;
+      padding: 0 0.5rem 1rem 0.5rem;
+    }
+    .daily-images.show { display: flex; }
+    .daily-images img {
+      max-width: 100%; max-height: 360px; width: auto; height: auto;
+      border-radius: 4px; border: 1px solid var(--border);
+      object-fit: contain; flex-shrink: 0;
     }
     .daily-entry-arrow {
       color: var(--text-faint); font-size: 0.7rem; transition: transform 0.25s ease;
@@ -379,11 +407,29 @@
       .daily-entry-date { min-width: auto; }
     }
 
-    /* FOOTER */
     footer { padding: 3rem 0 2.5rem 0; border-top: 1px solid var(--border); text-align: center; font-size: 0.78rem; color: var(--text-faint); font-family: var(--font-mono); letter-spacing: 0.04em; }
-    footer a { color: var(--text-dim); text-decoration: none; margin-left: 1.5rem; transition: color 0.3s ease; font-weight: 500; }
-    footer a:hover { color: var(--text); }
+    .footer-ver { margin-left: 0.5rem; font-size: 0.6rem; color: var(--text-faint); cursor: pointer; opacity: 0.5; transition: opacity 0.2s, color 0.2s; }
+    .footer-ver:hover { opacity: 1; color: var(--accent-text); }
     @media (max-width: 600px) { footer { padding: 2rem 0 1.5rem 0; } }
+
+    .ver-overlay { position: fixed; inset: 0; z-index: 500; display: none; align-items: center; justify-content: center; }
+    .ver-overlay.open { display: flex; }
+    .ver-overlay.closing { display: flex; }
+    .ver-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.5); }
+    [data-theme="light"] .ver-backdrop { background: rgba(0,0,0,0.3); }
+    .ver-panel { position: relative; z-index: 1; background: var(--surface); border: 1px solid var(--border); max-width: 540px; width: 90vw; max-height: 80dvh; overflow-y: auto; padding: 2rem; will-change: transform, opacity; }
+    @keyframes verSlideIn { from { opacity:0; transform:translateY(60px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes verSlideOut { from { opacity:1; transform:translateY(0); } to { opacity:0; transform:translateY(60px); } }
+    .ver-overlay.open .ver-backdrop { animation:verFadeIn 0.3s ease forwards; }
+    .ver-overlay.open .ver-panel { animation:verSlideIn 0.35s cubic-bezier(0.16,1,0.3,1) forwards; }
+    .ver-overlay.closing .ver-backdrop { animation:verFadeOut 0.3s ease forwards; }
+    .ver-overlay.closing .ver-panel { animation:verSlideOut 0.35s cubic-bezier(0.16,1,0.3,1) forwards; }
+    @keyframes verFadeIn { from { opacity:0; } to { opacity:1; } }
+    @keyframes verFadeOut { from { opacity:1; } to { opacity:0; } }
+    .ver-close { position:absolute; top:0.75rem; right:0.75rem; width:32px; height:32px; border-radius:50%; border:1px solid var(--border); background:var(--surface); color:var(--text-dim); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:0.85rem; transition:all 0.2s ease; font-family:var(--font-sans); line-height:1; }
+    .ver-close:hover { border-color:var(--accent); color:var(--accent-text); }
+    .ver-panel h3 { font-family:var(--font-serif); font-size:1.25rem; font-weight:500; margin-bottom:1rem; color:var(--text); }
+    .ver-panel p { font-size:0.85rem; color:var(--text-dim); line-height:1.7; }
   </style>
 </head>
 <body>
@@ -428,7 +474,7 @@
         <p class="hero-reveal" data-lang-zh="欢迎来到我的个人空间。我使用AI生成开发有趣的实验项目和增量游戏。你可以在 GitHub 或 Bilibili 上找到我。" data-lang-en="Welcome to my personal space. I build playful experiments and incremental games. Feel free to explore my projects and reach out on GitHub or Bilibili.">Welcome to my personal space. I build playful experiments and incremental games. Feel free to explore my projects and reach out on GitHub or Bilibili.</p>
       </div>
       <div class="hero-avatar hero-reveal">
-        <img src="image/chenfeng4096big.png" alt="陈风" />
+        <img src="image/chenfeng512big.png" alt="陈风" />
       </div>
     </section>
 
@@ -604,7 +650,22 @@
         </div>
         <div class="daily-search-wrap">
           <input type="text" class="daily-search" id="dailySearch" data-lang-placeholder-zh="搜索日常内容…" data-lang-placeholder-en="Search daily entries…" placeholder="Search daily entries…" autocomplete="off" />
-          <span class="daily-search-icon">&#8981;</span>
+          <button class="daily-cal-btn" id="dailyCalBtn" aria-label="日历">&#128197;</button>
+          <div class="daily-calendar" id="dailyCalendar">
+            <div class="cal-header">
+              <button class="cal-nav" id="calPrev">&#9664;</button>
+              <span class="cal-month" id="calMonth"></span>
+              <button class="cal-nav" id="calNext">&#9654;</button>
+            </div>
+            <div class="cal-weekdays">
+              <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
+            </div>
+            <div class="cal-grid" id="calGrid"></div>
+          </div>
+        </div>
+        <div class="daily-filter-chip" id="dailyFilterChip">
+          <span id="dailyFilterLabel"></span>
+          <button id="dailyFilterClear">&times;</button>
         </div>
         <div class="daily-list" id="dailyList"></div>
         <div class="daily-pagination" id="dailyPagination"></div>
@@ -641,8 +702,18 @@
     </div>
 
     <footer>
-      <div>&copy; 2026 Chen Feng</div>
+      <div>&copy; 2026 Chen Feng <span class="footer-ver" id="versionBtn">alpha0.0.2</span></div>
     </footer>
+
+    <div class="ver-overlay" id="verOverlay">
+      <div class="ver-backdrop"></div>
+      <div class="ver-panel">
+        <button class="ver-close" id="verClose">&times;</button>
+        <h3 data-lang-zh="版本信息" data-lang-en="Version Info">Version Info</h3>
+        <p>alpha0.0.2 — CFsPage测试版本，本次更新添加了版本更新日志，优化了动画效果，日常页支持日期选择与图片显示。</p>
+      </div>
+    </div>
+
   </main>
 
   <div class="toast" id="toast">Email copied to clipboard</div>
@@ -654,7 +725,6 @@
     var sunIcon = document.getElementById('sunIcon');
     var moonIcon = document.getElementById('moonIcon');
 
-    /* Theme toggle with ripple */
     var ripple = document.getElementById('themeRipple');
     var ripplePhase = 'idle';
     function getBg() { return getComputedStyle(html).getPropertyValue('--bg').trim(); }
@@ -707,7 +777,6 @@
       startRipple(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
     });
 
-    /* Typewriter (bilingual) */
     var twEl = document.getElementById('typewriterText');
     var enIdentities = ['From China', 'Incremental Game Dev', 'AI Enthusiast', 'Ciallo\uff5e(\u2220\u30fb\u03c9< )\u2312\u2605'];
     var zhIdentities = ['来自中国', '增量游戏开发者', 'AI爱好者', 'Ciallo\uff5e(\u2220\u30fb\u03c9< )\u2312\u2605'];
@@ -731,7 +800,6 @@
     }
     runTW();
 
-    /* Header scroll - pill shadow */
     var header = document.getElementById('siteHeader');
     var ticking = false;
     window.addEventListener('scroll', function() {
@@ -745,7 +813,6 @@
     }, { passive: true });
     if (window.scrollY > 20) header.classList.add('scrolled');
 
-    /* Scroll reveal - bento + hero stagger */
     var revealEls = document.querySelectorAll('[data-reveal], .hero-reveal');
     var observer = new IntersectionObserver(function(entries) {
       entries.forEach(function(e) {
@@ -754,34 +821,35 @@
     }, { rootMargin: '0px 0px -40px 0px', threshold: 0.12 });
     revealEls.forEach(function(el) { observer.observe(el); });
 
-    /* ====== TAB SWITCHING ====== */
     var tabLinks = document.querySelectorAll('.nav-pill .pill-links a');
     var allTabs = document.querySelectorAll('.tab-page');
 
     function switchTab(tabName, scrollTarget) {
-      // Update nav active
+      
+      closeVerOverlay();
+      
       tabLinks.forEach(function(a) { a.classList.remove('active'); });
-      // Remove anim-in from all tabs
+      
       allTabs.forEach(function(tp) { tp.classList.remove('anim-in'); });
-      // Show/hide tab pages
+      
       allTabs.forEach(function(tp) {
         tp.classList.toggle('active', tp.id === 'tab-' + tabName);
       });
-      // Add fade-in animation to the new tab
+      
       var newTab = document.getElementById('tab-' + tabName);
       if (newTab) { newTab.offsetHeight; newTab.classList.add('anim-in'); }
-      // Highlight all nav links pointing to this tab
+      
       tabLinks.forEach(function(a) {
         if (a.getAttribute('data-tab') === tabName) a.classList.add('active');
       });
-      // Scroll to section if requested
+      
       if (scrollTarget) {
         var target = document.getElementById(scrollTarget);
         if (target) {
           setTimeout(function() { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
         }
       }
-      // Re-observe reveal elements in newly visible tab
+      
       var newReveals = document.querySelectorAll('.tab-page.active [data-reveal], .tab-page.active .hero-reveal');
       newReveals.forEach(function(el) { observer.observe(el); });
     }
@@ -795,10 +863,8 @@
       });
     });
 
-    // Home is default tab
     switchTab('home');
 
-    /* ====== EMAIL COPY ====== */
     var emailItem = document.getElementById('emailItem');
     var toast = document.getElementById('toast');
     var toastTimer;
@@ -812,7 +878,6 @@
       });
     });
 
-    /* ====== LANGUAGE TOGGLE ====== */
     var langToggle = document.getElementById('langToggle');
     var currentLang = localStorage.getItem('site-lang-chenfeng') || 'en';
 
@@ -827,7 +892,6 @@
         if (text != null && text !== '') el.textContent = text;
       });
 
-      // Restart typewriter
       idIdx = 0; chIdx = 0; phase = 'typing'; twEl.textContent = '';
       clearTW();
       runTW();
@@ -839,8 +903,8 @@
       applyLang(html.getAttribute('data-lang') === 'zh' ? 'en' : 'zh');
     });
 
-    /* ====== DAILY ====== */
     var dailyData = [];
+    var dailyDateFilter = null;
     var dailyFiltered = [];
     var dailyPage = 1;
     var dailyPerPage = 10;
@@ -912,7 +976,10 @@
         html += '<span class="daily-entry-title">' + entry.title + '</span>';
         html += '<span class="daily-entry-arrow">&#9660;</span>';
         html += '</div>';
+        html += '<div class="daily-entry-body">';
         html += '<div class="daily-entry-preview">' + preview + '</div>';
+        html += '<div class="daily-images"></div>';
+        html += '</div>';
         html += '</div>';
       });
 
@@ -920,17 +987,47 @@
 
       dailyList.querySelectorAll('.daily-entry').forEach(function(el) {
         el.addEventListener('click', function() {
-          var wasExpanded = this.classList.contains('expanded');
-          dailyList.querySelectorAll('.daily-entry.expanded').forEach(function(e) {
-            e.classList.remove('expanded');
-            e.querySelector('.daily-entry-preview').classList.remove('show');
-          });
-          if (!wasExpanded) {
+          var entry = dailyFiltered[parseInt(this.getAttribute('data-index'))];
+          var body = this.querySelector('.daily-entry-body');
+          var previewEl = this.querySelector('.daily-entry-preview');
+          var imagesEl = this.querySelector('.daily-images');
+
+          if (this.classList.contains('expanded')) {
+            body.style.maxHeight = body.scrollHeight + 'px';
+            requestAnimationFrame(function() {
+              body.style.maxHeight = '0px';
+            });
+            var self = this;
+            setTimeout(function() { self.classList.remove('expanded'); }, 360);
+          } else {
+            var others = dailyList.querySelectorAll('.daily-entry.expanded');
+            others.forEach(function(e) {
+              var ob = e.querySelector('.daily-entry-body');
+              ob.style.maxHeight = ob.scrollHeight + 'px';
+              requestAnimationFrame(function() { ob.style.maxHeight = '0px'; });
+              setTimeout(function() { e.classList.remove('expanded'); }, 360);
+            });
+
+            previewEl.textContent = entry.content || '';
+            imagesEl.innerHTML = '';
+            imagesEl.classList.remove('show');
+            if (entry.images && entry.images.length) {
+              var added = 0;
+              entry.images.forEach(function(src) {
+                if (!src) return;
+                var img = document.createElement('img');
+                img.src = src;
+                img.alt = entry.title;
+                img.loading = 'lazy';
+                img.onerror = function() { this.style.display = 'none'; };
+                imagesEl.appendChild(img);
+                added++;
+              });
+              if (added) imagesEl.classList.add('show');
+            }
+
             this.classList.add('expanded');
-            var entry = dailyFiltered[parseInt(this.getAttribute('data-index'))];
-            var previewEl = this.querySelector('.daily-entry-preview');
-            previewEl.textContent = entry.content;
-            previewEl.classList.add('show');
+            body.style.maxHeight = body.scrollHeight + 'px';
           }
         });
       });
@@ -960,28 +1057,78 @@
       dailyList.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
+    var calBtn = document.getElementById('dailyCalBtn');
+    var calEl  = document.getElementById('dailyCalendar');
+    var calGrid = document.getElementById('calGrid');
+    var calMonth = document.getElementById('calMonth');
+    var calPrev = document.getElementById('calPrev');
+    var calNext = document.getElementById('calNext');
+    var calYear, calMonthIdx;
+
+    function openCalendar(y, m) { calYear = y; calMonthIdx = m; renderCalendar(); calEl.classList.add('open'); }
+    function closeCalendar() { calEl.classList.remove('open'); }
+    calBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (calEl.classList.contains('open')) { closeCalendar(); return; }
+      if (!dailyLoaded) return;
+      var now = new Date();
+      openCalendar(now.getFullYear(), now.getMonth());
+    });
+    document.addEventListener('click', function(e) {
+      if (!calEl.contains(e.target) && e.target !== calBtn) closeCalendar();
+    });
+    calPrev.addEventListener('click', function(e) { e.stopPropagation(); calMonthIdx = calMonthIdx===0 ? 11 : calMonthIdx-1; if(calMonthIdx===11)calYear--; renderCalendar(); });
+    calNext.addEventListener('click', function(e) { e.stopPropagation(); calMonthIdx = calMonthIdx===11 ? 0 : calMonthIdx+1; if(calMonthIdx===0)calYear++; renderCalendar(); });
+
+    function renderCalendar() {
+      var monthsZh = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+      calMonth.textContent = calYear + ' ' + monthsZh[calMonthIdx];
+      var entryDates = {}; if (dailyData) dailyData.forEach(function(e) { entryDates[e.date] = true; });
+      var today = new Date();
+      var todayStr = today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+      var firstDay = new Date(calYear, calMonthIdx, 1);
+      var startDayOfWeek = (firstDay.getDay() + 6) % 7;
+      var daysInMonth = new Date(calYear, calMonthIdx+1, 0).getDate();
+      var daysInPrev  = new Date(calYear, calMonthIdx, 0).getDate();
+      var prevYear = calMonthIdx===0 ? calYear-1 : calYear, prevMonth = calMonthIdx===0 ? 11 : calMonthIdx-1;
+      var nextYear = calMonthIdx===11 ? calYear+1 : calYear, nextMonth = calMonthIdx===11 ? 0 : calMonthIdx+1;
+      var totalCells = Math.ceil((startDayOfWeek + daysInMonth) / 7) * 7, html = '';
+      for (var i = 0; i < totalCells; i++) {
+        var day, dateStr, isOther=false, isToday=false, hasEntry=false;
+        if (i < startDayOfWeek) { day = daysInPrev - startDayOfWeek + i + 1; dateStr = prevYear+'-'+String(prevMonth+1).padStart(2,'0')+'-'+String(day).padStart(2,'0'); isOther = true; }
+        else if (i - startDayOfWeek >= daysInMonth) { day = i - startDayOfWeek - daysInMonth + 1; dateStr = nextYear+'-'+String(nextMonth+1).padStart(2,'0')+'-'+String(day).padStart(2,'0'); isOther = true; }
+        else { day = i - startDayOfWeek + 1; dateStr = calYear+'-'+String(calMonthIdx+1).padStart(2,'0')+'-'+String(day).padStart(2,'0'); if(dateStr===todayStr)isToday=true; if(entryDates[dateStr])hasEntry=true; }
+        var cls = 'cal-day';
+        if (isOther) cls += ' other-month';
+        else { if(hasEntry)cls+=' has-entry'; if(isToday)cls+=' today'; if(dailyDateFilter&&dateStr===dailyDateFilter)cls+=' active'; }
+        html += '<span class="'+cls+'" data-date="'+dateStr+'">'+day+'</span>';
+      }
+      calGrid.innerHTML = html;
+      calGrid.querySelectorAll('.cal-day.has-entry:not(.other-month)').forEach(function(cell) { cell.addEventListener('click', function(e) { e.stopPropagation(); var d=this.getAttribute('data-date'); dailySearch.value=''; dailyDateFilter=d; dailyFiltered=dailyData.filter(function(e){return e.date===d}); dailyPage=1; renderDaily(); showFilterChip(); closeCalendar(); dailyList.scrollIntoView({behavior:'smooth',block:'start'}); }); });
+    }
+
+    var dailyFilterChip = document.getElementById('dailyFilterChip');
+    var dailyFilterLabel = document.getElementById('dailyFilterLabel');
+    var dailyFilterClear = document.getElementById('dailyFilterClear');
+    function showFilterChip() { if(dailyDateFilter){dailyFilterLabel.textContent=dailyDateFilter;dailyFilterChip.classList.add('show');} }
+    function clearDateFilter() { dailyDateFilter=null; dailySearch.value=''; dailyFiltered=dailyData; dailyPage=1; dailyFilterChip.classList.remove('show'); renderDaily(); }
+    dailyFilterClear.addEventListener('click', clearDateFilter);
+
     dailySearch.addEventListener('input', function() {
+      if (dailyDateFilter) { dailyDateFilter = null; dailyFilterChip.classList.remove('show'); }
       if (!dailyLoaded) return;
       var q = this.value.toLowerCase().trim();
-      if (q === '') {
-        dailyFiltered = dailyData;
-      } else {
-        dailyFiltered = dailyData.filter(function(e) {
-          return e.title.toLowerCase().indexOf(q) !== -1 || e.content.toLowerCase().indexOf(q) !== -1;
-        });
-      }
-      dailyPage = 1;
-      renderDaily();
+      if (q === '') { dailyFiltered = dailyData; }
+      else { dailyFiltered = dailyData.filter(function(e) { return e.title.toLowerCase().indexOf(q)!==-1 || e.content.toLowerCase().indexOf(q)!==-1; }); }
+      dailyPage = 1; renderDaily();
     });
 
-    // Hook switchTab to auto-load daily
     var _origSwitchTab = switchTab;
     switchTab = function(tabName, scrollTarget) {
       _origSwitchTab(tabName, scrollTarget);
       if (tabName === 'daily') loadDaily();
     };
 
-    // Patch applyLang to also update search placeholder
     var _origApplyLang = applyLang;
     applyLang = function(lang) {
       _origApplyLang(lang);
@@ -990,17 +1137,45 @@
           ? (dailySearch.getAttribute('data-lang-placeholder-zh') || '搜索日常内容…')
           : (dailySearch.getAttribute('data-lang-placeholder-en') || 'Search daily entries…');
       }
-      // Re-render pagination text if daily is loaded
+      
       if (dailyLoaded && dailyFiltered.length > 0) {
         var totalPages = Math.ceil(dailyFiltered.length / dailyPerPage);
         renderPagination(totalPages);
       }
-      // Update empty state messages
+      
       dailyList.querySelectorAll('[data-lang-zh]').forEach(function(el) {
         var text = lang === 'zh' ? el.getAttribute('data-lang-zh') : el.getAttribute('data-lang-en');
         if (text != null && text !== '') el.textContent = text;
       });
     };
+
+    var verOverlay = document.getElementById('verOverlay');
+    var verBtn = document.getElementById('versionBtn');
+    var verClose = document.getElementById('verClose');
+    var verBackdrop = verOverlay.querySelector('.ver-backdrop');
+
+    function openVerOverlay() {
+      if (!verOverlay) return;
+      verOverlay.style.display = 'flex';
+      verOverlay.classList.remove('closing');
+      verOverlay.offsetHeight;
+      verOverlay.classList.add('open');
+    }
+    function closeVerOverlay() {
+      if (!verOverlay || !verOverlay.classList.contains('open')) return;
+      verOverlay.classList.add('closing');
+      verOverlay.classList.remove('open');
+      setTimeout(function() {
+        verOverlay.classList.remove('closing');
+        verOverlay.style.display = 'none';
+      }, 360);
+    }
+    verBtn.addEventListener('click', openVerOverlay);
+    verClose.addEventListener('click', closeVerOverlay);
+    verBackdrop.addEventListener('click', closeVerOverlay);
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && verOverlay.classList.contains('open')) closeVerOverlay();
+    });
 
   })();
   </script>
