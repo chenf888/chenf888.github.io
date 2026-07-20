@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CFRNGdlePlus 0.2 — 307位</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,700;14..32,900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <div class="app" role="main">
+        <h1 class="title">CFRNGdlePlus 307</h1>
+
+        <div class="number-card" id="numberCard">
+            <div class="number-card__label">Your 307-Digit Number</div>
+            <div class="number-card__digits" id="digitsContainer">
+                <!-- 307 个占位符，JS 会填充 -->
+            </div>
+        </div>
+
+        <button class="btn-generate" id="generateBtn" aria-label="生成新的307位随机数">
+            <span class="btn__text">Generate</span>
+            <span class="btn__spinner"></span>
+        </button>
+
+        <!-- 徽章 & 得分区域 -->
+        <div class="badge-area" id="badgeArea">
+            <div class="badge-area__scores">
+                <div class="badge-score-item">
+                    <span class="badge-score-label">当前数字 TP：</span>
+                    <span class="badge-score-value" id="currentScore">0</span>
+                </div>
+                <div class="badge-score-item">
+                    <span class="badge-score-label">总 TP：</span>
+                    <span class="badge-score-value" id="totalScore">0</span>
+                </div>
+            </div>
+            <div class="badge-list" id="badgeList"></div>
+        </div>
+
+        <div class="footer">307 digits &middot; pure random BY Feng Chen</div>
+    </div>
+
+    <script src="badges.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

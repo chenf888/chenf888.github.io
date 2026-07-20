@@ -1,0 +1,570 @@
+/* ===== 完全复刻原版 RNGdle 样式 ===== */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* 原版色彩变量（取自 rngdle.com） */
+    --background: #0a0a0a;
+    --surface: #141414;
+    --surface-raised: #1e1e1e;
+    --surface-dim: #0f0f0f;
+    --outline: #2a2a2a;
+    --outline-strong: #4a4a4a;
+    --prose: #f0f0f0;
+    --prose-2: #b8b8b8;
+    --prose-3: #5a5a5a;
+    --radius: 16px;
+    --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'Space Mono', 'Courier New', monospace;
+
+    /* 九种稀有度颜色（完全匹配原版） */
+    --rarity-平庸: #b0b0b0;
+    --rarity-普通: #6ee7b7;
+    --rarity-罕见: #93c5fd;
+    --rarity-稀有: #a78bfa;
+    --rarity-史诗: #fbbf24;
+    --rarity-传说: #f472b6;
+    --rarity-神话: #34d399;
+    --rarity-超越: #60a5fa;
+    --rarity-终结: #f87171;
+}
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    background: var(--background);
+    color: var(--prose);
+    font-family: var(--font-ui);
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    /* 原版背景径向渐变 – 更淡的辉光 */
+    background-image:
+        radial-gradient(ellipse at 50% 90%, rgba(255, 255, 255, 0.018) 0%, transparent 65%),
+        radial-gradient(ellipse at 30% 20%, rgba(255, 255, 255, 0.01) 0%, transparent 50%);
+}
+
+.app {
+    width: 100%;
+    max-width: 640px;
+
+/* ===== 标题 ===== */
+.title {
+    font-size: 1.4rem;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--prose);
+    text-align: center;
+    background: linear-gradient(135deg, #fff 40%, var(--prose-2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.04));
+}
+
+/* ===== 数字卡片（完全原版细节） ===== */
+.number-card {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--outline);
+    border-radius: var(--radius);
+    padding: 32px 20px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* 顶部光泽层 – 更柔和 */
+.number-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px -1px auto -1px;
+    height: 55%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, transparent 100%);
+    pointer-events: none;
+    border-radius: var(--radius) var(--radius) 0 0;
+}
+
+/* 底部微弱反光 */
+.number-card::after {
+    content: '';
+    position: absolute;
+    inset: auto -1px -1px -1px;
+    height: 30%;
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.015) 0%, transparent 100%);
+    pointer-events: none;
+    border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.number-card__label {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--prose-3);
+    position: relative;
+    z-index: 1;
+    margin-bottom: 6px;
+    opacity: 0.7;
+}
+
+.number-card__digits {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.08em;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: clamp(1.05rem, 3.2vw, 1.55rem);
+    letter-spacing: 0.02em;
+    color: var(--prose);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 1;
+    line-height: 1.6;
+    min-height: 1.4em;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.03));
+    padding: 4px 0;
+}
+
+.digit {
+    display: inline-block;
+    transition: color 0.12s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.15s ease;
+    min-width: 0.55em;
+    text-align: center;
+    color: var(--prose-3);
+    opacity: 0.25;
+    font-weight: 700;
+}
+
+.digit--active {
+    color: var(--prose);
+    opacity: 1;
+    transform: scale(1.12);
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.08);
+}
+
+.digit--revealed {
+    color: var(--prose);
+    opacity: 1;
+    transform: scale(1);
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.04);
+}
+
+.digit--leading-zero {
+    opacity: 0.18 !important;
+    color: var(--prose-3) !important;
+    transform: scale(0.92) !important;
+}
+
+/* 卡片发光（边框和阴影） */
+.number-card--glow {
+    border-color: var(--outline-strong);
+    box-shadow: 0 8px 40px rgba(255, 255, 255, 0.04), inset 0 0 40px rgba(255, 255, 255, 0.01);
+}
+
+/* ===== 生成按钮（原版风格） ===== */
+.btn-generate {
+    width: 100%;
+    padding: 18px 12px;
+    background: linear-gradient(180deg, #1e1e1e 0%, #0e0e0e 100%);
+    color: #fff;
+    font-family: var(--font-ui);
+    font-size: 1.05rem;
+    font-weight: 900;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    border: 1px solid var(--outline);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.btn-generate::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
+    pointer-events: none;
+    border-radius: var(--radius);
+}
+
+.btn-generate:hover:not(:disabled) {
+    background: linear-gradient(180deg, #2e2e2e 0%, #1a1a1a 100%);
+    border-color: var(--outline-strong);
+    transform: scale(1.015);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.btn-generate:active:not(:disabled) {
+    transform: scale(0.97);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition-duration: 0.06s;
+}
+
+.btn-generate:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.btn-generate .btn__text {
+    transition: opacity 0.2s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.btn-generate .btn__spinner {
+    display: none;
+    width: 22px;
+    height: 22px;
+    border: 2.5px solid rgba(255, 255, 255, 0.12);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.btn-generate.is-loading .btn__text {
+    opacity: 0;
+}
+.btn-generate.is-loading .btn__spinner {
+    display: block;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ===== 徽章区域 ===== */
+.badge-area {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    margin-top: 2px;
+}
+
+.badge-area__scores {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+}
+
+.badge-score-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--prose-2);
+    background: var(--surface);
+    padding: 6px 18px;
+    border-radius: 40px;
+    border: 1px solid var(--outline);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.badge-score-label {
+    opacity: 0.7;
+}
+
+.badge-score-value {
+    color: var(--prose);
+    font-weight: 900;
+}
+#currentScore {
+    color: #fbbf24;
+}
+
+.badge-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    min-height: 38px;
+    padding: 2px 0;
+}
+
+/* ===== 徽章药丸（完全原版风格） ===== */
+.badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.25rem 0.7rem 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: var(--surface-raised);
+    border: 1px solid var(--outline);
+    color: var(--prose-2);
+    transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    background-image: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+    cursor: default;
+}
+
+.badge-pill:hover {
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.badge-pill .badge-emoji {
+    font-size: 1rem;
+    line-height: 1;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.badge-pill .badge-name {
+    color: var(--prose);
+    font-weight: 600;
+}
+
+.badge-pill .badge-rarity {
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 10px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid currentColor;
+    line-height: 1.4;
+    opacity: 0.9;
+}
+
+.badge-pill .badge-score {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 2px 10px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: var(--prose-2);
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+/* 九个稀有度颜色 + 外发光（完全匹配原版色值） */
+.badge-pill--平庸 {
+    border-color: var(--rarity-平庸);
+    color: var(--rarity-平庸);
+    background: rgba(176, 176, 176, 0.07);
+    box-shadow: 0 0 6px rgba(176, 176, 176, 0.1);
+}
+.badge-pill--平庸 .badge-rarity {
+    color: var(--rarity-平庸);
+    border-color: var(--rarity-平庸);
+}
+
+.badge-pill--普通 {
+    border-color: var(--rarity-普通);
+    color: var(--rarity-普通);
+    background: rgba(110, 231, 183, 0.07);
+    box-shadow: 0 0 8px rgba(110, 231, 183, 0.15);
+}
+.badge-pill--普通 .badge-rarity {
+    color: var(--rarity-普通);
+    border-color: var(--rarity-普通);
+}
+
+.badge-pill--罕见 {
+    border-color: var(--rarity-罕见);
+    color: var(--rarity-罕见);
+    background: rgba(147, 197, 253, 0.07);
+    box-shadow: 0 0 10px rgba(147, 197, 253, 0.2);
+}
+.badge-pill--罕见 .badge-rarity {
+    color: var(--rarity-罕见);
+    border-color: var(--rarity-罕见);
+}
+
+.badge-pill--稀有 {
+    border-color: var(--rarity-稀有);
+    color: var(--rarity-稀有);
+    background: rgba(167, 139, 250, 0.07);
+    box-shadow: 0 0 12px rgba(167, 139, 250, 0.25);
+}
+.badge-pill--稀有 .badge-rarity {
+    color: var(--rarity-稀有);
+    border-color: var(--rarity-稀有);
+}
+
+.badge-pill--史诗 {
+    border-color: var(--rarity-史诗);
+    color: var(--rarity-史诗);
+    background: rgba(251, 191, 36, 0.07);
+    box-shadow: 0 0 14px rgba(251, 191, 36, 0.3);
+}
+.badge-pill--史诗 .badge-rarity {
+    color: var(--rarity-史诗);
+    border-color: var(--rarity-史诗);
+}
+
+.badge-pill--传说 {
+    border-color: var(--rarity-传说);
+    color: var(--rarity-传说);
+    background: rgba(244, 114, 182, 0.07);
+    box-shadow: 0 0 16px rgba(244, 114, 182, 0.35);
+}
+.badge-pill--传说 .badge-rarity {
+    color: var(--rarity-传说);
+    border-color: var(--rarity-传说);
+}
+
+.badge-pill--神话 {
+    border-color: var(--rarity-神话);
+    color: var(--rarity-神话);
+    background: rgba(52, 211, 153, 0.07);
+    box-shadow: 0 0 18px rgba(52, 211, 153, 0.4);
+}
+.badge-pill--神话 .badge-rarity {
+    color: var(--rarity-神话);
+    border-color: var(--rarity-神话);
+}
+
+.badge-pill--超越 {
+    border-color: var(--rarity-超越);
+    color: var(--rarity-超越);
+    background: rgba(96, 165, 250, 0.07);
+    box-shadow: 0 0 20px rgba(96, 165, 250, 0.45);
+}
+.badge-pill--超越 .badge-rarity {
+    color: var(--rarity-超越);
+    border-color: var(--rarity-超越);
+}
+
+.badge-pill--终结 {
+    border-color: var(--rarity-终结);
+    color: var(--rarity-终结);
+    background: rgba(248, 113, 113, 0.07);
+    box-shadow: 0 0 24px rgba(248, 113, 113, 0.5);
+}
+.badge-pill--终结 .badge-rarity {
+    color: var(--rarity-终结);
+    border-color: var(--rarity-终结);
+}
+
+/* ===== 已获得但当前不活跃的徽章 ===== */
+.badge-pill--inactive {
+    opacity: 0.3;
+    filter: grayscale(0.3);
+    transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+/* ===== 新徽章标签 ===== */
+.badge-new {
+    display: inline-block;
+    font-size: 0.55rem;
+    font-weight: 900;
+    color: #fbbf24;
+    background: rgba(251, 191, 36, 0.15);
+    padding: 0 6px;
+    border-radius: 4px;
+    border: 1px solid #fbbf24;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    animation: pulse-new 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-new {
+    0% { opacity: 0.6; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1.05); }
+}
+
+/* ===== 底部 ===== */
+.footer {
+    font-size: 0.65rem;
+    color: var(--prose-3);
+    letter-spacing: 0.08em;
+    text-align: center;
+    margin-top: 2px;
+    opacity: 0.5;
+    font-weight: 400;
+}
+
+/* ===== 响应式微调 ===== */
+@media (max-width: 480px) {
+    .number-card {
+        padding: 22px 12px 20px;
+    }
+    .number-card__digits {
+        font-size: clamp(1.8rem, 12vw, 3.2rem);
+    }
+    .btn-generate {
+        font-size: 0.9rem;
+        padding: 16px 12px;
+        letter-spacing: 0.18em;
+    }
+    .title {
+        font-size: 1.1rem;
+        letter-spacing: 0.14em;
+    }
+    .badge-score-item {
+        font-size: 0.8rem;
+        padding: 4px 14px;
+    }
+    .badge-pill {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.6rem 0.2rem 0.4rem;
+        gap: 0.2rem;
+    }
+    .badge-pill .badge-emoji {
+        font-size: 0.85rem;
+    }
+    .badge-pill .badge-rarity {
+        font-size: 0.45rem;
+        padding: 1px 8px;
+    }
+    .badge-pill .badge-score {
+        font-size: 0.5rem;
+        padding: 1px 8px;
+    }
+    .app {
+        gap: 20px;
+    }
+}
+@media (max-width: 380px) {
+    .number-card__digits {
+        font-size: clamp(0.72rem, 3.6vw, 1rem);
+    }
+    .badge-pill {
+        font-size: 0.6rem;
+        padding: 0.15rem 0.5rem 0.15rem 0.3rem;
+        gap: 0.15rem;
+    }
+    .badge-pill .badge-rarity,
+    .badge-pill .badge-score {
+        font-size: 0.4rem;
+        padding: 0 6px;
+    }
+}
