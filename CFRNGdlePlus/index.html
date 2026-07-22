@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CFRNGdlePlus 0.2 — 307位</title>
+    <title>CFRNGdlePlus 1.0 — 307位</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,12 +13,25 @@
 <body>
 
     <div class="app" role="main">
-        <h1 class="title">CFRNGdlePlus 307</h1>
+
+        <div class="toast" id="toast">已复制至剪贴板</div>
+
+        <div class="header-actions">
+            <button class="theme-toggle" id="themeToggle" aria-label="切换主题" title="切换主题"></button>
+            <button class="btn-icon btn-reset" id="resetBtn" aria-label="重置数据" title="重置数据">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            </button>
+            <button class="btn-icon btn-auto" id="autoBtn" aria-label="自动随机" title="自动随机">
+                <svg class="auto-icon-play" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+                <svg class="auto-icon-pause" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="4" height="16" x="6" y="4"/><rect width="4" height="16" x="14" y="4"/></svg>
+            </button>
+        </div>
+
+        <h1 class="title">CFRNGDLE<small style="font-size:0.6em;letter-spacing:0.08em">Plus 307</small></h1>
 
         <div class="number-card" id="numberCard">
             <div class="number-card__label">Your 307-Digit Number</div>
             <div class="number-card__digits" id="digitsContainer">
-                <!-- 307 个占位符，JS 会填充 -->
             </div>
         </div>
 
@@ -27,22 +40,44 @@
             <span class="btn__spinner"></span>
         </button>
 
-        <!-- 徽章 & 得分区域 -->
         <div class="badge-area" id="badgeArea">
             <div class="badge-area__scores">
-                <div class="badge-score-item">
-                    <span class="badge-score-label">当前数字 TP：</span>
+                <button class="badge-score-stats btn-share" id="shareBtn" aria-label="分享">
+                    <svg class="share-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg>
+                    <span class="share-text">分享</span>
+                    <svg class="share-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                </button>
+                <div class="badge-score-stats" id="toggleActiveBtn" style="cursor:pointer;user-select:none">
+                    <span class="badge-score-label">仅当前</span>
+                    <span class="badge-score-value" id="toggleActiveValue">全部</span>
+                </div>
+                <div class="badge-score-stats">
+                    <span class="badge-score-label">总次数</span>
+                    <span class="badge-score-value" id="rollCount">0</span>
+                </div>
+                <div class="badge-score-stats">
+                    <span class="badge-score-label">当前 TP</span>
                     <span class="badge-score-value" id="currentScore">0</span>
                 </div>
-                <div class="badge-score-item">
-                    <span class="badge-score-label">总 TP：</span>
+                <div class="badge-score-stats">
+                    <span class="badge-score-label">总 TP</span>
                     <span class="badge-score-value" id="totalScore">0</span>
+                </div>
+                <div class="badge-score-stats" id="bestRollBox">
+                    <span class="badge-score-label">最佳</span>
+                    <span class="badge-score-best-num" id="bestRollNum">—</span>
+                    <span class="badge-score-best-tp" id="bestRollTP">0TP</span>
                 </div>
             </div>
             <div class="badge-list" id="badgeList"></div>
         </div>
 
-        <div class="footer">307 digits &middot; pure random BY Feng Chen</div>
+        <div class="footer">307 digits · by Feng Chen QQ群1093953619</div>
+        <div class="footer" style="margin-top:4px">
+            <a href="https://chenf888.github.io/CFRNGDLE/" style="color:var(--prose-2);text-decoration:none;font-weight:600">← 点此游玩原版</a>
+        </div>
+
+        <div class="tooltip" id="badgeTooltip"></div>
     </div>
 
     <script src="badges.js"></script>
