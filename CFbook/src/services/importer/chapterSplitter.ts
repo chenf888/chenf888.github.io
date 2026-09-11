@@ -7,7 +7,8 @@ import { cleanText, countWords } from '@/utils/text'
  */
 
 const HEADING_RE = /^\s*(?:#{1,6}\s*)?(?:第\s*[零一二三四五六七八九十百千万两\d]+\s*[章卷节回部篇])\s*[^\n]{0,50}$/
-const ALT_HEADING_RE = /^\s*(?:#{1,6}\s*)?(?:Chapter\s+\d+|\d+\s*[.、]\s*\S{1,50})$/i
+// 数字 + 点/顿号 + 标题；`(?!\d)` 排除日期/百分比等（如 `1997.04.13`、`99.7%`）
+const ALT_HEADING_RE = /^\s*(?:#{1,6}\s*)?(?:Chapter\s+\d+|\d+\s*[.、]\s*(?!\d)\S{1,50})$/i
 
 function isHeading(line: string): boolean {
   return HEADING_RE.test(line) || ALT_HEADING_RE.test(line)
