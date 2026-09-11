@@ -1,15 +1,15 @@
 [
   {
-    "id": "preset-chen-1",
-    "title": "我的第一本书",
+    "id": "preset-cfbook01",
+    "title": "刚好",
     "author": "陈风",
-    "textFile": "chen-1.txt",
-    "coverFile": "chen-1.svg",
-    "category": "玄幻",
-    "tags": ["原创", "热血", "成长"],
-    "intro": "被视作废柴的少年林澈，在家族祭典上意外唤醒沉睡百年的玄纹，从此踏上一条逆天改命、笑傲九州的修行之路。",
-    "status": "serializing",
-    "rating": 9.0,
-    "updatedAt": "2026-09-01T00:00:00.000Z"
+    "textFile": "cfbook01.txt",
+    "coverFile": "cfbook01.svg",
+    "category": "悬疑",
+    "tags": ["悬疑", "侦探推理", "都市"],
+    "intro": "这不是一个关于“超能力有多厉害”的故事，而是一个关于“当你的直觉本身都可以被伪造，你还能相信什么”的故事。",
+    "status": "completed",
+    "rating": 10.0,
+    "updatedAt": "2026-09-06T04:00:00.000Z"
   }
 ]

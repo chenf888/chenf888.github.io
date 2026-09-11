@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B1220" />
+      <stop offset="0.55" stop-color="#14212F" />
+      <stop offset="1" stop-color="#1E3248" />
+    </linearGradient>
+    <linearGradient id="spine" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#000000" stop-opacity="0.30" />
+      <stop offset="0.12" stop-color="#ffffff" stop-opacity="0.05" />
+      <stop offset="0.2" stop-color="#000000" stop-opacity="0.20" />
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.42" r="0.62">
+      <stop offset="0" stop-color="#9FB3C8" stop-opacity="0.14" />
+      <stop offset="1" stop-color="#9FB3C8" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="600" height="800" fill="url(#bg)" />
+  <rect width="600" height="800" fill="url(#glow)" />
+
+  <g fill="none" stroke="#9FB3C8" stroke-opacity="0.13" stroke-width="1.5">
+    <circle cx="460" cy="270" r="55" />
+    <circle cx="460" cy="270" r="90" />
+    <circle cx="460" cy="270" r="125" />
+    <circle cx="460" cy="270" r="160" />
+  </g>
+
+  <rect width="600" height="800" fill="url(#spine)" />
+  <rect x="34" y="34" width="532" height="732" rx="10" fill="none" stroke="#9FB3C8" stroke-opacity="0.28" stroke-width="3" />
+
+  <text x="52" y="120" font-family="serif" font-size="34" fill="#9FB3C8" letter-spacing="6" opacity="0.9">CFBOOK · 原创</text>
+
+  <text x="52" y="410" font-family="serif" font-size="110" fill="#EEF3F8" font-weight="600" letter-spacing="12">刚好</text>
+
+  <text x="56" y="486" font-family="serif" font-size="32" fill="#C7D3DE" opacity="0.92">陈风 著</text>
+
+  <text x="52" y="690" font-family="serif" font-size="24" fill="#9FB3C8" letter-spacing="4" opacity="0.75">悬疑 · 侦探推理 · 都市</text>
+</svg>
