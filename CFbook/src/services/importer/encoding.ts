@@ -36,6 +36,16 @@ function normalizeEncoding(raw: string): string {
   return 'UTF-8'
 }
 
+/** Uint8Array → 二进制字符串（每字节一个 charCode），jschardet 只接受 Buffer 或二进制串 */
+function bytesToBinary(bytes: Uint8Array): string {
+  let s = ''
+  const chunk = 0x8000
+  for (let i = 0; i < bytes.length; i += chunk) {
+    s += String.fromCharCode(...bytes.subarray(i, i + chunk))
+  }
+  return s
+}
+
 /** 检测编码：BOM 优先，否则 jschardet 前 4KB，置信度 <0.7 回退 UTF-8 */
 export function detectEncoding(bytes: Uint8Array): DetectionResult {
   if (startsWith(bytes, BOM_UTF8)) return { encoding: 'UTF-8', confidence: 1, usedBom: true }
@@ -43,7 +53,7 @@ export function detectEncoding(bytes: Uint8Array): DetectionResult {
   if (startsWith(bytes, BOM_UTF16BE)) return { encoding: 'UTF-16BE', confidence: 1, usedBom: true }
 
   const sample = bytes.slice(0, 4096)
-  const result = jschardet.detect(sample)
+  const result = jschardet.detect(bytesToBinary(sample))
   const encoding = normalizeEncoding(result.encoding ?? 'UTF-8')
   const confidence = result.confidence ?? 0
   if (confidence < 0.7) return { encoding: 'UTF-8', confidence, usedBom: false }
