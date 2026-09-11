@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6E0E00" />
+      <stop offset="0.5" stop-color="#A81B05" />
+      <stop offset="1" stop-color="#E9642E" />
+    </linearGradient>
+    <linearGradient id="spine" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#000000" stop-opacity="0.28" />
+      <stop offset="0.12" stop-color="#ffffff" stop-opacity="0.06" />
+      <stop offset="0.2" stop-color="#000000" stop-opacity="0.18" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="800" fill="url(#g)" />
+  <rect width="600" height="800" fill="url(#spine)" />
+  <rect x="34" y="34" width="532" height="732" rx="10" fill="none" stroke="#FFD9C2" stroke-opacity="0.35" stroke-width="3" />
+  <text x="52" y="120" font-family="serif" font-size="34" fill="#FFD9C2" letter-spacing="6" opacity="0.85">CFBOOK · 原创</text>
+  <text x="52" y="360" font-family="serif" font-size="72" fill="#FFFBF6" font-weight="600">我的第一本书</text>
+  <text x="52" y="430" font-family="serif" font-size="32" fill="#FFF8F0" opacity="0.9">陈风 著</text>
+  <text x="52" y="690" font-family="serif" font-size="24" fill="#FFD9C2" letter-spacing="4" opacity="0.7">玄幻 · 热血 · 成长</text>
+</svg>

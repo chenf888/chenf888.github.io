@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- 设计令牌：与主页保持一致（暖白 + 朱红 + 新闻衬线） ---------- */
+:root {
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-serif: 'Newsreader', 'Noto Serif SC', 'Songti SC', 'STSong', 'SimSun', Georgia, serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', Menlo, monospace;
+}
+
+html {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scrollbar-gutter: stable;
+}
+
+:root,
+html.dark {
+  --bg: #0f0f0f;
+  --nav-bg: rgba(10, 10, 10, 0.82);
+  --bg-alt: #0f0f0f;
+  --surface: #111111;
+  --text: #d8d8d8;
+  --text-dim: #808080;
+  --text-faint: #4a4a4a;
+  --border: #1c1c1c;
+  --border-hi: #2a2a2a;
+  --accent: #e87830;
+  --accent-dim: rgba(232, 120, 48, 0.08);
+  --accent-bg: rgba(232, 120, 48, 0.1);
+  --accent-text: #e87830;
+}
+
+:root {
+  --bg: #f4f4f0;
+  --nav-bg: rgba(244, 244, 240, 0.82);
+  --bg-alt: #eceae6;
+  --surface: #ffffff;
+  --text: #111111;
+  --text-dim: #666460;
+  --text-faint: #b0ada8;
+  --border: #d5d3ce;
+  --border-hi: #c0beb8;
+  --accent: #cc3300;
+  --accent-dim: rgba(204, 51, 0, 0.06);
+  --accent-bg: rgba(204, 51, 0, 0.08);
+  --accent-text: #cc3300;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* 全局网格背景（与主页一致的几何网格氛围） */
+.app-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 64px 64px;
+  opacity: 0.04;
+}
+
+/* 阅读器：隐藏滚动条 */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* 亮度遮罩（叠加在阅读页上，降低整体亮度） */
+.brightness-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  background: #000;
+}
+
+/* 尊重减少动效偏好 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 阅读正文基础段间距（由内联样式覆盖具体值） */
+.reader-scroll p {
+  margin: 0 0 calc(var(--para-gap, 16px)) 0;
+}
+
+/* 翻页模式：3D 翻页入场动画 */
+.reader-flip {
+  animation: reader-flip 300ms ease-out;
+  transform-origin: left center;
+}
+
+@keyframes reader-flip {
+  from {
+    transform: perspective(1200px) rotateY(-70deg);
+    opacity: 0;
+  }
+  to {
+    transform: perspective(1200px) rotateY(0deg);
+    opacity: 1;
+  }
+}

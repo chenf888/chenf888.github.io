@@ -1,0 +1,15 @@
+[
+  {
+    "id": "preset-chen-1",
+    "title": "我的第一本书",
+    "author": "陈风",
+    "textFile": "chen-1.txt",
+    "coverFile": "chen-1.svg",
+    "category": "玄幻",
+    "tags": ["原创", "热血", "成长"],
+    "intro": "被视作废柴的少年林澈，在家族祭典上意外唤醒沉睡百年的玄纹，从此踏上一条逆天改命、笑傲九州的修行之路。",
+    "status": "serializing",
+    "rating": 9.0,
+    "updatedAt": "2026-09-01T00:00:00.000Z"
+  }
+]
