@@ -73,7 +73,7 @@ export function countWords(text: string): number {
   return cjk + latin
 }
 
-/** 稳定的字符串哈希（用于确定性生成 demo 正文） */
+/** 稳定的字符串哈希（用于封面降级渐变色板取色） */
 export function hashString(input: string): number {
   let h = 0
   for (let i = 0; i < input.length; i++) {

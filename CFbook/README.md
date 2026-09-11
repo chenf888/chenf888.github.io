@@ -85,8 +85,7 @@ CFbook/
       importer/                TXT 导入（编码 / 解析 / 分章 / 元信息 / 进度）
       preset/loader.ts         预置书按需加载
     store/                     readerStore / bookStore / uiStore（zustand）
-    data/index.ts              唯一数据出口（preset / demo / imported 分流）
-    data/builtin/              demo 演示书（确定性生成）
+    data/index.ts              唯一数据出口（preset / imported 分流）
     novels/                    ★ 作者小说：manifest.json + texts/ + covers/
     hooks/                     useSwipe / useReadingProgress / useKeyboardPage 等
     components/                common/ book/ import/ reader/

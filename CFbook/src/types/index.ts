@@ -1,6 +1,6 @@
 export type NovelStatus = 'serializing' | 'completed'
 
-export type NovelSource = 'preset' | 'demo' | 'imported'
+export type NovelSource = 'preset' | 'imported'
 
 export interface Novel {
   id: string
