@@ -6,11 +6,16 @@ import { cleanText, countWords } from '@/utils/text'
  * 参考 koodo-reader（MIT）/ calibre 的中文章节识别思路，仅自实现正则。
  */
 
-const HEADING_RE = /^\s*(?:第\s*[零一二三四五六七八九十百千万两\d]+\s*[章卷节回部篇])\s*[^\n]{0,50}$/
-const ALT_HEADING_RE = /^\s*(?:Chapter\s+\d+|\d+\s*[.、]\s*\S{1,50})$/i
+const HEADING_RE = /^\s*(?:#{1,6}\s*)?(?:第\s*[零一二三四五六七八九十百千万两\d]+\s*[章卷节回部篇])\s*[^\n]{0,50}$/
+const ALT_HEADING_RE = /^\s*(?:#{1,6}\s*)?(?:Chapter\s+\d+|\d+\s*[.、]\s*\S{1,50})$/i
 
 function isHeading(line: string): boolean {
   return HEADING_RE.test(line) || ALT_HEADING_RE.test(line)
+}
+
+/** 去除章节标题行可能带有的 markdown # 前缀（如 `# 第1章：锈迹`） */
+function stripMarkdownHeading(line: string): string {
+  return line.trim().replace(/^#{1,6}\s*/, '')
 }
 
 /** 兜底：每 size 字切一章，尽量在换行处断开 */
@@ -63,7 +68,7 @@ export function splitChapters(raw: string): SplitResult {
       const content = lines.slice(start + 1, end).join('\n').trim()
       chapters.push({
         index: k + 1,
-        title: lines[start].trim(),
+        title: stripMarkdownHeading(lines[start]),
         content,
         wordCount: countWords(content),
       })

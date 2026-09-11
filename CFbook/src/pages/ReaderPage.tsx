@@ -192,9 +192,13 @@ export default function ReaderPage() {
   })
 
   const savedScrollPercent =
-    savedProgress?.chapterId === chapter?.id ? savedProgress.scrollPercent : 0
+    savedProgress && chapter && savedProgress.chapterId === chapter.id
+      ? savedProgress.scrollPercent
+      : 0
   const savedPageIndex =
-    savedProgress?.chapterId === chapter?.id ? savedProgress.pageIndex : 0
+    savedProgress && chapter && savedProgress.chapterId === chapter.id
+      ? savedProgress.pageIndex
+      : 0
 
   if (loading) {
     return (
