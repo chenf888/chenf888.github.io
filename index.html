@@ -1,18 +1,17 @@
 ﻿<!doctype html>
-<html lang="zh-CN" data-theme="light">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#F4F4F0" />
-  <meta name="author" content="陈风" />
-  <meta name="description" content="陈风" />
+<html lang="en" data-theme="light" data-lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#F4F4F0">
+  <meta name="author" content="陈风">
+  <meta name="description" content="陈风">
   <title>Chen Feng</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&amp;display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -22,45 +21,45 @@
   <div class="scanlines"></div>
   <div class="theme-ripple" id="themeRipple"></div>
 
-  <div class="nav-pill" id="siteHeader">
+  <div class="nav-pill scrolled" id="siteHeader">
     <div class="pill-links">
-      <a data-tab="home" data-lang-zh="主页" data-lang-en="Home" class="active">Home</a>
-      <a data-tab="daily" data-lang-zh="日常" data-lang-en="Daily">Daily</a>
-      <a data-tab="links" data-lang-zh="友链" data-lang-en="Links">Links</a>
+      <a data-tab="home" data-lang-zh="主页" data-lang-en="Home" class="active" aria-selected="true" tabindex="0">Home</a>
+      <a data-tab="daily" data-lang-zh="日常" data-lang-en="Daily" aria-selected="false" tabindex="-1">Daily</a>
+      <a data-tab="links" data-lang-zh="友链" data-lang-en="Links" aria-selected="false" tabindex="-1">Links</a>
     </div>
-    <button class="pill-lang-btn" id="langToggle" aria-label="切换语言">EN</button>
+    <button class="pill-lang-btn" id="langToggle" aria-label="切换语言">中</button>
     <button class="pill-theme-btn" id="themeToggle" aria-label="切换主题">
-      <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      <svg id="sunIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display: block;">
+        <circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
       </svg>
       <svg id="moonIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
       </svg>
     </button>
   </div>
 
   <main class="wrapper">
 
-    <div id="tab-home" class="tab-page active">
+    <div id="tab-home" class="tab-page active anim-in">
 
     <section class="hero" id="home">
       <div class="hero-text">
         <div class="hero-eyebrow hero-reveal" data-lang-zh="学生 &amp; 开发者" data-lang-en="Student &amp; Maker">Student &amp; Maker</div>
-        <h1 data-lang-zh="你好，我是陈风" data-lang-en="Hi, I&rsquo;m Feng Chen">Hi, I&rsquo;m Feng Chen</h1>
+        <h1 data-lang-zh="你好，我是陈风" data-lang-en="Hi, I’m Feng Chen">Hi, I’m Feng Chen</h1>
         <div class="typewriter-line">
           <span id="typewriterText"></span><span class="cursor-blink"></span>
         </div>
         <p class="hero-reveal" data-lang-zh="欢迎来到我的个人空间。我使用AI生成开发有趣的实验项目和增量游戏。你可以在 GitHub 或 Bilibili 上找到我。" data-lang-en="Welcome to my personal space. I build playful experiments and incremental games. Feel free to explore my projects and reach out on GitHub or Bilibili.">Welcome to my personal space. I build playful experiments and incremental games. Feel free to explore my projects and reach out on GitHub or Bilibili.</p>
       </div>
       <div class="hero-avatar hero-reveal">
-        <img src="image/chenfeng512big.png" alt="陈风" />
+        <img src="image/chenfeng512big.png" alt="陈风">
       </div>
     </section>
 
-    <section class="section-about" id="about" data-reveal>
+    <section class="section-about" id="about" data-reveal="">
       <div class="section-head">
         <h2 data-lang-zh="关于我" data-lang-en="About Me">About Me</h2>
         <span class="head-line"></span>
@@ -68,14 +67,8 @@
       </div>
       <div class="about-grid">
         <div class="about-text">
-          <p data-lang-zh="我是陈风，一名来自中国的高中生，从高中开始自学用AI编程。我使用 The Modding Tree 模板构建增量游戏，创造美好的体验。" data-lang-en="I&rsquo;m Feng Chen, a high school student from China who started coding with AI in high school. I build incremental games based on The Modding Tree engine, creating wonderful experiences.">
-            I&rsquo;m Feng Chen, a high school student from China who started coding with AI in high school.
-            I build incremental games based on The Modding Tree engine, creating wonderful experiences.
-          </p>
-          <p data-lang-zh="除了游戏开发，我还探索 互联网 黑暗的边界，AI JavaScript 动画、浏览器 API 和创意 UI 设计。我的目标是用AI做出人们真正喜欢使用的东西。" data-lang-en="Beyond game dev, I explore the dark edges of the internet, AI JavaScript animations, browser APIs, and creative UI design. My goal is to use AI to make things that people genuinely enjoy using.">
-            Beyond game dev, I explore the dark edges of the internet, AI JavaScript animations,
-            browser APIs, and creative UI design. My goal is to use AI to make things that people genuinely enjoy using.
-          </p>
+          <p data-lang-zh="我是陈风，一名来自中国的高中生，从高中开始自学用AI编程。我使用 The Modding Tree 模板构建增量游戏，创造美好的体验。" data-lang-en="I’m Feng Chen, a high school student from China who started coding with AI in high school. I build incremental games based on The Modding Tree engine, creating wonderful experiences.">I’m Feng Chen, a high school student from China who started coding with AI in high school. I build incremental games based on The Modding Tree engine, creating wonderful experiences.</p>
+          <p data-lang-zh="除了游戏开发，我还探索 互联网 黑暗的边界，AI JavaScript 动画、浏览器 API 和创意 UI 设计。我的目标是用AI做出人们真正喜欢使用的东西。" data-lang-en="Beyond game dev, I explore the dark edges of the internet, AI JavaScript animations, browser APIs, and creative UI design. My goal is to use AI to make things that people genuinely enjoy using.">Beyond game dev, I explore the dark edges of the internet, AI JavaScript animations, browser APIs, and creative UI design. My goal is to use AI to make things that people genuinely enjoy using.</p>
         </div>
         <div>
           <p class="section-desc" style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-faint);margin-bottom:0.75rem;" data-lang-zh="技术栈" data-lang-en="Tech I Use">Tech I Use</p>
@@ -92,45 +85,61 @@
       </div>
     </section>
 
-    <section class="section-contact" id="contact" data-reveal>
+    <section class="section-contact visible" id="contact" data-reveal="">
       <div class="marquee-track">
         <span class="marquee-item">Incremental Games</span>
-        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">·</span>
         <span class="marquee-item">Open Source</span>
-        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">·</span>
         <span class="marquee-item">Click Tree</span>
-        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">·</span>
         <span class="marquee-item">Offline Tree</span>
-        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">·</span>
         <span class="marquee-item">Timer Increment</span>
-        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">·</span>
         <span class="marquee-item">Roman Frame Player</span>
-        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">·</span>
         <span class="marquee-item">Infinity Tree</span>
-        <span class="marquee-item">&middot;</span>
-        <span class="marquee-item">Luck Tree</span>
-        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">·</span>
         <span class="marquee-item">The Modding Tree</span>
-        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">·</span>
         <span class="marquee-item">Incremental Games</span>
-        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">·</span>
         <span class="marquee-item">Open Source</span>
-        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">·</span>
         <span class="marquee-item">Click Tree</span>
-        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">·</span>
         <span class="marquee-item">Offline Tree</span>
-        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">·</span>
         <span class="marquee-item">Timer Increment</span>
-        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">·</span>
         <span class="marquee-item">Roman Frame Player</span>
-        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">·</span>
         <span class="marquee-item">Infinity Tree</span>
-        <span class="marquee-item">&middot;</span>
-        <span class="marquee-item">Luck Tree</span>
-        <span class="marquee-item">&middot;</span>
+        <span class="marquee-item">·</span>
         <span class="marquee-item">The Modding Tree</span>
       </div>
     </section>
+
+    <a href="/CFbook" class="bookshelf-link visible" data-reveal="">
+      <div class="bookshelf-fade"></div>
+      <div class="bookshelf-inner">
+        <div class="bookshelf-left">
+          <div class="bookshelf-copy">
+            <span class="bookshelf-eyebrow">CFBOOK</span>
+            <span class="bookshelf-title-row">
+              <span class="bookshelf-title" data-lang-zh="点击前往陈风的书架" data-lang-en="Open Feng's Bookshelf">点击前往陈风的书架</span>
+              <svg class="bookshelf-arrow" width="50" height="29" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h19M20 6l6 6-6 6"/></svg>
+            </span>
+          </div>
+        </div>
+        <div class="book-stack">
+          <div class="book lying l1"></div>
+          <div class="book lying l2"></div>
+          <div class="book standing"></div>
+        </div>
+      </div>
+    </a>
 
     <section class="section-projects" id="projects">
       <div class="section-head">
@@ -139,81 +148,72 @@
         <span class="head-count" id="projectCount">02</span>
       </div>
       <div class="bento-grid" id="bentoGrid">
-        <div class="bento-card col-4" data-reveal>
-          <div class="card-icon yellow">&#9878;</div>
+        <div class="bento-card col-4 visible" data-reveal="">
+          <div class="card-icon yellow">⚖</div>
           <h3>Krs-cn</h3>
           <p class="card-desc" data-lang-zh="为 Krs 客户端提供汉化支持，将英文界面翻译为中文。" data-lang-en="Chinese localization support for the Krs client, translating its English UI to Chinese.">Chinese localization support for the Krs client, translating its English UI to Chinese.</p>
           <div class="card-links">
-            <a href="https://github.com/chenf888/Krs-cn" target="_blank"><span data-lang-zh="源代码" data-lang-en="Source">Source</span> <span class="arrow">&#8599;</span></a>
+            <a href="https://github.com/chenf888/Krs-cn" target="_blank"><span data-lang-zh="源代码" data-lang-en="Source">Source</span> <span class="arrow">↗</span></a>
           </div>
         </div>
-        <div class="bento-card col-8" data-reveal>
-          <div class="card-icon blue">&#9670;</div>
+        <div class="bento-card col-8 visible" data-reveal="">
+          <div class="card-icon blue">◆</div>
           <h3>The Click Tree</h3>
           <p class="card-desc" data-lang-zh="一款基于 The Modding Tree 引擎的点击类增量游戏。点击、升级、解锁多层内容。" data-lang-en="A click-based incremental game built on The Modding Tree engine. Click, upgrade, and unlock layers of content.">A click-based incremental game built on The Modding Tree engine. Click, upgrade, and unlock layers of content.</p>
           <div class="card-links">
-            <a href="https://chenf888.github.io/The-click-Tree/" target="_blank"><span data-lang-zh="在线演示" data-lang-en="Live Demo">Live Demo</span> <span class="arrow">&#8599;</span></a>
-            <a href="https://github.com/chenf888/The-click-Tree" target="_blank"><span data-lang-zh="源代码" data-lang-en="Source">Source</span> <span class="arrow">&#8599;</span></a>
+            <a href="https://chenf888.github.io/The-click-Tree/" target="_blank"><span data-lang-zh="在线演示" data-lang-en="Live Demo">Live Demo</span> <span class="arrow">↗</span></a>
+            <a href="https://github.com/chenf888/The-click-Tree" target="_blank"><span data-lang-zh="源代码" data-lang-en="Source">Source</span> <span class="arrow">↗</span></a>
           </div>
         </div>
-        <div class="bento-card col-8" data-reveal>
-          <div class="card-icon green">&#9654;</div>
+        <div class="bento-card col-8 visible" data-reveal="">
+          <div class="card-icon green">▶</div>
           <h3>The Offline Tree</h3>
           <p class="card-desc" data-lang-zh="一款离线主题的增量游戏，具有挂机进度和资源管理机制。" data-lang-en="An offline-themed incremental game with idle progression and resource management.">An offline-themed incremental game with idle progression and resource management.</p>
           <div class="card-links">
-            <a href="https://chenf888.github.io/The-offline-Tree/" target="_blank"><span data-lang-zh="在线演示" data-lang-en="Live">Live</span> <span class="arrow">&#8599;</span></a>
-            <a href="https://github.com/chenf888/The-offline-Tree" target="_blank"><span data-lang-zh="源代码" data-lang-en="Source">Source</span> <span class="arrow">&#8599;</span></a>
+            <a href="https://chenf888.github.io/The-offline-Tree/" target="_blank"><span data-lang-zh="在线演示" data-lang-en="Live">Live</span> <span class="arrow">↗</span></a>
+            <a href="https://github.com/chenf888/The-offline-Tree" target="_blank"><span data-lang-zh="源代码" data-lang-en="Source">Source</span> <span class="arrow">↗</span></a>
           </div>
         </div>
-          <div class="bento-card col-4" data-reveal>
-          <div class="card-icon yellow">&#9654;</div>
+          <div class="bento-card col-4 visible" data-reveal="">
+          <div class="card-icon yellow">▶</div>
           <h3>CFRNGDLE</h3>
           <p class="card-desc" data-lang-zh="一款以RNGDle为灵感制作的10位随机数生成器。" data-lang-en="A 10-digit random number generator inspired by RNGDle.">A 10-digit random number generator inspired by RNGDle.</p>
           <div class="card-links">
-            <a href="https://chenf888.github.io/CFRNGDLE/" target="_blank"><span data-lang-zh="在线演示" data-lang-en="Live">Live</span> <span class="arrow">&#8599;</span></a>
-            <a href="https://github.com/chenf888/CFRNGDLE" target="_blank"><span data-lang-zh="源代码" data-lang-en="Source">Source</span> <span class="arrow">&#8599;</span></a>
+            <a href="https://chenf888.github.io/CFRNGDLE/" target="_blank"><span data-lang-zh="在线演示" data-lang-en="Live">Live</span> <span class="arrow">↗</span></a>
+            <a href="https://github.com/chenf888/CFRNGDLE" target="_blank"><span data-lang-zh="源代码" data-lang-en="Source">Source</span> <span class="arrow">↗</span></a>
           </div>
         </div>
-        <div class="bento-card col-6" data-reveal>
-          <div class="card-icon red">&#9863;</div>
+        <div class="bento-card col-6 visible" data-reveal="">
+          <div class="card-icon red">⚇</div>
           <h3>Timer Increment</h3>
           <p class="card-desc" data-lang-zh="一款基于计时器的增量项目，拥有简洁的倒计时界面。" data-lang-en="A timer-based incremental project with clean countdown interface.">A timer-based incremental project with clean countdown interface.</p>
           <div class="card-links">
-            <a href="https://chenf888.github.io/CF-timer-Increment/" target="_blank"><span data-lang-zh="在线演示" data-lang-en="Live">Live</span> <span class="arrow">&#8599;</span></a>
-            <a href="https://github.com/chenf888/CF-timer-Increment" target="_blank"><span data-lang-zh="源代码" data-lang-en="Source">Source</span> <span class="arrow">&#8599;</span></a>
+            <a href="https://chenf888.github.io/CF-timer-Increment/" target="_blank"><span data-lang-zh="在线演示" data-lang-en="Live">Live</span> <span class="arrow">↗</span></a>
+            <a href="https://github.com/chenf888/CF-timer-Increment" target="_blank"><span data-lang-zh="源代码" data-lang-en="Source">Source</span> <span class="arrow">↗</span></a>
           </div>
         </div>
-        <div class="bento-card col-6" data-reveal>
-          <div class="card-icon yellow">&#9632;</div>
+        <div class="bento-card col-6 visible" data-reveal="">
+          <div class="card-icon yellow">■</div>
           <h3>Roman Frame Player</h3>
           <p class="card-desc" data-lang-zh="一款罗马数字帧播放器，用于创意视觉播放和实验。" data-lang-en="A Roman numeral frame player for creative visual playback and experimentation.">A Roman numeral frame player for creative visual playback and experimentation.</p>
           <div class="card-links">
-            <a href="https://chenf888.github.io/roman-frame-player/" target="_blank"><span data-lang-zh="在线演示" data-lang-en="Live Demo">Live Demo</span> <span class="arrow">&#8599;</span></a>
-            <a href="https://github.com/chenf888/roman-frame-player" target="_blank"><span data-lang-zh="源代码" data-lang-en="Source">Source</span> <span class="arrow">&#8599;</span></a>
+            <a href="https://chenf888.github.io/roman-frame-player/" target="_blank"><span data-lang-zh="在线演示" data-lang-en="Live Demo">Live Demo</span> <span class="arrow">↗</span></a>
+            <a href="https://github.com/chenf888/roman-frame-player" target="_blank"><span data-lang-zh="源代码" data-lang-en="Source">Source</span> <span class="arrow">↗</span></a>
           </div>
         </div>
-        <div class="bento-card col-4" data-reveal>
-          <div class="card-icon blue">&#8734;</div>
+        <div class="bento-card col-4" data-reveal="">
+          <div class="card-icon blue">∞</div>
           <h3>The Infinity Tree</h3>
           <p class="card-desc" data-lang-zh="一款以无限为主题的增量游戏，探索无止境的成长机制。" data-lang-en="An infinity-themed incremental game exploring endless progression mechanics.">An infinity-themed incremental game exploring endless progression mechanics.</p>
           <div class="card-links">
-            <a href="https://chenf888.github.io/The-infinity-Tree/" target="_blank"><span data-lang-zh="在线演示" data-lang-en="Live Demo">Live Demo</span> <span class="arrow">&#8599;</span></a>
-            <a href="https://github.com/chenf888/The-infinity-Tree" target="_blank"><span data-lang-zh="源代码" data-lang-en="Source">Source</span> <span class="arrow">&#8599;</span></a>
-          </div>
-        </div>
-        <div class="bento-card col-8" data-reveal>
-          <div class="card-icon green">&#9733;</div>
-          <h3>The Luck Tree</h3>
-          <p class="card-desc" data-lang-zh="一款基于运气的增量游戏，包含随机事件和概率机制。" data-lang-en="A luck-based incremental game with random events and chance mechanics.">A luck-based incremental game with random events and chance mechanics.</p>
-          <div class="card-links">
-            <a href="https://chenf888.github.io/The-luck-Tree/" target="_blank"><span data-lang-zh="在线演示" data-lang-en="Live Demo">Live Demo</span> <span class="arrow">&#8599;</span></a>
-            <a href="https://github.com/chenf888/The-luck-Tree" target="_blank"><span data-lang-zh="源代码" data-lang-en="Source">Source</span> <span class="arrow">&#8599;</span></a>
+            <a href="https://chenf888.github.io/The-infinity-Tree/" target="_blank"><span data-lang-zh="在线演示" data-lang-en="Live Demo">Live Demo</span> <span class="arrow">↗</span></a>
+            <a href="https://github.com/chenf888/The-infinity-Tree" target="_blank"><span data-lang-zh="源代码" data-lang-en="Source">Source</span> <span class="arrow">↗</span></a>
           </div>
         </div>
 
-        <div class="quote-card" data-reveal>
-          <blockquote data-lang-zh="&ldquo;做出人们喜欢的东西 &mdash; 一次点击，无限可能。&rdquo;" data-lang-en="&ldquo;Building things that people enjoy &mdash; one click at a time.&rdquo;">&ldquo;Building things that people enjoy &mdash; one click at a time.&rdquo;</blockquote>
-          <cite>&mdash; Feng Chen, 2026</cite>
+        <div class="quote-card" data-reveal="">
+          <blockquote data-lang-zh="“做出人们感到有趣的东西 — 每一次点击，都有无限可能。”" data-lang-en="“Building things that people enjoy — one click at a time.”">“Building things that people enjoy — one click at a time.”</blockquote>
+          <cite>— Feng Chen, 2026</cite>
         </div>
       </div>
     </section>
@@ -249,13 +249,13 @@
           <span class="head-count" id="dailyCount">00</span>
         </div>
         <div class="daily-search-wrap">
-          <input type="text" class="daily-search" id="dailySearch" data-lang-placeholder-zh="搜索日常内容…" data-lang-placeholder-en="Search daily entries…" placeholder="Search daily entries…" autocomplete="off" />
-          <button class="daily-cal-btn" id="dailyCalBtn" aria-label="日历">&#128197;</button>
+          <input type="text" class="daily-search" id="dailySearch" data-lang-placeholder-zh="搜索日常内容…" data-lang-placeholder-en="Search daily entries…" placeholder="Search daily entries…" autocomplete="off">
+          <button class="daily-cal-btn" id="dailyCalBtn" aria-label="日历">📅</button>
           <div class="daily-calendar" id="dailyCalendar">
             <div class="cal-header">
-              <button class="cal-nav" id="calPrev">&#9664;</button>
+              <button class="cal-nav" id="calPrev">◀</button>
               <span class="cal-month" id="calMonth"></span>
-              <button class="cal-nav" id="calNext">&#9654;</button>
+              <button class="cal-nav" id="calNext">▶</button>
             </div>
             <div class="cal-weekdays">
               <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
@@ -265,7 +265,7 @@
         </div>
         <div class="daily-filter-chip" id="dailyFilterChip">
           <span id="dailyFilterLabel"></span>
-          <button id="dailyFilterClear">&times;</button>
+          <button id="dailyFilterClear">×</button>
         </div>
         <div class="daily-list" id="dailyList"></div>
         <div class="daily-pagination" id="dailyPagination"></div>
@@ -290,8 +290,8 @@
             <span>mc.cbasp.fun · QQ群 856500630</span>
           </a>
           <a target="_blank" class="link-friend-card">
-            <h4>Revolution Idle</h4>
-            <span>旋转放置交流群 · QQ群 925094012</span>
+            <h4>一个占位块</h4>
+            <span>这里神马都没油</span>
           </a>
           <a href="https://www.minecraft.net" target="_blank" class="link-friend-card">
             <h4>Minecraft</h4>
@@ -302,13 +302,13 @@
     </div>
 
     <footer>
-      <div>&copy; 2026 Chen Feng <span class="footer-ver" id="versionBtn">alpha0.0.2</span></div>
+      <div>© 2026 Chen Feng <span class="footer-ver" id="versionBtn">alpha0.0.2</span></div>
     </footer>
 
     <div class="ver-overlay" id="verOverlay">
       <div class="ver-backdrop"></div>
       <div class="ver-panel">
-        <button class="ver-close" id="verClose">&times;</button>
+        <button class="ver-close" id="verClose">×</button>
         <h3 data-lang-zh="版本信息" data-lang-en="Version Info">Version Info</h3>
         <p>alpha0.0.2 — CFsPage测试版本，本次更新添加了版本更新日志，优化了动画效果，日常页支持日期选择与图片显示。</p>
       </div>
@@ -319,5 +319,6 @@
   <div class="toast" id="toast">Email copied to clipboard</div>
 
   <script src="js/app.js"></script>
-</body>
-</html>
+
+
+</body></html>

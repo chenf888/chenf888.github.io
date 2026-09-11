@@ -119,7 +119,10 @@
       if (newTab) { newTab.offsetHeight; newTab.classList.add('anim-in'); }
       
       tabLinks.forEach(function(a) {
-        if (a.getAttribute('data-tab') === tabName) a.classList.add('active');
+        var isActive = a.getAttribute('data-tab') === tabName;
+        a.classList.toggle('active', isActive);
+        a.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        a.tabIndex = isActive ? 0 : -1;
       });
       
       if (scrollTarget) {
@@ -142,19 +145,55 @@
       });
     });
 
+    var tablist = document.querySelector('.pill-links');
+    tablist.addEventListener('keydown', function(e) {
+      var idx = tabLinks.indexOf(document.activeElement);
+      if (idx === -1) return;
+      var next = -1;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (idx + 1) % tabLinks.length;
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (idx - 1 + tabLinks.length) % tabLinks.length;
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = tabLinks.length - 1;
+      if (next >= 0) {
+        e.preventDefault();
+        switchTab(tabLinks[next].getAttribute('data-tab'));
+        tabLinks[next].focus();
+      }
+    });
+
     switchTab('home');
 
     var emailItem = document.getElementById('emailItem');
     var toast = document.getElementById('toast');
     var toastTimer;
+    function showToast() {
+      var isZh = html.getAttribute('data-lang') === 'zh';
+      toast.textContent = isZh ? '邮箱已复制到剪贴板' : 'Email copied to clipboard';
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 2000);
+    }
+    function copyText(text, done) {
+      function legacyCopy() {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.top = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (err) {}
+        document.body.removeChild(ta);
+      }
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(done, function() { legacyCopy(); if (done) done(); });
+      } else {
+        legacyCopy();
+        if (done) done();
+      }
+    }
     emailItem.addEventListener('click', function() {
-      navigator.clipboard.writeText('chenfeng200108@outlook.com').then(function() {
-        var isZh = html.getAttribute('data-lang') === 'zh';
-        toast.textContent = isZh ? '邮箱已复制到剪贴板' : 'Email copied to clipboard';
-        toast.classList.add('show');
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 2000);
-      });
+      copyText('chenfeng200108@outlook.com', showToast);
     });
 
     var langToggle = document.getElementById('langToggle');
@@ -162,6 +201,7 @@
 
     function applyLang(lang) {
       html.setAttribute('data-lang', lang);
+      html.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
       langToggle.textContent = lang === 'zh' ? 'EN' : '中';
       localStorage.setItem('site-lang-chenfeng', lang);
 
@@ -272,42 +312,39 @@
           var imagesEl = this.querySelector('.daily-images');
 
           if (this.classList.contains('expanded')) {
-            body.style.maxHeight = body.scrollHeight + 'px';
-            requestAnimationFrame(function() {
-              body.style.maxHeight = '0px';
-            });
-            var self = this;
-            setTimeout(function() { self.classList.remove('expanded'); }, 360);
-          } else {
-            var others = dailyList.querySelectorAll('.daily-entry.expanded');
-            others.forEach(function(e) {
-              var ob = e.querySelector('.daily-entry-body');
-              ob.style.maxHeight = ob.scrollHeight + 'px';
-              requestAnimationFrame(function() { ob.style.maxHeight = '0px'; });
-              setTimeout(function() { e.classList.remove('expanded'); }, 360);
-            });
-
-            previewEl.textContent = entry.content || '';
-            imagesEl.innerHTML = '';
-            imagesEl.classList.remove('show');
-            if (entry.images && entry.images.length) {
-              var added = 0;
-              entry.images.forEach(function(src) {
-                if (!src) return;
-                var img = document.createElement('img');
-                img.src = src;
-                img.alt = entry.title;
-                img.loading = 'lazy';
-                img.onerror = function() { this.style.display = 'none'; };
-                imagesEl.appendChild(img);
-                added++;
-              });
-              if (added) imagesEl.classList.add('show');
-            }
-
-            this.classList.add('expanded');
-            body.style.maxHeight = body.scrollHeight + 'px';
+            this.classList.remove('expanded');
+            collapseBody(body);
+            return;
           }
+
+          var others = dailyList.querySelectorAll('.daily-entry.expanded');
+          others.forEach(function(e) {
+            var ob = e.querySelector('.daily-entry-body');
+            ob.style.maxHeight = ob.scrollHeight + 'px';
+            requestAnimationFrame(function() { ob.style.maxHeight = '0px'; });
+            setTimeout(function() { e.classList.remove('expanded'); }, 360);
+          });
+
+          previewEl.textContent = entry.content || '';
+          imagesEl.innerHTML = '';
+          imagesEl.classList.remove('show');
+          if (entry.images && entry.images.length) {
+            var added = 0;
+            entry.images.forEach(function(src) {
+              if (!src) return;
+              var img = document.createElement('img');
+              img.src = src;
+              img.alt = entry.title;
+              img.loading = 'eager';
+              img.onerror = function() { this.style.display = 'none'; };
+              imagesEl.appendChild(img);
+              added++;
+            });
+            if (added) imagesEl.classList.add('show');
+          }
+
+          this.classList.add('expanded');
+          expandBody(body);
         });
       });
 
@@ -334,6 +371,26 @@
 
     function scrollDaily() {
       dailyList.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function collapseBody(body) {
+      body.style.maxHeight = body.scrollHeight + 'px';
+      requestAnimationFrame(function() { body.style.maxHeight = '0px'; });
+    }
+
+    function expandBody(body) {
+      var pending = [];
+      body.querySelectorAll('img').forEach(function(img) {
+        if (img.complete) return;
+        pending.push(new Promise(function(res) {
+          img.addEventListener('load', res);
+          img.addEventListener('error', res);
+        }));
+      });
+      function apply() { body.style.maxHeight = body.scrollHeight + 'px'; }
+      if (pending.length === 0) { apply(); return; }
+      Promise.all(pending).then(apply);
+      setTimeout(apply, 1500);
     }
 
     var calBtn = document.getElementById('dailyCalBtn');
