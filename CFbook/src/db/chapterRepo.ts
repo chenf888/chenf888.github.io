@@ -1,7 +1,6 @@
 import { getDB, type ChapterRecord } from './index'
 import type { Chapter, ChapterMeta } from '@/types'
 
-/** 将存储异常归一化为配额错误 */
 function asQuotaError(e: unknown): Error {
   if (e instanceof DOMException && e.name === 'QuotaExceededError') {
     const err = new Error('存储空间不足，导入失败')
@@ -17,7 +16,6 @@ function asQuotaError(e: unknown): Error {
   return new Error('写入数据库失败')
 }
 
-/** 批量写入章节（单事务），配额不足时抛出 code=QUOTA_EXCEEDED */
 export async function bulkPutChapters(records: ChapterRecord[]): Promise<void> {
   try {
     const db = await getDB()
@@ -29,7 +27,6 @@ export async function bulkPutChapters(records: ChapterRecord[]): Promise<void> {
   }
 }
 
-/** 查询单章正文 */
 export async function getChapter(
   novelId: string,
   id: string,
@@ -40,7 +37,6 @@ export async function getChapter(
   return { id: rec.id, novelId: rec.novelId, index: rec.index, title: rec.title, content: rec.content, wordCount: rec.wordCount }
 }
 
-/** 查询某书的全部章节元信息（按 index 升序） */
 export async function getChapterMetas(novelId: string): Promise<ChapterMeta[]> {
   const db = await getDB()
   const list = await db.getAllFromIndex('chapters', 'by-novel', novelId)
@@ -55,13 +51,11 @@ export async function getChapterMetas(novelId: string): Promise<ChapterMeta[]> {
     }))
 }
 
-/** 统计某书章节数 */
 export async function countChapters(novelId: string): Promise<number> {
   const db = await getDB()
   return (await db.countFromIndex('chapters', 'by-novel', novelId)) as number
 }
 
-/** 删除某书全部章节 */
 export async function deleteChaptersByNovel(novelId: string): Promise<void> {
   const db = await getDB()
   const keys = await db.getAllKeysFromIndex('chapters', 'by-novel', novelId)

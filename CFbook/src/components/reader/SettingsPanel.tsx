@@ -53,7 +53,6 @@ function Slider({
   )
 }
 
-/** 阅读设置面板：11 项设置实时生效并持久化 */
 export default function SettingsPanel() {
   const settings = useReaderStore((s) => s.settings)
   const update = useReaderStore((s) => s.updateSettings)

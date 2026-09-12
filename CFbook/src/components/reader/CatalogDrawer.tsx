@@ -10,8 +10,6 @@ interface CatalogDrawerProps {
   onClose: () => void
   onSelect: (meta: ChapterMeta) => void
 }
-
-/** 阅读页章节目录抽屉：桌面右滑 / 移动底部上滑，复用 ChapterList */
 export default function CatalogDrawer({
   open,
   metas,

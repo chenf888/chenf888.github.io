@@ -3,7 +3,6 @@ import type {
   ReaderSettings,
 } from '@/types'
 
-/** 分类 Tab：推荐 / 五大分类 / 已完结 */
 export const CATEGORY_TABS: CategoryKey[] = [
   'recommend',
   '玄幻',
@@ -14,17 +13,14 @@ export const CATEGORY_TABS: CategoryKey[] = [
   'completed',
 ]
 
-/** localStorage 键名 */
 export const STORAGE_KEYS = {
   readerSettings: 'novel-reader:settings',
   books: 'novel-reader:books',
 } as const
 
-/** IndexedDB 数据库名与版本 */
 export const DB_NAME = 'novel-reader'
 export const DB_VERSION = 1
 
-/** 阅读器四种字体栈 */
 export const READER_FONTS = {
   system:
     "-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif",
@@ -67,18 +63,15 @@ export const DEFAULT_READER_SETTINGS: ReaderSettings = {
   showReadingTime: false,
 }
 
-/** 字号 / 页边距 / 亮度等调节边界 */
 export const FONT_SIZE = { min: 12, max: 32 } as const
 export const LINE_HEIGHT = { min: 1.2, max: 3.0 } as const
 export const LETTER_SPACING = { min: 0, max: 4 } as const
 export const PAGE_MARGIN = { min: 8, max: 48 } as const
 export const BRIGHTNESS = { min: 0.3, max: 1.0 } as const
 
-/** 导入文件限制 */
 export const MAX_IMPORT_SIZE = 50 * 1024 * 1024
 export const WARN_IMPORT_SIZE = 20 * 1024 * 1024
 
-/** 封面降级渐变色板（按书名首字哈希取色） */
 export const COVER_GRADIENTS = [
   'linear-gradient(135deg,#6E0E00,#D13A16)',
   'linear-gradient(135deg,#1F3A5F,#3B6EF6)',

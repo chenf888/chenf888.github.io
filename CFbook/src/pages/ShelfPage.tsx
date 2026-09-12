@@ -27,7 +27,6 @@ interface RecentItem {
   progress: ReadingProgress
 }
 
-/** 书架页：分类筛选 + 搜索 + 继续阅读 + 作品列表 */
 export default function ShelfPage() {
   useScrollRestoration(true)
 

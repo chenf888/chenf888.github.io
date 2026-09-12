@@ -16,7 +16,6 @@ function byDateDesc(a: Novel, b: Novel): number {
   return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
 }
 
-/** 统一数据出口：页面/组件不感知来源（preset / imported） */
 export async function getNovels(p?: GetNovelsParams): Promise<Novel[]> {
   const [preset, imported] = await Promise.all([getPresetNovels(), getAllBooks()])
   let list = [...preset, ...imported]
@@ -88,7 +87,6 @@ export async function getAdjacentChapters(
   }
 }
 
-/** 删除导入书并清理书店状态（书架/进度/最近阅读） */
 export async function deleteImportedNovel(novelId: string): Promise<void> {
   await deleteBook(novelId)
   await deleteChaptersByNovel(novelId)

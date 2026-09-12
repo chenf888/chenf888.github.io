@@ -7,11 +7,9 @@ interface DrawerProps {
   title?: string
   onClose: () => void
   children: ReactNode
-  /** 抽屉内容区域是否全高（移动端底部抽屉 85%） */
   full?: boolean
 }
 
-/** 抽屉：桌面右滑 / 移动端底部上滑 */
 export default function Drawer({ open, side = 'bottom', title, onClose, children }: DrawerProps) {
   const panelRef = useRef<HTMLDivElement>(null)
 

@@ -6,7 +6,6 @@ interface SwitchProps {
   label?: string
 }
 
-/** 圆形滑块开关（单一风格，符合主页视觉） */
 export default function Switch({ checked, onChange, label }: SwitchProps) {
   return (
     <button

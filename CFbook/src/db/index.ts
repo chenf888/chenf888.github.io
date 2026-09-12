@@ -2,10 +2,8 @@ import { openDB, type DBSchema, type IDBPDatabase } from 'idb'
 import { DB_NAME, DB_VERSION } from '@/constants'
 import type { Novel } from '@/types'
 
-/** 导入书在 IDB 中的记录：Novel + 必填 importedAt */
 export type BookRecord = Novel & { importedAt: number }
 
-/** 章节在 IDB 中的记录 */
 export interface ChapterRecord {
   id: string
   novelId: string
@@ -30,7 +28,6 @@ export interface CFBookDB extends DBSchema {
 
 let dbPromise: Promise<IDBPDatabase<CFBookDB>> | null = null
 
-/** 惰性打开数据库（单例），失败向上抛出由调用方处理 */
 export function getDB(): Promise<IDBPDatabase<CFBookDB>> {
   if (!dbPromise) {
     dbPromise = openDB<CFBookDB>(DB_NAME, DB_VERSION, {

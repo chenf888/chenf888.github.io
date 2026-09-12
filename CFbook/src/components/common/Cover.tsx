@@ -9,7 +9,6 @@ interface CoverProps {
   className?: string
 }
 
-/** 封面：图片按需懒加载，加载失败降级为渐变 + 书名首字 */
 export default function Cover({ src, title, className }: CoverProps) {
   const [error, setError] = useState(false)
   const showImg = Boolean(src) && !error

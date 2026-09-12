@@ -7,7 +7,6 @@ export interface ReaderTheme {
   border: string
 }
 
-/** 阅读器 5 套主题，与主页暖色/朱红基调保持一致视觉层级 */
 export const READER_THEMES: ReaderTheme[] = [
   { key: 'light', label: '明亮', bg: '#FFFFFF', text: '#1F2329', dim: '#8A9099', border: '#EDEFF2' },
   { key: 'sepia', label: '羊皮纸', bg: '#F5EFE0', text: '#4A3F2F', dim: '#8A7A5F', border: '#E3D9C4' },

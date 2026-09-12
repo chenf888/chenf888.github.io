@@ -25,7 +25,6 @@ interface ImportFlowProps {
   onClose: () => void
 }
 
-/** 导入流程：选文件 → 预览/改元信息 → 提交入书架 */
 export default function ImportFlow({ open, onClose }: ImportFlowProps) {
   const navigate = useNavigate()
   const { task, preview, startFile, reDecode, commit, reset } = useImportTask()

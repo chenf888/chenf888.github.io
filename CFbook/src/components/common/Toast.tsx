@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { useUIStore } from '@/store/uiStore'
 
-/** 全局 Toast：1.5s 自动消失 */
 export default function Toast() {
   const toast = useUIStore((s) => s.toast)
   const clearToast = useUIStore((s) => s.clearToast)

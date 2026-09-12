@@ -9,7 +9,6 @@ const linkClass = ({ isActive }: { isActive: boolean }) =>
     isActive ? 'bg-accent-dim text-ink' : 'text-dim hover:text-ink',
   )
 
-/** 顶部胶囊导航：与主页一致的 pill 风格 */
 export default function NavBar() {
   const theme = useUIStore((s) => s.globalTheme)
   const toggleTheme = useUIStore((s) => s.toggleGlobalTheme)

@@ -12,7 +12,6 @@ interface ModalProps {
   onClose: () => void
 }
 
-/** 二次确认弹窗：Esc 关闭，确认按钮危险态 */
 export default function Modal({
   open,
   title,

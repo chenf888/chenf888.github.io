@@ -3,7 +3,6 @@ export interface StorageEstimate {
   quota: number
 }
 
-/** 读取浏览器存储占用与配额（供导入书管理页展示） */
 export async function getStorageEstimate(): Promise<StorageEstimate> {
   try {
     if (navigator.storage && navigator.storage.estimate) {

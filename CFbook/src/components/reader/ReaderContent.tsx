@@ -36,7 +36,6 @@ interface ReaderContentProps {
 const TOP_PAD = 72
 const BOTTOM_PAD = 88
 
-/** 阅读正文内容：滚动 / 滑动 / 翻页 / 无翻页 四模式，含离屏分页与进度上报 */
 const ReaderContent = forwardRef<ReaderContentHandle, ReaderContentProps>(
   function ReaderContent(props, ref) {
     const {
@@ -104,7 +103,6 @@ const ReaderContent = forwardRef<ReaderContentHandle, ReaderContentProps>(
         const base = isNewChapter ? savedPageIndex : i
         return Math.max(0, Math.min(base, Math.max(0, result.length - 1)))
       })
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
       mode,
       fontsReady,
@@ -118,13 +116,11 @@ const ReaderContent = forwardRef<ReaderContentHandle, ReaderContentProps>(
       chapter.content,
     ])
 
-    // 分页模式：页码变化上报
     useEffect(() => {
       if (mode === 'scroll') return
       onPageIndex(pageIndex, pages.length)
     }, [pageIndex, pages.length, mode, onPageIndex])
 
-    // 滚动模式：恢复滚动位置
     useEffect(() => {
       if (mode !== 'scroll') return
       const el = scrollRef.current
@@ -261,7 +257,6 @@ const ReaderContent = forwardRef<ReaderContentHandle, ReaderContentProps>(
         className="absolute inset-0 touch-manipulation select-none"
         style={{ ...contentStyle, fontFamily }}
       >
-        {/* 离屏测量容器：与正文一致的排版，用于分页高度测量 */}
         <div
           ref={measurerRef}
           aria-hidden="true"
@@ -277,46 +272,47 @@ const ReaderContent = forwardRef<ReaderContentHandle, ReaderContentProps>(
             visibility: 'hidden',
           }}
         />
-
-        {mode === 'scroll' ? (
-          <div ref={scrollRef} onScroll={onScroll} className="no-scrollbar absolute inset-0 overflow-y-auto">
-            <div className="mx-auto flex min-h-full w-full max-w-[720px] flex-col px-[--page-margin] pt-[--top-pad] pb-[--bottom-pad]">
-              {renderTitle()}
-              {chapterNav(true)}
-              {paragraphs.map(renderParagraph)}
-              {chapterNav(false)}
+        <div key={chapter.id} className="chapter-in absolute inset-0">
+          {mode === 'scroll' ? (
+            <div ref={scrollRef} onScroll={onScroll} className="no-scrollbar absolute inset-0 overflow-y-auto">
+              <div className="mx-auto flex min-h-full w-full max-w-[720px] flex-col px-[--page-margin] pt-[--top-pad] pb-[--bottom-pad]">
+                {renderTitle()}
+                {chapterNav(true)}
+                {paragraphs.map(renderParagraph)}
+                {chapterNav(false)}
+              </div>
             </div>
-          </div>
-        ) : mode === 'slide' ? (
-          <div className="absolute inset-0 overflow-hidden">
-            <div
-              className="absolute inset-0"
-              style={{
-                transform: `translateX(-${pageIndex * 100}%)`,
-                transition: 'transform 250ms ease-out',
-              }}
-            >
-              {pages.map((page, i) => (
-                <div
-                  key={i}
-                  className="absolute top-0 h-full w-full"
-                  style={{ left: `${i * 100}%` }}
-                >
-                  {renderPage(page, i)}
-                </div>
-              ))}
+          ) : mode === 'slide' ? (
+            <div className="absolute inset-0 overflow-hidden">
+              <div
+                className="absolute inset-0"
+                style={{
+                  transform: `translateX(-${pageIndex * 100}%)`,
+                  transition: 'transform 250ms ease-out',
+                }}
+              >
+                {pages.map((page, i) => (
+                  <div
+                    key={i}
+                    className="absolute top-0 h-full w-full"
+                    style={{ left: `${i * 100}%` }}
+                  >
+                    {renderPage(page, i)}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className="absolute inset-0 overflow-hidden">
-            <div
-              key={mode === 'flip' ? pageIndex : 'none'}
-              className={cn('h-full w-full', mode === 'flip' && 'reader-flip')}
-            >
-              {pages[pageIndex] ? renderPage(pages[pageIndex], pageIndex) : null}
+          ) : (
+            <div className="absolute inset-0 overflow-hidden">
+              <div
+                key={mode === 'flip' ? pageIndex : 'none'}
+                className={cn('h-full w-full', mode === 'flip' && 'reader-flip')}
+              >
+                {pages[pageIndex] ? renderPage(pages[pageIndex], pageIndex) : null}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     )
   },
