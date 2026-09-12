@@ -19,7 +19,7 @@ export default function CatalogDrawer({
   onSelect,
 }: CatalogDrawerProps) {
   return (
-    <Drawer open={open} title="目录" onClose={onClose}>
+    <Drawer open={open} title="目录" onClose={onClose} maxWidth="max-w-[720px]">
       <ChapterList
         metas={metas}
         currentChapterId={currentChapterId}

@@ -8,9 +8,11 @@ interface DrawerProps {
   onClose: () => void
   children: ReactNode
   full?: boolean
+  /** 底部抽屉最大宽度类（如 'max-w-[720px]'），用于与内容列对齐；缺省全宽 */
+  maxWidth?: string
 }
 
-export default function Drawer({ open, side = 'bottom', title, onClose, children }: DrawerProps) {
+export default function Drawer({ open, side = 'bottom', title, onClose, children, maxWidth }: DrawerProps) {
   const panelRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -43,7 +45,11 @@ export default function Drawer({ open, side = 'bottom', title, onClose, children
         className={cn(
           'flex flex-col bg-surface outline-none transition-transform duration-300',
           side === 'bottom'
-            ? 'max-h-[85%] w-full rounded-t-card border-t border-line'
+            ? cn(
+                'max-h-[85%] w-full rounded-t-card border-t border-line',
+                maxWidth && 'mx-auto',
+                maxWidth,
+              )
             : 'h-full w-[360px] max-w-[90vw] border-l border-line',
           open ? 'translate-y-0 translate-x-0' : side === 'bottom' ? 'translate-y-full' : 'translate-x-full',
         )}

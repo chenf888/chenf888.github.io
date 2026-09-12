@@ -421,6 +421,7 @@ export default function ReaderPage() {
         title="阅读设置"
         onClose={closeDrawer}
         full
+        maxWidth="max-w-[720px]"
       >
         <SettingsPanel />
       </Drawer>
