@@ -1,0 +1,39 @@
+# CFword 部署配置（参考）。
+#
+# 注意：本文件位于 CFword 子目录内，仅作为 CFword 项目的部署参考，
+# GitHub Actions 只会识别「仓库根目录」的 .github/workflows/*.yml。
+# 本仓库（chenf888.github.io）是用户主页，主页与各子项目（/CFbook、/CFword…）
+# 需合并到同一站点，请在仓库根的 .github/workflows/deploy.yml 中
+# 追加 CFword 的构建与复制步骤（参考本文件），而非直接启用本文件。
+name: Deploy CFword (reference)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'CFword/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: CFword/package-lock.json
+
+      - name: 安装依赖
+        run: npm ci
+        working-directory: CFword
+
+      - name: 构建 CFword
+        run: npm run build
+        working-directory: CFword
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: CFword/dist

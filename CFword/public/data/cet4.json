@@ -1,0 +1,382 @@
+[
+  {
+    "id": "cet4_0001",
+    "word": "abandon",
+    "phonetic": "/əˈbændən/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "放弃；抛弃",
+        "definition_en": "to leave something or someone completely",
+        "examples": [{ "en": "They abandoned the ship in the storm.", "cn": "他们在暴风雨中弃船逃生。" }]
+      }
+    ],
+    "tags": ["cet4"],
+    "frequency": 156,
+    "collocations": ["abandon a plan", "abandon hope"],
+    "root_affix": "a- (处于) + bandon (控制)",
+    "forms": ["abandons", "abandoned", "abandoning"],
+    "aliases": []
+  },
+  {
+    "id": "cet4_0002",
+    "word": "absorb",
+    "phonetic": "/əbˈzɔːb/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "吸收；吸引",
+        "definition_en": "to take in liquid, heat, or knowledge",
+        "examples": [{ "en": "Plants absorb carbon dioxide.", "cn": "植物吸收二氧化碳。" }]
+      }
+    ],
+    "tags": ["cet4"],
+    "frequency": 142,
+    "collocations": ["absorb knowledge", "be absorbed in"],
+    "root_affix": "ab- (离) + sorb (吸入)",
+    "forms": ["absorbs", "absorbed", "absorbing"],
+    "aliases": []
+  },
+  {
+    "id": "cet4_0003",
+    "word": "accurate",
+    "phonetic": "/ˈækjərət/",
+    "pos": "adj.",
+    "senses": [
+      {
+        "definition_cn": "准确的；精确的",
+        "definition_en": "correct and exact",
+        "examples": [{ "en": "The report gives an accurate description.", "cn": "报告给出了准确的描述。" }]
+      }
+    ],
+    "tags": ["cet4"],
+    "frequency": 168,
+    "collocations": ["accurate measurement", "highly accurate"],
+    "root_affix": "ac- (向) + cur (仔细) + -ate",
+    "forms": [],
+    "aliases": []
+  },
+  {
+    "id": "cet4_0004",
+    "word": "adapt",
+    "phonetic": "/əˈdæpt/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "适应；改编",
+        "definition_en": "to change to suit new conditions",
+        "examples": [{ "en": "Children adapt quickly to new schools.", "cn": "孩子们很快适应了新学校。" }]
+      }
+    ],
+    "tags": ["cet4"],
+    "frequency": 131,
+    "collocations": ["adapt to", "adapt a novel"],
+    "root_affix": "ad- (向) + apt (合适)",
+    "forms": ["adapts", "adapted", "adapting"],
+    "aliases": []
+  },
+  {
+    "id": "cet4_0005",
+    "word": "adequate",
+    "phonetic": "/ˈædɪkwət/",
+    "pos": "adj.",
+    "senses": [
+      {
+        "definition_cn": "充足的；适当的",
+        "definition_en": "enough for a particular purpose",
+        "examples": [{ "en": "The room has adequate lighting.", "cn": "这个房间有充足的照明。" }]
+      }
+    ],
+    "tags": ["cet4"],
+    "frequency": 124,
+    "collocations": ["adequate for", "adequate supply"],
+    "root_affix": "ad- (向) + equ (相等) + -ate",
+    "forms": [],
+    "aliases": []
+  },
+  {
+    "id": "cet4_0006",
+    "word": "adjust",
+    "phonetic": "/əˈdʒʌst/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "调整；调节",
+        "definition_en": "to change something slightly to fit better",
+        "examples": [{ "en": "Adjust the seat before driving.", "cn": "开车前先调整座位。" }]
+      }
+    ],
+    "tags": ["cet4"],
+    "frequency": 149,
+    "collocations": ["adjust to", "adjust the level"],
+    "root_affix": "ad- (向) + just (正确)",
+    "forms": ["adjusts", "adjusted", "adjusting"],
+    "aliases": []
+  },
+  {
+    "id": "cet4_0007",
+    "word": "analyze",
+    "phonetic": "/ˈænəlaɪz/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "分析",
+        "definition_en": "to examine something in detail",
+        "examples": [{ "en": "We need to analyze the data carefully.", "cn": "我们需要仔细分析这些数据。" }]
+      }
+    ],
+    "tags": ["cet4"],
+    "frequency": 137,
+    "collocations": ["analyze data", "analyze a problem"],
+    "root_affix": "ana- (遍) + lyze (分)",
+    "forms": ["analyzes", "analyzed", "analyzing"],
+    "aliases": []
+  },
+  {
+    "id": "cet4_0008",
+    "word": "artificial",
+    "phonetic": "/ˌɑːtɪˈfɪʃl/",
+    "pos": "adj.",
+    "senses": [
+      {
+        "definition_cn": "人工的；人造的",
+        "definition_en": "made by people, not natural",
+        "examples": [{ "en": "The lake is artificial.", "cn": "这个湖是人工的。" }]
+      }
+    ],
+    "tags": ["cet4"],
+    "frequency": 118,
+    "collocations": ["artificial intelligence", "artificial light"],
+    "root_affix": "art (技巧) + -ficial (形容词)",
+    "forms": [],
+    "aliases": []
+  },
+  {
+    "id": "cet4_0009",
+    "word": "attitude",
+    "phonetic": "/ˈætɪtjuːd/",
+    "pos": "n.",
+    "senses": [
+      {
+        "definition_cn": "态度；看法",
+        "definition_en": "a way of thinking or feeling about something",
+        "examples": [{ "en": "She has a positive attitude to life.", "cn": "她对生活抱有积极的态度。" }]
+      }
+    ],
+    "tags": ["cet4"],
+    "frequency": 163,
+    "collocations": ["positive attitude", "attitude towards"],
+    "root_affix": "atti- (适合) + -tude (名词)",
+    "forms": ["attitudes"],
+    "aliases": []
+  },
+  {
+    "id": "cet4_0010",
+    "word": "benefit",
+    "phonetic": "/ˈbenɪfɪt/",
+    "pos": "n.",
+    "senses": [
+      {
+        "definition_cn": "好处；利益",
+        "definition_en": "a helpful or good effect",
+        "examples": [{ "en": "Exercise has many health benefits.", "cn": "锻炼对健康有很多好处。" }]
+      }
+    ],
+    "tags": ["cet4"],
+    "frequency": 189,
+    "collocations": ["benefit from", "health benefits"],
+    "root_affix": "bene- (好) + fit (做)",
+    "forms": ["benefits"],
+    "aliases": []
+  },
+  {
+    "id": "cet4_0011",
+    "word": "complex",
+    "phonetic": "/ˈkɒmpleks/",
+    "pos": "adj.",
+    "senses": [
+      {
+        "definition_cn": "复杂的",
+        "definition_en": "made of many connected parts; difficult",
+        "examples": [{ "en": "This is a complex problem.", "cn": "这是一个复杂的问题。" }]
+      }
+    ],
+    "tags": ["cet4"],
+    "frequency": 176,
+    "collocations": ["complex system", "complex issue"],
+    "root_affix": "com- (共同) + plex (编织)",
+    "forms": [],
+    "aliases": []
+  },
+  {
+    "id": "cet4_0012",
+    "word": "constant",
+    "phonetic": "/ˈkɒnstənt/",
+    "pos": "adj.",
+    "senses": [
+      {
+        "definition_cn": "不断的；恒定的",
+        "definition_en": "happening all the time; staying the same",
+        "examples": [{ "en": "The machine needs constant attention.", "cn": "这台机器需要不断的关注。" }]
+      }
+    ],
+    "tags": ["cet4"],
+    "frequency": 154,
+    "collocations": ["constant pressure", "at a constant speed"],
+    "root_affix": "con- (完全) + stant (站立)",
+    "forms": [],
+    "aliases": []
+  },
+  {
+    "id": "cet4_0013",
+    "word": "distinguish",
+    "phonetic": "/dɪˈstɪŋɡwɪʃ/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "区分；辨别",
+        "definition_en": "to tell the difference between things",
+        "examples": [{ "en": "It's hard to distinguish the twins.", "cn": "很难区分这对双胞胎。" }]
+      }
+    ],
+    "tags": ["cet4"],
+    "frequency": 121,
+    "collocations": ["distinguish between", "distinguish A from B"],
+    "root_affix": "di- (分离) + stingu (标记)",
+    "forms": ["distinguishes", "distinguished", "distinguishing"],
+    "aliases": []
+  },
+  {
+    "id": "cet4_0014",
+    "word": "efficient",
+    "phonetic": "/ɪˈfɪʃnt/",
+    "pos": "adj.",
+    "senses": [
+      {
+        "definition_cn": "高效的；有效率的",
+        "definition_en": "working well without wasting time",
+        "examples": [{ "en": "The new system is very efficient.", "cn": "新系统非常高效。" }]
+      }
+    ],
+    "tags": ["cet4"],
+    "frequency": 147,
+    "collocations": ["energy efficient", "efficient use of"],
+    "root_affix": "ef- (出) + fic (做) + -ient",
+    "forms": [],
+    "aliases": []
+  },
+  {
+    "id": "cet4_0015",
+    "word": "essential",
+    "phonetic": "/ɪˈsenʃl/",
+    "pos": "adj.",
+    "senses": [
+      {
+        "definition_cn": "必不可少的；本质的",
+        "definition_en": "completely necessary; basic",
+        "examples": [{ "en": "Water is essential for life.", "cn": "水对生命是必不可少的。" }]
+      }
+    ],
+    "tags": ["cet4"],
+    "frequency": 159,
+    "collocations": ["essential to", "it is essential that"],
+    "root_affix": "essent- (存在) + -ial",
+    "forms": [],
+    "aliases": []
+  },
+  {
+    "id": "cet4_0016",
+    "word": "frequent",
+    "phonetic": "/ˈfriːkwənt/",
+    "pos": "adj.",
+    "senses": [
+      {
+        "definition_cn": "频繁的；经常的",
+        "definition_en": "happening often",
+        "examples": [{ "en": "He is a frequent visitor.", "cn": "他是这里的常客。" }]
+      }
+    ],
+    "tags": ["cet4"],
+    "frequency": 133,
+    "collocations": ["frequent flyer", "frequent use"],
+    "root_affix": "frequ- (拥挤) + -ent",
+    "forms": [],
+    "aliases": []
+  },
+  {
+    "id": "cet4_0017",
+    "word": "generate",
+    "phonetic": "/ˈdʒenəreɪt/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "产生；生成",
+        "definition_en": "to produce or create something",
+        "examples": [{ "en": "Wind can generate electricity.", "cn": "风可以发电。" }]
+      }
+    ],
+    "tags": ["cet4"],
+    "frequency": 141,
+    "collocations": ["generate power", "generate interest"],
+    "root_affix": "gener- (产生) + -ate",
+    "forms": ["generates", "generated", "generating"],
+    "aliases": []
+  },
+  {
+    "id": "cet4_0018",
+    "word": "indicate",
+    "phonetic": "/ˈɪndɪkeɪt/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "表明；指示",
+        "definition_en": "to show or point out something",
+        "examples": [{ "en": "The sign indicates the direction.", "cn": "这个标志指示方向。" }]
+      }
+    ],
+    "tags": ["cet4"],
+    "frequency": 152,
+    "collocations": ["indicate that", "indicate a trend"],
+    "root_affix": "in- (入) + dic (说) + -ate",
+    "forms": ["indicates", "indicated", "indicating"],
+    "aliases": []
+  },
+  {
+    "id": "cet4_0019",
+    "word": "maintain",
+    "phonetic": "/meɪnˈteɪn/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "维持；保养",
+        "definition_en": "to keep something at the same level",
+        "examples": [{ "en": "It's hard to maintain a balance.", "cn": "保持平衡很难。" }]
+      }
+    ],
+    "tags": ["cet4"],
+    "frequency": 166,
+    "collocations": ["maintain order", "maintain contact"],
+    "root_affix": "main (手) + tain (握住)",
+    "forms": ["maintains", "maintained", "maintaining"],
+    "aliases": []
+  },
+  {
+    "id": "cet4_0020",
+    "word": "transfer",
+    "phonetic": "/trænsˈfɜː/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "转移；调动",
+        "definition_en": "to move from one place to another",
+        "examples": [{ "en": "She transferred to another department.", "cn": "她调到了另一个部门。" }]
+      }
+    ],
+    "tags": ["cet4"],
+    "frequency": 139,
+    "collocations": ["transfer money", "transfer to"],
+    "root_affix": "trans- (跨越) + fer (携带)",
+    "forms": ["transfers", "transferred", "transferring"],
+    "aliases": []
+  }
+]

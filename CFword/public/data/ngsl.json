@@ -1,0 +1,572 @@
+[
+  {
+    "id": "ngsl_0001",
+    "word": "ability",
+    "phonetic": "/əˈbɪləti/",
+    "pos": "n.",
+    "senses": [
+      {
+        "definition_cn": "能力；才能",
+        "definition_en": "the power or skill to do something",
+        "examples": [{ "en": "She has the ability to solve complex problems.", "cn": "她有解决复杂问题的能力。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 312,
+    "collocations": ["have the ability to", "ability to do sth"],
+    "root_affix": "abil- (能力) + -ity (名词后缀)",
+    "forms": ["abilities"],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0002",
+    "word": "accept",
+    "phonetic": "/əkˈsept/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "接受；同意",
+        "definition_en": "to agree to take or receive something",
+        "examples": [{ "en": "He accepted the offer without hesitation.", "cn": "他毫不犹豫地接受了这个提议。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 421,
+    "collocations": ["accept an offer", "accept responsibility"],
+    "root_affix": "ad- → ac- (向) + cept (拿取)",
+    "forms": ["accepts", "accepted", "accepting"],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0003",
+    "word": "achieve",
+    "phonetic": "/əˈtʃiːv/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "实现；达到",
+        "definition_en": "to successfully reach a goal",
+        "examples": [{ "en": "You can achieve anything with hard work.", "cn": "通过努力你可以实现任何目标。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 356,
+    "collocations": ["achieve a goal", "achieve success"],
+    "root_affix": "a- (到) + chieve (来自 chief, 头)",
+    "forms": ["achieves", "achieved", "achieving"],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0004",
+    "word": "advantage",
+    "phonetic": "/ədˈvɑːntɪdʒ/",
+    "pos": "n.",
+    "senses": [
+      {
+        "definition_cn": "优势；有利条件",
+        "definition_en": "a condition that helps you succeed",
+        "examples": [{ "en": "Speaking two languages is a real advantage.", "cn": "会说两种语言是一个真正的优势。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 289,
+    "collocations": ["take advantage of", "competitive advantage"],
+    "root_affix": "advant- (在前) + -age (名词)",
+    "forms": ["advantages"],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0005",
+    "word": "advice",
+    "phonetic": "/ədˈvaɪs/",
+    "pos": "n.",
+    "senses": [
+      {
+        "definition_cn": "建议；忠告",
+        "definition_en": "an opinion about what to do",
+        "examples": [{ "en": "Can you give me some advice?", "cn": "你能给我一些建议吗？" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 233,
+    "collocations": ["give advice", "take advice"],
+    "root_affix": "ad- → ad- (向) + vice (看)",
+    "forms": [],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0006",
+    "word": "allow",
+    "phonetic": "/əˈlaʊ/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "允许；准许",
+        "definition_en": "to let someone do something",
+        "examples": [{ "en": "Please allow me to explain.", "cn": "请允许我解释一下。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 398,
+    "collocations": ["allow sb to do sth", "be allowed to"],
+    "root_affix": "al- (向) + low (放)",
+    "forms": ["allows", "allowed", "allowing"],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0007",
+    "word": "appear",
+    "phonetic": "/əˈpɪə/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "出现；似乎",
+        "definition_en": "to become visible; to seem",
+        "examples": [{ "en": "A smile appeared on her face.", "cn": "她脸上露出了微笑。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 344,
+    "collocations": ["appear to be", "it appears that"],
+    "root_affix": "ap- (向) + pear (出现)",
+    "forms": ["appears", "appeared", "appearing"],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0008",
+    "word": "arrive",
+    "phonetic": "/əˈraɪv/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "到达；抵达",
+        "definition_en": "to reach a place",
+        "examples": [{ "en": "The train will arrive at noon.", "cn": "火车将在中午到达。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 302,
+    "collocations": ["arrive at", "arrive in"],
+    "root_affix": "ar- (向) + rive (岸)",
+    "forms": ["arrives", "arrived", "arriving"],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0009",
+    "word": "attention",
+    "phonetic": "/əˈtenʃn/",
+    "pos": "n.",
+    "senses": [
+      {
+        "definition_cn": "注意；关注",
+        "definition_en": "the act of focusing the mind on something",
+        "examples": [{ "en": "Pay attention to the teacher.", "cn": "注意听老师讲。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 287,
+    "collocations": ["pay attention to", "draw attention"],
+    "root_affix": "at- (向) + tent (伸) + -ion (名词)",
+    "forms": [],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0010",
+    "word": "believe",
+    "phonetic": "/bɪˈliːv/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "相信；认为",
+        "definition_en": "to accept something as true",
+        "examples": [{ "en": "I believe you are right.", "cn": "我相信你是对的。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 415,
+    "collocations": ["believe in", "make believe"],
+    "root_affix": "be- + lieve (爱，珍视)",
+    "forms": ["believes", "believed", "believing"],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0011",
+    "word": "borrow",
+    "phonetic": "/ˈbɒrəʊ/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "借入；借用",
+        "definition_en": "to take and use something that belongs to someone else",
+        "examples": [{ "en": "May I borrow your pen?", "cn": "我可以借你的钢笔吗？" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 194,
+    "collocations": ["borrow from", "borrow money"],
+    "root_affix": "borw- (借) + -ow",
+    "forms": ["borrows", "borrowed", "borrowing"],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0012",
+    "word": "careful",
+    "phonetic": "/ˈkeəfl/",
+    "pos": "adj.",
+    "senses": [
+      {
+        "definition_cn": "小心的；仔细的",
+        "definition_en": "giving attention to avoid mistakes or danger",
+        "examples": [{ "en": "Be careful when crossing the road.", "cn": "过马路时要小心。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 256,
+    "collocations": ["be careful with", "careful about"],
+    "root_affix": "care (在意) + -ful (形容词后缀)",
+    "forms": [],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0013",
+    "word": "decide",
+    "phonetic": "/dɪˈsaɪd/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "决定；决断",
+        "definition_en": "to make a choice about something",
+        "examples": [{ "en": "We decided to go by train.", "cn": "我们决定乘火车去。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 331,
+    "collocations": ["decide to do sth", "decide on"],
+    "root_affix": "de- (分离) + cide (切)",
+    "forms": ["decides", "decided", "deciding"],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0014",
+    "word": "deliver",
+    "phonetic": "/dɪˈlɪvə/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "递送；发表",
+        "definition_en": "to carry something to a place or person",
+        "examples": [{ "en": "The goods will be delivered tomorrow.", "cn": "货物明天送达。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 221,
+    "collocations": ["deliver a speech", "deliver goods"],
+    "root_affix": "de- (完全) + liver (自由)",
+    "forms": ["delivers", "delivered", "delivering"],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0015",
+    "word": "describe",
+    "phonetic": "/dɪˈskraɪb/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "描述；形容",
+        "definition_en": "to say what someone or something is like",
+        "examples": [{ "en": "Can you describe the man you saw?", "cn": "你能描述一下你看到的那个男人吗？" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 268,
+    "collocations": ["describe as", "describe in detail"],
+    "root_affix": "de- (下) + scribe (写)",
+    "forms": ["describes", "described", "describing"],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0016",
+    "word": "develop",
+    "phonetic": "/dɪˈveləp/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "发展；开发",
+        "definition_en": "to grow or cause to grow larger",
+        "examples": [{ "en": "The company developed a new product.", "cn": "这家公司开发了一种新产品。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 388,
+    "collocations": ["develop into", "develop skills"],
+    "root_affix": "de- (展开) + velop (包)",
+    "forms": ["develops", "developed", "developing"],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0017",
+    "word": "discover",
+    "phonetic": "/dɪˈskʌvə/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "发现；发觉",
+        "definition_en": "to find something for the first time",
+        "examples": [{ "en": "Scientists discovered a new planet.", "cn": "科学家发现了一颗新行星。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 247,
+    "collocations": ["discover that", "discover the truth"],
+    "root_affix": "dis- (去除) + cover (盖)",
+    "forms": ["discovers", "discovered", "discovering"],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0018",
+    "word": "enough",
+    "phonetic": "/ɪˈnʌf/",
+    "pos": "adj.",
+    "senses": [
+      {
+        "definition_cn": "足够的；充足的",
+        "definition_en": "as much as is needed",
+        "examples": [{ "en": "We have enough food for everyone.", "cn": "我们有足够的食物给每个人。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 412,
+    "collocations": ["enough for", "good enough"],
+    "root_affix": "",
+    "forms": [],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0019",
+    "word": "explain",
+    "phonetic": "/ɪkˈspleɪn/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "解释；说明",
+        "definition_en": "to make something clear or easy to understand",
+        "examples": [{ "en": "She explained the rules to us.", "cn": "她向我们解释了规则。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 318,
+    "collocations": ["explain to", "explain why"],
+    "root_affix": "ex- (出) + plain (平)",
+    "forms": ["explains", "explained", "explaining"],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0020",
+    "word": "favorite",
+    "phonetic": "/ˈfeɪvərɪt/",
+    "pos": "adj.",
+    "senses": [
+      {
+        "definition_cn": "最喜欢的；特别喜爱的",
+        "definition_en": "most liked or preferred",
+        "examples": [{ "en": "Blue is my favorite color.", "cn": "蓝色是我最喜欢的颜色。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 185,
+    "collocations": ["favorite food", "all-time favorite"],
+    "root_affix": "favor (喜爱) + -ite (形容词)",
+    "forms": [],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0021",
+    "word": "forget",
+    "phonetic": "/fəˈɡet/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "忘记",
+        "definition_en": "to fail to remember something",
+        "examples": [{ "en": "Don't forget to lock the door.", "cn": "别忘了锁门。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 296,
+    "collocations": ["forget to do sth", "forget about"],
+    "root_affix": "for- (失去) + get (得到)",
+    "forms": ["forgets", "forgot", "forgotten", "forgetting"],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0022",
+    "word": "improve",
+    "phonetic": "/ɪmˈpruːv/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "改进；改善",
+        "definition_en": "to make something better",
+        "examples": [{ "en": "Reading can improve your vocabulary.", "cn": "阅读可以扩大你的词汇量。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 279,
+    "collocations": ["improve on", "improve greatly"],
+    "root_affix": "im- (使) + prove (获益)",
+    "forms": ["improves", "improved", "improving"],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0023",
+    "word": "include",
+    "phonetic": "/ɪnˈkluːd/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "包括；包含",
+        "definition_en": "to contain something as a part",
+        "examples": [{ "en": "The price includes tax.", "cn": "价格含税。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 402,
+    "collocations": ["include in", "be included in"],
+    "root_affix": "in- (入) + clude (关)",
+    "forms": ["includes", "included", "including"],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0024",
+    "word": "knowledge",
+    "phonetic": "/ˈnɒlɪdʒ/",
+    "pos": "n.",
+    "senses": [
+      {
+        "definition_cn": "知识；学问",
+        "definition_en": "facts and information a person knows",
+        "examples": [{ "en": "Knowledge is power.", "cn": "知识就是力量。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 264,
+    "collocations": ["knowledge of", "common knowledge"],
+    "root_affix": "know (知道) + -ledge (名词)",
+    "forms": [],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0025",
+    "word": "perhaps",
+    "phonetic": "/pəˈhæps/",
+    "pos": "adv.",
+    "senses": [
+      {
+        "definition_cn": "也许；大概",
+        "definition_en": "maybe; possibly",
+        "examples": [{ "en": "Perhaps it will rain tomorrow.", "cn": "也许明天会下雨。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 201,
+    "collocations": ["perhaps not", "perhaps so"],
+    "root_affix": "per- (通过) + hap (运气)",
+    "forms": [],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0026",
+    "word": "receive",
+    "phonetic": "/rɪˈsiːv/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "收到；接收",
+        "definition_en": "to get something that is given or sent",
+        "examples": [{ "en": "I received your letter yesterday.", "cn": "我昨天收到了你的信。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 327,
+    "collocations": ["receive a letter", "receive attention"],
+    "root_affix": "re- (回) + ceive (拿取)",
+    "forms": ["receives", "received", "receiving"],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0027",
+    "word": "remember",
+    "phonetic": "/rɪˈmembə/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "记得；记住",
+        "definition_en": "to keep something in your mind",
+        "examples": [{ "en": "I remember meeting her before.", "cn": "我记得以前见过她。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 375,
+    "collocations": ["remember to do sth", "remember doing sth"],
+    "root_affix": "re- (再) + member (记忆)",
+    "forms": ["remembers", "remembered", "remembering"],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0028",
+    "word": "several",
+    "phonetic": "/ˈsevrəl/",
+    "pos": "adj.",
+    "senses": [
+      {
+        "definition_cn": "几个；数个",
+        "definition_en": "more than two but not many",
+        "examples": [{ "en": "She has several friends in the city.", "cn": "她在这个城市有几个朋友。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 243,
+    "collocations": ["several times", "several of"],
+    "root_affix": "",
+    "forms": [],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0029",
+    "word": "travel",
+    "phonetic": "/ˈtrævl/",
+    "pos": "v.",
+    "senses": [
+      {
+        "definition_cn": "旅行；出行",
+        "definition_en": "to go from one place to another",
+        "examples": [{ "en": "They travel to work by bus.", "cn": "他们乘公交车上班。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 217,
+    "collocations": ["travel abroad", "travel by"],
+    "root_affix": "",
+    "forms": ["travels", "travelled", "travelling"],
+    "aliases": []
+  },
+  {
+    "id": "ngsl_0030",
+    "word": "whole",
+    "phonetic": "/həʊl/",
+    "pos": "adj.",
+    "senses": [
+      {
+        "definition_cn": "整个的；全部的",
+        "definition_en": "complete; not divided",
+        "examples": [{ "en": "She spent the whole day reading.", "cn": "她花了一整天读书。" }]
+      }
+    ],
+    "tags": ["ngsl", "core"],
+    "frequency": 290,
+    "collocations": ["the whole day", "as a whole"],
+    "root_affix": "",
+    "forms": [],
+    "aliases": []
+  }
+]

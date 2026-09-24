@@ -1,0 +1,42 @@
+{
+  "name": "cfword",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "CFword — Local-First 纯前端背单词 PWA",
+  "engines": {
+    "node": ">=18.18"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && cross-env VITE_BASE=/CFword/ vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "dexie": "^4.0.8",
+    "jszip": "^3.10.2",
+    "pinia": "^2.1.7",
+    "sql.js": "^1.14.2",
+    "ts-fsrs": "^3.5.7",
+    "vue": "^3.4.31",
+    "vue-router": "^4.4.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.46.0",
+    "@types/node": "^20.14.2",
+    "@types/sql.js": "^1.4.11",
+    "@vitejs/plugin-vue": "^5.1.0",
+    "@vue/test-utils": "^2.4.6",
+    "cross-env": "^7.0.3",
+    "fake-indexeddb": "^6.0.0",
+    "jsdom": "^24.1.0",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.0",
+    "vite-plugin-pwa": "^0.20.1",
+    "vitest": "^2.0.5",
+    "vue-tsc": "^2.0.29"
+  }
+}

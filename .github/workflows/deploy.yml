@@ -24,9 +24,11 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: CFbook/package-lock.json
+          cache-dependency-path: |
+            CFbook/package-lock.json
+            CFword/package-lock.json
 
-      - name: 安装依赖
+      - name: 安装 CFbook 依赖
         run: npm ci
         working-directory: CFbook
 
@@ -34,20 +36,31 @@ jobs:
         run: npm run build
         working-directory: CFbook
 
+      - name: 安装 CFword 依赖
+        run: npm ci
+        working-directory: CFword
+
+      - name: 构建 CFword
+        run: npm run build
+        working-directory: CFword
+
       # 本仓库为 chenf888.github.io 用户页，主页（仓库根静态文件）与
-      # CFbook（子路径应用）需合并到同一站点：主页在根，CFbook 在 /CFbook/。
-      - name: 组装站点（主页 + /CFbook/）
+      # 各子路径应用（/CFbook、/CFword）需合并到同一站点：主页在根。
+      - name: 组装站点（主页 + /CFbook/ + /CFword/）
         run: |
           mkdir -p _site
           tar \
             --exclude='./.git' \
             --exclude='./.github' \
             --exclude='./CFbook' \
+            --exclude='./CFword' \
             --exclude='./node_modules' \
             --exclude='./_site' \
             -cf - . | tar -xf - -C _site
           mkdir -p _site/CFbook
           cp -a CFbook/dist/. _site/CFbook/
+          mkdir -p _site/CFword
+          cp -a CFword/dist/. _site/CFword/
 
       - uses: actions/upload-pages-artifact@v3
         with:

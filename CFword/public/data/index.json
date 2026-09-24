@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "decks": [
+    {
+      "id": "ngsl",
+      "name": "NGSL 核心英语",
+      "description": "New General Service List 高频核心词（示例子集）",
+      "file": "ngsl.json",
+      "wordCount": 30,
+      "language": "en",
+      "version": "2026-09-25"
+    },
+    {
+      "id": "cet4",
+      "name": "CET-4 大学英语四级",
+      "description": "大学英语四级词汇（示例子集）",
+      "file": "cet4.json",
+      "wordCount": 20,
+      "language": "en",
+      "version": "2026-09-25"
+    }
+  ]
+}

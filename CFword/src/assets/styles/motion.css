@@ -1,0 +1,84 @@
+:root {
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --dur-press: 90ms;
+  --dur-fast: 150ms;
+  --dur-base: 200ms;
+  --dur-slow: 300ms;
+}
+
+/* 卡片进入/退出 */
+.card-enter-active {
+  transition: opacity var(--dur-base) var(--ease-standard),
+    transform var(--dur-base) var(--ease-standard);
+}
+.card-leave-active {
+  transition: opacity var(--dur-fast) var(--ease-exit),
+    transform var(--dur-fast) var(--ease-exit);
+}
+.card-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.card-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+/* 答案展开 */
+.answer-enter-active {
+  transition: opacity var(--dur-base) var(--ease-standard),
+    transform var(--dur-base) var(--ease-standard);
+}
+.answer-leave-active {
+  transition: opacity var(--dur-fast) var(--ease-exit);
+}
+.answer-enter-from,
+.answer-leave-to {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+/* 路由切换 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity var(--dur-base) var(--ease-standard),
+    transform var(--dur-base) var(--ease-standard);
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+/* 通用过渡 */
+.fade-fast-enter-active,
+.fade-fast-leave-active {
+  transition: opacity var(--dur-fast) var(--ease-standard);
+}
+.fade-fast-enter-from,
+.fade-fast-leave-to {
+  opacity: 0;
+}
+
+/* 骨架屏 shimmer */
+@keyframes shimmer {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+.skeleton {
+  animation: shimmer 1.2s var(--ease-standard) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}
