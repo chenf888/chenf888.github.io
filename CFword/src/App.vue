@@ -202,18 +202,14 @@ const tabs = [
   padding-bottom: calc(var(--space-12) + env(safe-area-inset-bottom));
 }
 
+/* 与主页一致：无尺寸，靠 transformOrigin 定位圆心，过渡期间不遮挡界面 */
 .theme-ripple {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 150vmax;
-  height: 150vmax;
-  margin: -75vmax 0 0 -75vmax;
+  z-index: 10000;
+  pointer-events: none;
   border-radius: 50%;
   display: none;
   transform: scale(0);
-  pointer-events: none;
-  z-index: 10000;
 }
 
 @media (max-width: 600px) {

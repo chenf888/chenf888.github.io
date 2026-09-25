@@ -327,6 +327,7 @@ async function onExportNative(): Promise<void> {
 }
 .row__label {
   flex: 1;
+  min-width: 0;
 }
 .row select,
 .row input[type='number'] {
@@ -380,6 +381,8 @@ async function onExportNative(): Promise<void> {
   transform: translateX(22px);
 }
 .btn {
+  flex-shrink: 0;
+  white-space: nowrap;
   min-height: 44px;
   padding: 0 var(--space-5);
   border-radius: var(--radius-md);

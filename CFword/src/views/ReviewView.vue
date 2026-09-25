@@ -59,8 +59,14 @@ useHotkeys(() => ({
   '3': () => revealed.value && onRate(3),
   '4': () => revealed.value && onRate(4),
   r: () => revealed.value && speakCurrent(),
-  Escape: () => quit(),
+  Escape: () => onQuit(),
 }))
+
+/** 退出复习并返回词库选择页，避免停留在「尚未开始复习」的空态。 */
+function onQuit(): void {
+  quit()
+  router.push('/')
+}
 
 function formatMs(ms: number): string {
   const s = Math.round(ms / 1000)
@@ -117,7 +123,7 @@ function formatMs(ms: number): string {
     <!-- 复习中 / 展示答案 -->
     <template v-else>
       <header class="review__top">
-        <button type="button" class="review__quit" aria-label="退出" @click="quit">退出</button>
+        <button type="button" class="review__quit" aria-label="退出" @click="onQuit">退出</button>
         <ProgressBar :ratio="session.progress.ratio" class="review__progress" />
         <span class="review__count">
           {{ session.progress.done }} / {{ session.progress.total }}
@@ -129,22 +135,15 @@ function formatMs(ms: number): string {
           <!-- 新卡学习：完整词卡 -->
           <template v-if="current.phase === 'learn'">
             <WordCard :word="current.word" :show-examples="true" @speak="speakCurrent" />
-            <p class="review__hint">先浏览单词，然后进入练习</p>
             <button type="button" class="review__cta" @click="beginQuestion">开始学习</button>
           </template>
 
           <!-- 主动回忆题 -->
           <template v-else>
-            <div class="review__type">
-              <button
-                v-if="current.question?.type === 'listening'"
-                type="button"
-                class="review__play"
-                @click="speakCurrent"
-              >
+            <div v-if="current.question?.type === 'listening'" class="review__type">
+              <button type="button" class="review__play" @click="speakCurrent">
                 播放
               </button>
-              {{ current.question?.prompt }}
             </div>
             <QuestionType
               :question="current.question"
@@ -236,12 +235,6 @@ function formatMs(ms: number): string {
 }
 .review__card {
   flex: 1;
-}
-.review__hint {
-  text-align: center;
-  color: var(--color-text-muted);
-  font-size: 0.875rem;
-  margin: var(--space-4) 0;
 }
 .review__cta {
   display: block;

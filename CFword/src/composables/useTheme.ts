@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 export type Theme = 'light' | 'dark'
 
@@ -43,61 +43,77 @@ function applyTheme(next: Theme): void {
   }
 }
 
+// 模块加载即同步一次（index.html 的预渲染脚本已设置过属性，此处保持幂等）
+applyTheme(theme.value)
+
 function prefersReducedMotion(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
 
-// 模块加载即同步一次（index.html 的预渲染脚本已设置过属性，此处保持幂等）
-applyTheme(theme.value)
-
 /** 圆形扩散过渡的当前阶段，用于阻止连点重入。 */
 let phase: 'idle' | 'expanding' | 'shrinking' = 'idle'
+let rippleEl: HTMLElement | null = null
+let pendingTheme: Theme | null = null
 
 /**
- * 主题切换。传入 ripple 元素时播放主页同款的圆形扩散过渡：
- * 旧底色扩散铺满 -> 切换主题 -> 新底色收缩露出。
+ * 主页同款的圆形扩散过渡：以父元素中心为圆心扩散，
+ * expanding 结束后切换主题，再 shrinking 收起，全程不遮挡界面。
  */
+function startRipple(next: Theme): void {
+  const el = rippleEl
+  const rect = el?.parentElement?.getBoundingClientRect()
+  if (!el || !rect) return
+
+  phase = 'expanding'
+  pendingTheme = next
+  el.style.display = 'block'
+  el.style.transformOrigin = `${rect.width / 2}px ${rect.height / 2}px`
+  el.style.transform = 'scale(0)'
+  el.style.backgroundColor = currentBg()
+  el.style.transition = 'none'
+
+  // 双 rAF 确保初始态先上屏，过渡才会生效
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      el.style.transform = 'scale(1)'
+      el.style.transition = 'transform 0.45s cubic-bezier(0.4,0,0.2,1)'
+    })
+  })
+}
+
+/** 过渡结束回调：驱动 切换主题 -> 收起 -> 隐藏 各阶段。 */
+function onRippleEnd(e: TransitionEvent): void {
+  if (e.propertyName !== 'transform') return
+  const el = rippleEl
+  if (!el) return
+  if (phase === 'expanding') {
+    if (pendingTheme) applyTheme(pendingTheme)
+    el.style.backgroundColor = currentBg()
+    el.style.transform = 'scale(0)'
+    el.style.transition = 'transform 0.4s cubic-bezier(0.4,0,0.2,1)'
+    phase = 'shrinking'
+  } else if (phase === 'shrinking') {
+    el.style.display = 'none'
+    phase = 'idle'
+  }
+}
+
 export function useTheme() {
   const rippleRef = ref<HTMLElement | null>(null)
 
-  function toggleTheme(): void {
-    if (phase !== 'idle') return
-    const next: Theme = theme.value === 'dark' ? 'light' : 'dark'
-    const el = rippleRef.value
+  onMounted(() => {
+    rippleEl = rippleRef.value
+    rippleEl?.addEventListener('transitionend', onRippleEnd)
+  })
 
+  function toggleTheme(): void {
+    const next: Theme = theme.value === 'dark' ? 'light' : 'dark'
     // 无过渡元素或用户开启「减少动态」时直接切换
-    if (!el || prefersReducedMotion()) {
+    if (phase !== 'idle' || prefersReducedMotion() || !rippleRef.value) {
       applyTheme(next)
       return
     }
-
-    phase = 'expanding'
-    el.style.display = 'block'
-    el.style.transition = 'none'
-    el.style.transform = 'scale(0)'
-    el.style.backgroundColor = currentBg()
-
-    // 双 rAF 确保初始态先上屏，过渡才会生效
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        el.style.transition = 'transform 0.45s cubic-bezier(0.4,0,0.2,1)'
-        el.style.transform = 'scale(1)'
-
-        window.setTimeout(() => {
-          // 覆盖完成后切换主题，再用新底色收缩
-          applyTheme(next)
-          phase = 'shrinking'
-          el.style.backgroundColor = currentBg()
-          el.style.transition = 'transform 0.4s cubic-bezier(0.4,0,0.2,1)'
-          el.style.transform = 'scale(0)'
-
-          window.setTimeout(() => {
-            el.style.display = 'none'
-            phase = 'idle'
-          }, 400)
-        }, 450)
-      })
-    })
+    startRipple(next)
   }
 
   return { theme, rippleRef, toggleTheme }
