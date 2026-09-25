@@ -1,4 +1,8 @@
 :root {
+  /* 主题由 <html data-theme="light|dark"> 驱动（与主页一致），
+     :root 保存默认浅色值作为兜底。 */
+  color-scheme: light;
+
   /* 字体：与 chenf888.github.io 主页一致 */
   --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
     'Microsoft YaHei', sans-serif;
@@ -6,7 +10,7 @@
     'Times New Roman', serif;
   --font-mono: 'Geist Mono', 'JetBrains Mono', 'Courier New', monospace;
 
-  /* 品牌色与中性色（提取自主页 tokens，light） */
+  /* 中性色与品牌色（提取自主页 tokens，浅色） */
   --color-bg: #f4f4f0;
   --color-bg-alt: #ecebe6;
   --color-surface: #ffffff;
@@ -16,11 +20,11 @@
   --color-border: #d5d3ce;
   --color-border-hi: #c0beb8;
 
-  /* 主 accent：砖红（主页 --accent），不再是默认蓝 */
+  /* 主 accent：砖红（主页 --accent） */
   --color-primary: #cc3300;
   --color-primary-soft: rgba(204, 51, 0, 0.08);
 
-  /* 语义四色（主页 blue/green/red/yellow 的柔和底字体系） */
+  /* 语义四色 */
   --color-success: #346538;
   --color-success-soft: rgba(52, 101, 56, 0.1);
   --color-warning: #956400;
@@ -47,44 +51,49 @@
   --shadow-card: 0 1px 2px rgba(17, 17, 17, 0.05);
   --shadow-float: 0 8px 24px rgba(17, 17, 17, 0.08);
 
-  /* 主按钮：深底浅字（主页 --btn-bg / --btn-text），accent 只作强调与文字 */
+  /* 主按钮：深底浅字（主页 --btn-bg / --btn-text） */
   --btn-bg: #111111;
   --btn-text: #ffffff;
+
+  /* 顶部胶囊导航底色（主页 --nav-bg） */
+  --nav-bg: rgba(244, 244, 240, 0.82);
 
   --grid-opacity: 0.04;
   --blob-opacity: 0.04;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #0f0f0f;
-    --color-bg-alt: #0f0f0f;
-    --color-surface: #111111;
-    --color-text: #d8d8d8;
-    --color-text-muted: #808080;
-    --color-text-faint: #4a4a4a;
-    --color-border: #1c1c1c;
-    --color-border-hi: #2a2a2a;
+:root[data-theme='dark'] {
+  color-scheme: dark;
 
-    --color-primary: #e87830;
-    --color-primary-soft: rgba(232, 120, 48, 0.1);
+  --color-bg: #0f0f0f;
+  --color-bg-alt: #0f0f0f;
+  --color-surface: #111111;
+  --color-text: #d8d8d8;
+  --color-text-muted: #808080;
+  --color-text-faint: #4a4a4a;
+  --color-border: #1c1c1c;
+  --color-border-hi: #2a2a2a;
 
-    --color-success: #6fb074;
-    --color-success-soft: rgba(52, 101, 56, 0.14);
-    --color-warning: #d4a840;
-    --color-warning-soft: rgba(149, 100, 0, 0.14);
-    --color-danger: #e07070;
-    --color-danger-soft: rgba(159, 47, 45, 0.14);
-    --color-info: #6ab0d6;
-    --color-info-soft: rgba(31, 108, 159, 0.14);
+  --color-primary: #e87830;
+  --color-primary-soft: rgba(232, 120, 48, 0.1);
 
-    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4);
-    --shadow-float: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --color-success: #6fb074;
+  --color-success-soft: rgba(52, 101, 56, 0.14);
+  --color-warning: #d4a840;
+  --color-warning-soft: rgba(149, 100, 0, 0.14);
+  --color-danger: #e07070;
+  --color-danger-soft: rgba(159, 47, 45, 0.14);
+  --color-info: #6ab0d6;
+  --color-info-soft: rgba(31, 108, 159, 0.14);
 
-    --btn-bg: #e8e8e6;
-    --btn-text: #1a1a1a;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-float: 0 8px 24px rgba(0, 0, 0, 0.5);
 
-    --grid-opacity: 0.05;
-    --blob-opacity: 0.05;
-  }
+  --btn-bg: #e8e8e6;
+  --btn-text: #1a1a1a;
+
+  --nav-bg: rgba(10, 10, 10, 0.82);
+
+  --grid-opacity: 0.05;
+  --blob-opacity: 0.05;
 }

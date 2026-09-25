@@ -189,7 +189,8 @@ function formatMs(ms: number): string {
 .review {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 56px - 32px);
+  /* 顶部固定导航占位 104px + 上下内边距 32px */
+  min-height: calc(100vh - 104px - 32px);
 }
 .review__loading {
   padding-top: var(--space-6);

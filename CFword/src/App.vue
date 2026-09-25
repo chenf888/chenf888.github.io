@@ -2,10 +2,14 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useSpeech } from './composables/useSpeech'
+import { useTheme } from './composables/useTheme'
 
 const route = useRoute()
 useSpeech().initVoices()
 
+const { theme, rippleRef, toggleTheme } = useTheme()
+
+// 复习页顶部已有进度栏，隐藏导航避免遮挡
 const showNav = computed(() => route.name !== 'review')
 
 const tabs = [
@@ -20,31 +24,70 @@ const tabs = [
     <div class="bg-grid" aria-hidden="true"></div>
     <div class="ambient-blob" aria-hidden="true"></div>
 
-    <div class="layout">
-      <header class="topbar">
-        <router-link to="/" class="topbar__brand">CFword</router-link>
-      </header>
+    <header v-if="showNav" class="nav">
+      <div class="nav-pill">
+        <router-link to="/" class="nav-pill__brand">CFword</router-link>
 
-      <main class="layout__main">
-        <router-view v-slot="{ Component }">
-          <transition name="fade" mode="out-in">
-            <component :is="Component" />
-          </transition>
-        </router-view>
-      </main>
+        <nav class="pill-links" aria-label="主导航">
+          <router-link
+            v-for="t in tabs"
+            :key="t.name"
+            :to="t.to"
+            class="pill-links__item"
+            :class="{ 'is-active': route.name === t.name }"
+          >
+            {{ t.label }}
+          </router-link>
+        </nav>
 
-      <nav v-if="showNav" class="bottom-nav" aria-label="主导航">
-        <router-link
-          v-for="t in tabs"
-          :key="t.name"
-          :to="t.to"
-          class="bottom-nav__item"
-          :class="{ 'is-active': route.name === t.name }"
+        <button
+          type="button"
+          class="nav-pill__theme"
+          :aria-label="theme === 'dark' ? '切换到浅色主题' : '切换到深色主题'"
+          @click="toggleTheme"
         >
-          {{ t.label }}
-        </router-link>
-      </nav>
-    </div>
+          <svg
+            v-if="theme === 'light'"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </svg>
+          <svg
+            v-else
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="layout__main">
+      <router-view v-slot="{ Component }">
+        <transition name="fade" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </main>
+
+    <!-- 主题切换的圆形扩散过渡（主页同款交互） -->
+    <div ref="rippleRef" class="theme-ripple" aria-hidden="true"></div>
   </div>
 </template>
 
@@ -75,68 +118,120 @@ const tabs = [
   opacity: var(--blob-opacity);
   filter: blur(24px);
 }
-.layout {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  max-width: 720px;
-  margin: 0 auto;
-}
-.topbar {
-  display: flex;
-  align-items: center;
-  height: 56px;
-  padding: 0 var(--space-4);
-}
-.topbar__brand {
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 1.5rem;
-  letter-spacing: -0.02em;
-  color: var(--color-text);
-}
-.topbar__brand::after {
-  content: '·';
-  color: var(--color-primary);
-  margin-left: 2px;
-}
-.layout__main {
-  flex: 1;
-  padding: var(--space-4);
-  padding-bottom: calc(88px + env(safe-area-inset-bottom));
-}
-.bottom-nav {
+
+/* 顶部胶囊导航，与主页 .nav-pill 视觉一致 */
+.nav {
   position: fixed;
+  top: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
-  bottom: calc(16px + env(safe-area-inset-bottom));
+  z-index: 200;
+}
+.nav-pill {
   display: flex;
-  gap: 4px;
-  padding: 5px;
-  background: var(--color-surface);
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.5rem 0.5rem 1.1rem;
+  background: var(--nav-bg);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
-  box-shadow: var(--shadow-float);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  z-index: 10;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  transition: border-color 0.4s ease, background 0.4s ease;
 }
-.bottom-nav__item {
+.nav-pill__brand {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  padding-right: 0.7rem;
+  margin-right: 0.25rem;
+  border-right: 1px solid var(--color-border);
+}
+.pill-links {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+.pill-links__item {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-pill);
+  transition: color 0.3s ease, background 0.3s ease;
+}
+.pill-links__item:hover,
+.pill-links__item.is-active {
+  color: var(--color-text);
+  background: var(--color-primary-soft);
+}
+.nav-pill__theme {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 40px;
-  padding: 0 var(--space-4);
-  border-radius: var(--radius-pill);
-  color: var(--color-text-muted);
-  font-weight: 500;
-  transition: color var(--dur-fast) var(--ease-standard),
-    background var(--dur-fast) var(--ease-standard);
+  transition: border-color 0.3s ease, color 0.3s ease;
 }
-.bottom-nav__item.is-active {
-  color: var(--color-text);
-  background: var(--color-primary-soft);
+.nav-pill__theme:hover {
+  border-color: var(--color-border-hi);
+  color: var(--color-primary);
+}
+.nav-pill__theme svg {
+  width: 15px;
+  height: 15px;
+}
+
+.layout__main {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--space-4);
+  padding-top: 104px;
+  padding-bottom: calc(var(--space-12) + env(safe-area-inset-bottom));
+}
+
+.theme-ripple {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 150vmax;
+  height: 150vmax;
+  margin: -75vmax 0 0 -75vmax;
+  border-radius: 50%;
+  display: none;
+  transform: scale(0);
+  pointer-events: none;
+  z-index: 10000;
+}
+
+@media (max-width: 600px) {
+  .nav-pill {
+    gap: 0.1rem;
+    padding: 0.4rem 0.4rem 0.4rem 0.8rem;
+  }
+  .nav-pill__brand {
+    font-size: 0.9rem;
+    padding-right: 0.5rem;
+    margin-right: 0.15rem;
+  }
+  .pill-links__item {
+    font-size: 0.68rem;
+    padding: 0.3rem 0.6rem;
+  }
+  .layout__main {
+    padding-top: 96px;
+  }
 }
 </style>
