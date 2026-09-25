@@ -384,12 +384,12 @@ async function onExportNative(): Promise<void> {
   flex-shrink: 0;
   white-space: nowrap;
   min-height: 44px;
-  padding: 0 var(--space-5);
+  padding: 0 var(--space-4);
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
   background: var(--color-surface);
   color: var(--color-text);
-  font-weight: 600;
+  font-weight: 100;
 }
 .btn--danger {
   background: var(--color-danger);

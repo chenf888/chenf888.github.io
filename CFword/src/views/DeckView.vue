@@ -135,7 +135,7 @@ async function removeDeck(): Promise<void> {
 .btn-primary,
 .btn-danger {
   min-height: 48px;
-  padding: 0 var(--space-5);
+  padding: 0 var(--space-4);
   border-radius: var(--radius-pill);
   font-weight: 600;
 }
