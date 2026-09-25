@@ -64,7 +64,7 @@ const ratings: { value: RatingValue; label: string; key: string; icon: string }[
   --c: var(--color-warning);
 }
 .rating__btn--3 {
-  --c: var(--color-primary);
+  --c: var(--color-info);
 }
 .rating__btn--4 {
   --c: var(--color-success);

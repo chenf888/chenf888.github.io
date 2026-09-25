@@ -43,11 +43,15 @@ defineEmits<{ (e: 'retry'): void }>()
 .error__retry {
   min-height: 44px;
   padding: 0 var(--space-6);
-  border-radius: var(--radius-md);
-  background: var(--color-primary);
-  color: #fff;
+  border-radius: var(--radius-pill);
+  background: var(--btn-bg);
+  color: var(--btn-text);
   font-weight: 600;
-  transition: transform var(--dur-press) var(--ease-standard);
+  transition: transform var(--dur-press) var(--ease-standard),
+    opacity var(--dur-fast) var(--ease-standard);
+}
+.error__retry:hover {
+  opacity: 0.9;
 }
 .error__retry:active {
   transform: scale(0.97);

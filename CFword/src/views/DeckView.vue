@@ -136,15 +136,16 @@ async function removeDeck(): Promise<void> {
 .btn-danger {
   min-height: 48px;
   padding: 0 var(--space-5);
-  border-radius: var(--radius-md);
-  color: #fff;
+  border-radius: var(--radius-pill);
   font-weight: 600;
 }
 .btn-primary {
-  background: var(--color-primary);
+  background: var(--btn-bg);
+  color: var(--btn-text);
 }
 .btn-danger {
   background: var(--color-danger);
+  color: #fff;
 }
 .word-list {
   list-style: none;

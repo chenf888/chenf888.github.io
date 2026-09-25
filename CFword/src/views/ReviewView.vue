@@ -205,9 +205,9 @@ function formatMs(ms: number): string {
 .summary__btn {
   min-height: 48px;
   padding: 0 var(--space-6);
-  border-radius: var(--radius-md);
-  background: var(--color-primary);
-  color: #fff;
+  border-radius: var(--radius-pill);
+  background: var(--btn-bg);
+  color: var(--btn-text);
   font-weight: 600;
 }
 .review__top {
@@ -246,9 +246,9 @@ function formatMs(ms: number): string {
   display: block;
   width: 100%;
   min-height: 48px;
-  border-radius: var(--radius-md);
-  background: var(--color-primary);
-  color: #fff;
+  border-radius: var(--radius-pill);
+  background: var(--btn-bg);
+  color: var(--btn-text);
   font-weight: 600;
 }
 .review__type {
@@ -318,11 +318,12 @@ function formatMs(ms: number): string {
   padding: var(--space-4);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
-  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border);
 }
 .summary__num {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 1.375rem;
+  font-weight: 500;
   color: var(--color-primary);
 }
 .summary__label {

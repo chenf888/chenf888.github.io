@@ -131,10 +131,11 @@ async function onImportFile(e: Event): Promise<void> {
 <style scoped>
 .home__heading {
   margin: var(--space-4) 0 var(--space-3);
-  font-size: 1rem;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
 }
 .home__skeletons {
   display: grid;
@@ -178,8 +179,12 @@ async function onImportFile(e: Event): Promise<void> {
   text-align: left;
   border-radius: var(--radius-lg);
   background: var(--color-surface);
-  box-shadow: var(--shadow-card);
-  transition: transform var(--dur-press) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard);
+  border: 1px solid var(--color-border);
+  transition: transform var(--dur-press) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard);
+}
+.deck:hover {
+  border-color: var(--color-border-hi);
 }
 .deck:active {
   transform: scale(0.99);
@@ -215,9 +220,9 @@ async function onImportFile(e: Event): Promise<void> {
   padding: 0 var(--space-4);
   display: inline-flex;
   align-items: center;
-  border-radius: var(--radius-md);
-  background: var(--color-primary);
-  color: #fff;
+  border-radius: var(--radius-pill);
+  background: var(--btn-bg);
+  color: var(--btn-text);
   font-weight: 600;
 }
 .home__actions {

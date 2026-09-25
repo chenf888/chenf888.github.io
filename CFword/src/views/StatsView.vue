@@ -187,11 +187,12 @@ function formatDuration(ms: number): string {
   padding: var(--space-4);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
-  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border);
 }
 .stat__num {
+  font-family: var(--font-mono);
   font-size: 1.375rem;
-  font-weight: 700;
+  font-weight: 500;
   color: var(--color-primary);
 }
 .stat__label {

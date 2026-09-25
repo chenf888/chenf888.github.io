@@ -45,11 +45,15 @@ defineEmits<{ (e: 'action'): void }>()
 .empty__action {
   min-height: 44px;
   padding: 0 var(--space-6);
-  border-radius: var(--radius-md);
-  background: var(--color-primary);
-  color: #fff;
+  border-radius: var(--radius-pill);
+  background: var(--btn-bg);
+  color: var(--btn-text);
   font-weight: 600;
-  transition: background var(--dur-fast) var(--ease-standard), transform var(--dur-press) var(--ease-standard);
+  transition: transform var(--dur-press) var(--ease-standard),
+    opacity var(--dur-fast) var(--ease-standard);
+}
+.empty__action:hover {
+  opacity: 0.9;
 }
 .empty__action:active {
   transform: scale(0.97);

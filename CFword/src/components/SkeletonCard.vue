@@ -14,7 +14,7 @@ defineProps<{ lines?: number }>()
   padding: var(--space-6);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
-  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border);
 }
 .skeleton-card__title {
   width: 40%;

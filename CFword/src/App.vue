@@ -16,35 +16,68 @@ const tabs = [
 </script>
 
 <template>
-  <div class="layout">
-    <header class="topbar">
-      <router-link to="/" class="topbar__brand">CFword</router-link>
-    </header>
+  <div class="layer">
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="ambient-blob" aria-hidden="true"></div>
 
-    <main class="layout__main">
-      <router-view v-slot="{ Component }">
-        <transition name="fade" mode="out-in">
-          <component :is="Component" />
-        </transition>
-      </router-view>
-    </main>
+    <div class="layout">
+      <header class="topbar">
+        <router-link to="/" class="topbar__brand">CFword</router-link>
+      </header>
 
-    <nav v-if="showNav" class="bottom-nav" aria-label="主导航">
-      <router-link
-        v-for="t in tabs"
-        :key="t.name"
-        :to="t.to"
-        class="bottom-nav__item"
-        :class="{ 'is-active': route.name === t.name }"
-      >
-        {{ t.label }}
-      </router-link>
-    </nav>
+      <main class="layout__main">
+        <router-view v-slot="{ Component }">
+          <transition name="fade" mode="out-in">
+            <component :is="Component" />
+          </transition>
+        </router-view>
+      </main>
+
+      <nav v-if="showNav" class="bottom-nav" aria-label="主导航">
+        <router-link
+          v-for="t in tabs"
+          :key="t.name"
+          :to="t.to"
+          class="bottom-nav__item"
+          :class="{ 'is-active': route.name === t.name }"
+        >
+          {{ t.label }}
+        </router-link>
+      </nav>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.layer {
+  min-height: 100vh;
+  position: relative;
+}
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: linear-gradient(var(--color-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-border) 1px, transparent 1px);
+  background-size: 64px 64px;
+  opacity: var(--grid-opacity);
+}
+.ambient-blob {
+  position: fixed;
+  top: -15%;
+  left: -10%;
+  width: 600px;
+  height: 600px;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(circle, var(--color-primary) 0%, transparent 70%);
+  opacity: var(--blob-opacity);
+  filter: blur(24px);
+}
 .layout {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -58,10 +91,16 @@ const tabs = [
   padding: 0 var(--space-4);
 }
 .topbar__brand {
-  font-weight: 800;
-  font-size: 1.25rem;
-  color: var(--color-primary);
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.5rem;
   letter-spacing: -0.02em;
+  color: var(--color-text);
+}
+.topbar__brand::after {
+  content: '·';
+  color: var(--color-primary);
+  margin-left: 2px;
 }
 .layout__main {
   flex: 1;
@@ -70,31 +109,34 @@ const tabs = [
 }
 .bottom-nav {
   position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(16px + env(safe-area-inset-bottom));
   display: flex;
-  justify-content: center;
-  gap: var(--space-2);
-  padding: var(--space-2);
-  padding-bottom: calc(var(--space-2) + env(safe-area-inset-bottom));
+  gap: 4px;
+  padding: 5px;
   background: var(--color-surface);
-  border-top: 1px solid var(--color-border);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-float);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 10;
 }
 .bottom-nav__item {
-  flex: 1;
-  max-width: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
-  border-radius: var(--radius-md);
+  min-height: 40px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-pill);
   color: var(--color-text-muted);
-  font-weight: 600;
-  transition: color var(--dur-fast) var(--ease-standard), background var(--dur-fast) var(--ease-standard);
+  font-weight: 500;
+  transition: color var(--dur-fast) var(--ease-standard),
+    background var(--dur-fast) var(--ease-standard);
 }
 .bottom-nav__item.is-active {
-  color: var(--color-primary);
-  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  color: var(--color-text);
+  background: var(--color-primary-soft);
 }
 </style>

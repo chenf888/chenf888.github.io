@@ -58,15 +58,17 @@ defineEmits<{ (e: 'speak'): void }>()
   padding: var(--space-6);
   background: var(--color-surface);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border);
 }
 .word-card__word {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  font-size: clamp(2rem, 8vw, 3rem);
-  font-weight: 700;
-  line-height: 1.2;
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 9vw, 3.4rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
   color: var(--color-text);
 }
 .word-card__speak {
@@ -91,13 +93,17 @@ defineEmits<{ (e: 'speak'): void }>()
   color: var(--color-text-muted);
 }
 .word-card__phonetic {
-  font-size: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
 }
 .word-card__pos {
-  font-size: 0.875rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
   padding: 2px 8px;
-  border-radius: 999px;
-  background: var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-bg-alt);
+  color: var(--color-text-muted);
 }
 .word-card__senses {
   margin-top: var(--space-4);
